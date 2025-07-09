@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Performance optimizations -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="images/minglelogo.jpg" as="image">
+    <link rel="preload" href="styles/index.css" as="style">
+    <title>Celebrity Fan Club - Connect with Your Favorite Stars</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap">
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Add white glowing effect to slide images */
+        .slide-image {
+            box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8);
+            transition: box-shadow 0.3s ease;
+        }
+        .slide-image:hover {
+            box-shadow: 0 0 30px 8px rgba(255, 255, 255, 1);
+        }
+
+        /* Make the hero section background yellow */
+        .hero {
+            background:linear-gradient(to bottom, #000000, #801010);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/">
+                <img src="images/minglelogo.jpg" alt="Mingle" class="brand-logo" style="height: 50px; width: auto;">
+            </a>
+        </div>
+        <div class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="#" id="membershipLink">Membership</a></li>
+            <li><a href="#" id="supportLink" title="Need help? Reach out to our 24/7 support team">Support</a></li>
+            <li class="auth-buttons">
+                <!-- These will be toggled by JavaScript -->
+                <div class="logged-out-buttons">
+                    <a href="signin.html" class="btn btn-login" style="background: linear-gradient(135deg, #2c3e50, #3498db); color: white; border: none; padding: 10px 20px; border-radius: 25px; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3); transition: all 0.3s ease;">Login</a>
+                    <a href="register.html" class="btn btn-primary" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border: none; padding: 10px 25px; border-radius: 25px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); margin-left: 15px; transition: all 0.3s ease; animation: pulse 2s infinite;">Join Now</a>
+                </div>
+                <div class="logged-in-buttons" style="display: none; align-items: center;">
+                    <div class="user-welcome" style="background: linear-gradient(135deg, #2c3e50, #3498db); padding: 8px 15px; border-radius: 20px; display: flex; align-items: center;">
+                        <span class="welcome-text" style="color: white;">Welcome, </span>
+                        <span class="user-name" style="color: #FFD700; font-weight: 600; margin-left: 5px;"></span>
+                        <div class="user-initials" style="background: rgba(255, 215, 0, 0.2); color: #FFD700; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 10px; font-size: 14px;"></div>
+                    </div>
+                    <button class="btn btn-logout" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 8px 20px; border-radius: 20px; margin-left: 10px; transition: all 0.3s ease; cursor: pointer;">Sign Out</button>
+                </div>
+                <style>
+                    @keyframes pulse {
+                        0% { transform: scale(1); }
+                        50% { transform: scale(1.05); }
+                        100% { transform: scale(1); }
+                    }
+                    .btn-login:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+                    }
+                    .btn-primary:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+                    }
+                    .btn-logout:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+                    }
+                    
+                    /* Mobile responsiveness for auth buttons */
+                    @media (max-width: 768px) {
+                        .logged-in-buttons {
+                            flex-direction: column;
+                            gap: 10px;
+                        }
+                        .user-welcome {
+                            font-size: 14px;
+                        }
+                        .user-initials {
+                            width: 25px !important;
+                            height: 25px !important;
+                            font-size: 12px !important;
+                        }
+                        .btn-logout {
+                            margin-left: 0 !important;
+                            width: 100%;
+                            padding: 10px 15px !important;
+                        }
+                    }
+                </style>
+            </li>
+        </ul>
+    </nav>    
+    <!-- Hero Section -->    
+     <header class="hero">        
+        <div class="hero-slider">
+            <div class="slide">
+                <img src="images/adele.jpg" alt="Celebrity Banner 1" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"Be yourself and don't care what other people think."</div>
+                    <div class="quote-author">- Adele</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/arrow.jpg" alt="Celebrity Banner 2" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"If you want to achieve greatness, stop asking for permission."</div>
+                    <div class="quote-author">- Stephen Amell</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/babosa.jpg" alt="Celebrity Banner 3" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"This is the way."</div>
+                    <div class="quote-author">- Pedro Pascal</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/bann.jpg" alt="Celebrity Banner 4" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"I am who I am, and I will not change for anyone."</div>
+                    <div class="quote-author">- Ben Affleck</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/elon.jpg" alt="Celebrity Banner 5" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"When something is important enough, you do it even if the odds are not in your favor."</div>
+                    <div class="quote-author">- Elon Musk</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/jason.jpg" alt="Celebrity Banner 6" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"The greatest power we have is the power of choice."</div>
+                    <div class="quote-author">- Jason Momoa</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/keanu.jpg" alt="Celebrity Banner 7" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"Every struggle in your life has shaped you into the person you are today."</div>
+                    <div class="quote-author">- Keanu Reeves</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/taylor.jpg" alt="Celebrity Banner 8" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"Just be yourself, there is no one better."</div>
+                    <div class="quote-author">- Taylor Swift</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/titanic.jpg" alt="Celebrity Banner 9" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"Every day is a new day. You'll never be able to find happiness if you don't move on."</div>
+                    <div class="quote-author">- Leonardo DiCaprio</div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/will.jpg" alt="Celebrity Banner 10" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="quote-container">
+                    <div class="celebrity-quote">"Life isn't how many breaths you take, but it's the moments that take your breath away."</div>
+                    <div class="quote-author">- Will Smith</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <div class="guest-content">
+                <h1>Connect with Your Favorite Stars</h1>
+                <p>Get exclusive content, join live streams, and be part of an amazing fan community</p>
+                <a href="register.html" class="btn btn-primary btn-large">Get Started</a>
+            </div>
+            <div class="member-content" style="display: none;">
+                <h1>Welcome to Your CelebMingle Experience</h1>
+                <p>Explore exclusive content and connect with your favorite stars</p>
+                <a href="#features" class="btn btn-primary btn-large">Explore Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Join Our Platform?</h2>
+        <div class="features-grid">
+            <div class="feature-card celeb-hub" id="celeb-hub-card">
+                <a href="celeb.html" class="celeb-hub-link" style="display: none; text-decoration: none; color: inherit;">
+                    <div class="hub-content">
+                        <i class="fas fa-star"></i>
+                        <h3>Celeb Hub</h3>
+                        <p>Search and get scheduled to meet your favorite star(s), plus membership bonuses</p>
+                        <div class="hub-icons">
+                            <i class="fas fa-calendar-check"></i>
+                            <i class="fas fa-users"></i>
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="guest-hub-content">
+                    <div class="hub-content">
+                        <i class="fas fa-star"></i>
+                        <h3>Celeb Hub</h3>
+                        <p>Search and get scheduled to meet your favorite star(s), plus membership bonuses</p>
+                        <div class="hub-icons">
+                            <i class="fas fa-calendar-check"></i>
+                            <i class="fas fa-users"></i>
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card exclusive-merch" id="exclusive-merch-card">
+                <a href="merch.html" class="exclusive-merch-link" style="display: none; text-decoration: none; color: inherit;">
+                    <div class="merch-wrapper">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>Exclusive Merch</h3>
+                        <p>Get access to limited edition merchandise</p>
+                        <div class="merch-icons">
+                            <i class="fas fa-tshirt"></i>
+                            <i class="fas fa-tags"></i>
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="guest-merch-wrapper">
+                    <div class="merch-wrapper">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>Exclusive Merch</h3>
+                        <p>Get access to limited edition merchandise</p>
+                        <div class="merch-icons">
+                            <i class="fas fa-tshirt"></i>
+                            <i class="fas fa-tags"></i>
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Tiers -->
+    <section class="membership">
+        <h2>Choose Your Membership</h2>
+        <div class="tier-grid">
+            <div class="tier-card superfan-card">
+                <div class="tier-badge">Popular</div>
+                <h3>Super Fan</h3>
+                <p class="price">$749.99/mo</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Exclusive content access</li>
+                    <li><i class="fas fa-check"></i> Live stream access</li>
+                    <li><i class="fas fa-check"></i> Members-only chat</li>
+                </ul>
+                <a href="generalpay.html?plan=superfan&price=749.99" class="btn btn-secondary crypto-subscribe" data-plan="superfan">
+                    <i class="fab fa-bitcoin"></i> Subscribe with Crypto
+                </a>
+            </div>
+            <div class="tier-card featured guest-only">
+                <h3>Registration</h3>
+                <p class="price">$299.99/mo</p>
+                <ul>
+                    <li>Platform access<br>Meet your favorite star</li>
+                    <li>Membership ID</li>
+                </ul>
+                <a href="register.html" class="btn btn-primary">Join Now</a>
+            </div>
+            <div class="tier-card vipfan-card">
+                <div class="tier-badge premium">VIP</div>
+                <h3>VIP Fan</h3>
+                <p class="price">$1499.99/mo</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Everything in Super Fan</li>
+                    <li><i class="fas fa-check"></i> Personal shoutouts</li>
+                    <li><i class="fas fa-check"></i> Merchandise discount</li>
+                    <li><i class="fas fa-check"></i> Priority support</li>
+                </ul>
+                <a href="generalpay.html?plan=vipfan&price=1499.99" class="btn btn-secondary crypto-subscribe" data-plan="vipfan">
+                    <i class="fab fa-bitcoin"></i> Subscribe with Crypto
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsors Section -->
+    <section class="sponsors">
+        <h2>Trusted by Global Brands</h2>
+        <div class="sponsor-grid">
+            <i class="fab fa-google" title="Google"></i>
+            <i class="fab fa-apple" title="Apple"></i>
+            <i class="fab fa-microsoft" title="Microsoft"></i>
+            <i class="fab fa-amazon" title="Amazon"></i>
+            <i class="fab fa-facebook" title="Facebook"></i>
+            <i class="fab fa-instagram" title="Instagram"></i>
+            <i class="fab fa-twitter" title="X (Twitter)"></i>
+            <i class="fab fa-spotify" title="Spotify"></i>
+            <i class="fab fa-youtube" title="YouTube"></i>
+            <i class="fab fa-discord" title="Discord"></i>
+            <i class="fab fa-twitch" title="Twitch"></i>
+            <i class="fab fa-tiktok" title="TikTok"></i>
+            <i class="fab fa-linkedin" title="LinkedIn"></i>
+            <i class="fab fa-pinterest" title="Pinterest"></i>
+            <i class="fab fa-snapchat" title="Snapchat"></i>
+            <i class="fab fa-reddit" title="Reddit"></i>
+            <i class="fab fa-vimeo" title="Vimeo"></i>
+            <i class="fab fa-github" title="GitHub"></i>
+            <i class="fab fa-wordpress" title="WordPress"></i>
+            <i class="fab fa-shopify" title="Shopify"></i>
+            <i class="fab fa-stripe" title="Stripe"></i>
+            <i class="fab fa-paypal" title="PayPal"></i>
+            <i class="fab fa-aws" title="Amazon Web Services"></i>
+            <i class="fab fa-android" title="Android"></i>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <ul>
+                    <li><a href="/about.html">Our Story</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Membership</h4>
+                <ul>
+                    <li><a href="#" id="plansLink">Plans</a></li>
+                    <li><a href="/faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy.html">Privacy Policy</a></li>
+                    <li><a href="/terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>License Agreement</h3>
+                <div class="license-content">
+                    <p>Welcome to Celebrity Fan Club! By using our platform, you agree to be bound by this License Agreement.</p>
+                    <p><strong>Usage Rights:</strong></p>
+                    <ul>
+                        <li>Access to exclusive celebrity content and interactions</li>
+                        <li>Personal, non-commercial use of platform features</li>
+                        <li>Participation in live events and member communities</li>
+                        <li>Download rights for personal content (where applicable)</li>
+                    </ul>
+                    <p><strong>Restrictions:</strong></p>
+                    <ul>
+                        <li>Content redistribution without written permission is prohibited</li>
+                        <li>Commercial use of celebrity content is strictly forbidden</li>
+                        <li>Account sharing or resale is not permitted</li>
+                        <li>Reverse engineering of platform features is prohibited</li>
+                    </ul>
+                    <div class="license-footer">
+                        <p>This license is effective until terminated. For complete terms, please review our 
+                        <a href="/terms.html">Terms of Service</a> and 
+                        <a href="/privacy.html">Privacy Policy</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Celebrity Fan Club. All rights reserved.</p>
+        </div>
+    </footer>    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore-compat.js"></script>
+    <script src="scripts/firebase-config.js"></script>
+    <script src="scripts/index.js"></script>
+    
+    <!-- Sign-out Loading Overlay -->
+    <div class="signout-overlay" id="signoutOverlay">
+        <div class="signout-content">
+            <div class="signout-spinner"></div>
+            <div class="signout-text">Signing Out...</div>
+            <div class="signout-subtext">Thank you for visiting!</div>
+            <div class="signout-progress">
+                <div class="signout-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Message CSS and JavaScript -->
+    <style>
+        .coming-soon-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 15px;
+            font-size: 28px;
+            font-weight: 700;
+            z-index: 10000;
+            animation: comingSoonAnimation 2s ease-in-out forwards;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .coming-soon-message::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
+            border-radius: 17px;
+            z-index: -1;
+            animation: borderGlow 2s ease-in-out;
+        }
+
+        @keyframes comingSoonAnimation {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.5) rotate(-10deg); 
+            }
+            20% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.1) rotate(2deg); 
+            }
+            30% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg); 
+            }
+            85% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.8) rotate(5deg); 
+            }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .exclusive-merch-link {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .exclusive-merch-link:hover {
+            transform: scale(1.02);
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to check if user is logged in
+            function isUserLoggedIn() {
+                // Check if the logged-in buttons are visible
+                const loggedInButtons = document.querySelector('.logged-in-buttons');
+                return loggedInButtons && loggedInButtons.style.display !== 'none';
+            }
+
+            // Function to show coming soon message
+            function showComingSoonMessage() {
+                // Create the message element
+                const message = document.createElement('div');
+                message.className = 'coming-soon-message';
+                message.innerHTML = '🎁 Coming Soon!';
+                
+                // Add to body
+                document.body.appendChild(message);
+                
+                // Remove after animation (2 seconds)
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.parentNode.removeChild(message);
+                    }
+                }, 2000);
+            }
+
+            // Function to show login required message
+            function showLoginRequiredMessage() {
+                // Create the message element
+                const message = document.createElement('div');
+                message.className = 'login-required-message';
+                message.innerHTML = '🔒 You must login to access this feature!';
+                
+                // Style the message
+                message.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, #e74c3c, #c0392b);
+                    color: white;
+                    padding: 20px 30px;
+                    border-radius: 15px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease-out;
+                    text-align: center;
+                    min-width: 300px;
+                `;
+                
+                // Add animation styles if not already present
+                if (!document.querySelector('#loginMessageStyles')) {
+                    const styles = document.createElement('style');
+                    styles.id = 'loginMessageStyles';
+                    styles.textContent = `
+                        @keyframes slideIn {
+                            from {
+                                opacity: 0;
+                                transform: translate(-50%, -50%) scale(0.8);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translate(-50%, -50%) scale(1);
+                            }
+                        }
+                    `;
+                    document.head.appendChild(styles);
+                }
+                
+                // Add to body
+                document.body.appendChild(message);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.style.animation = 'slideIn 0.3s ease-out reverse';
+                        setTimeout(() => {
+                            if (message.parentNode) {
+                                message.parentNode.removeChild(message);
+                            }
+                        }, 300);
+                    }
+                }, 3000);
+            }
+
+            // Handle membership link click
+            const membershipLink = document.getElementById('membershipLink');
+            if (membershipLink) {
+                membershipLink.addEventListener('click', function(e) {
+                    e.preventDefault(); // Always prevent default navigation
+                    
+                    if (isUserLoggedIn()) {
+                        // User is logged in, redirect to livestreamplay.html
+                        window.location.href = 'livestreamplay.html';
+                    } else {
+                        // User is not logged in, show login required message
+                        showLoginRequiredMessage();
+                    }
+                });
+            }
+
+            // Handle plans link click (footer)
+            const plansLink = document.getElementById('plansLink');
+            if (plansLink) {
+                plansLink.addEventListener('click', function(e) {
+                    e.preventDefault(); // Always prevent default navigation
+                    
+                    if (isUserLoggedIn()) {
+                        // User is logged in, redirect to livestreamplay.html
+                        window.location.href = 'livestreamplay.html';
+                    } else {
+                        // User is not logged in, show login required message
+                        showLoginRequiredMessage();
+                    }
+                });
+            }
+
+            // Add click event listener to merch card
+            const merchCard = document.querySelector('.exclusive-merch-link');
+            if (merchCard) {
+                merchCard.addEventListener('click', function(e) {
+                    // Only show message if user is logged in
+                    if (isUserLoggedIn()) {
+                        e.preventDefault(); // Prevent navigation
+                        showComingSoonMessage();
+                    }
+                    // If user is not logged in, let the normal link behavior happen
+                });
+            }
+
+            // Alternative: Also add to the entire merch card div for better UX
+            const merchCardDiv = document.querySelector('#exclusive-merch-card');
+            if (merchCardDiv) {
+                merchCardDiv.addEventListener('click', function(e) {
+                    // Check if click is on the logged-in version (exclusive-merch-link)
+                    const merchLink = merchCardDiv.querySelector('.exclusive-merch-link');
+                    if (merchLink && merchLink.style.display !== 'none' && isUserLoggedIn()) {
+                        e.preventDefault();
+                        showComingSoonMessage();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
