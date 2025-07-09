@@ -2575,4 +2575,87 @@ h3 {
     }
 }
 
-/* Final closing braces for the file */
+/* Enhanced mobile styling for tier-card text content */
+@media (max-width: 480px) {
+  .tier-card {
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    border: 1.5px solid #FFD700;
+    padding: 0.7rem 0.3rem !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+    text-align: center;
+  }
+  .tier-card .tier-badge {
+    background: linear-gradient(90deg, #FFD700 60%, #FFA500 100%);
+    color: #232526;
+    font-weight: 700;
+    font-size: 0.8rem !important;
+    border-radius: 10px;
+    padding: 0.2rem 0.7rem !important;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+    letter-spacing: 1px;
+    box-shadow: 0 1px 6px rgba(255,215,0,0.15);
+  }
+  .tier-card h3 {
+    font-size: 1rem !important;
+    font-weight: 700;
+    margin: 0.2rem 0 0.1rem 0 !important;
+    color: #FFD700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    line-height: 1.1;
+  }
+  .tier-card .price {
+    font-size: 0.95rem !important;
+    color: #FFA500;
+    font-weight: 700;
+    margin-bottom: 0.2rem !important;
+    margin-top: 0.1rem !important;
+    letter-spacing: 0.5px;
+  }
+  .tier-card ul {
+    padding: 0;
+    margin: 0.1rem 0 0.2rem 0 !important;
+    list-style: none;
+  }
+  .tier-card ul li {
+    font-size: 0.72rem !important;
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+    border-radius: 6px;
+    margin: 0.08rem 0;
+    padding: 0.13rem 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    line-height: 1.15;
+    word-break: break-word;
+  }
+  .tier-card ul li i {
+    color: #FFD700;
+    font-size: 0.9em;
+    margin-right: 0.2em;
+  }
+  .tier-card .btn, .tier-card .crypto-subscribe {
+    font-size: 0.7rem !important;
+    padding: 0.25rem 0.7rem !important;
+    border-radius: 8px !important;
+    margin-top: 0.15rem !important;
+    margin-bottom: 0.1rem !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #FFD700 60%, #FFA500 100%);
+    color: #232526 !important;
+    border: none;
+    box-shadow: 0 1px 6px rgba(255,215,0,0.13);
+    transition: background 0.2s;
+  }
+  .tier-card .btn:hover, .tier-card .crypto-subscribe:hover {
+    background: linear-gradient(90deg, #FFA500 60%, #FFD700 100%);
+    color: #232526 !important;
+  }
+}
