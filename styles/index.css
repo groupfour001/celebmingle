@@ -2524,4 +2524,32 @@ h3 {
     }
 }
 
-/* Final closing braces for the file */
+/* Final closing braces for the
+/* Sponsor Brand Colors */
+.sponsor-grid .fa-google {
+    background: conic-gradient(from -45deg, #4285f4 110deg, #34a853 90deg 200deg, #fbbc05 170deg 290deg, #ea4335 250deg 360deg);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.sponsor-grid .fa-tesla {
+    color: #cc0000;
+}
+
+.sponsor-grid .fa-apple {
+    color: #A2AAAD;
+}
+
+.sponsor-grid .fa-microsoft {
+    color: #00A4EF;
+}
+
+.sponsor-grid .fa-amazon {
+    color: #FF9900;
+}
+
+.sponsor-grid .fa-facebook {
+    color: #1877F2;
+}
+
