@@ -2659,3 +2659,53 @@ h3 {
     color: #232526 !important;
   }
 }
+@media (max-width: 480px) {
+  .feature-card, .tier-card {
+    /* Reduce width by 30% and increase height by 20% from previous mobile values */
+    min-width: 63vw !important;
+    width: 63vw !important;
+    max-width: 70vw !important;
+    height: 144px !important;
+    min-height: 120px !important;
+    font-size: 0.78rem !important;
+    padding: 0.2rem 0.05rem !important;
+    margin: 0 auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    word-break: break-word;
+    overflow: hidden;
+  }
+  .feature-card h3, .tier-card h3 {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.2rem !important;
+    white-space: normal !important;
+    line-height: 1.1 !important;
+  }
+  .feature-card p, .tier-card p, .tier-card ul li {
+    font-size: 0.7rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 0.1rem !important;
+    white-space: normal !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .tier-card .btn, .feature-card .btn {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.3rem !important;
+  }
+  .features-grid, .tier-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    justify-items: center !important;
+  }
+  .feature-card .hub-icons, .feature-card .merch-icons {
+    font-size: 0.7rem !important;
+    gap: 0.2rem !important;
+  }
+  .feature-card i, .tier-card i {
+    font-size: 1.1rem !important;
+  }
+}
