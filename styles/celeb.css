@@ -792,6 +792,30 @@ h1 {
     }
 }
 
+/* ===== ENHANCED MOBILE RESPONSIVE STYLES FOR CELEB PAGE ===== */
+@media (max-width: 1100px) {
+  .celebrity-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .celebrity-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .celebrity-grid { grid-template-columns: 1fr; gap: 1rem; padding: 0 2%; }
+  .celebrity-card { padding: 1rem; }
+  .celebrity-card img { height: 180px; }
+  .controls-container { flex-direction: column; gap: 1rem; padding: 1rem 2%; }
+  .main-nav ul { flex-direction: column; gap: 0.5rem; }
+  .main-nav { padding: 0.5rem 0; border-radius: 8px; }
+  header { padding: 1rem 2%; }
+  h1 { font-size: 1.5rem; }
+}
+@media (max-width: 400px) {
+  .celebrity-card img { height: 120px; }
+  .celebrity-info { padding: 1rem; }
+  .controls-container { padding: 0.5rem 1%; }
+  .main-nav { padding: 0.2rem 0; }
+}
+
 /* Small Mobile Devices */
 @media (max-width: 480px) {
     header {
