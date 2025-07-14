@@ -223,31 +223,6 @@
     }
 }
 
-/* ===== ENHANCED MOBILE RESPONSIVE STYLES FOR MODAL ===== */
-@media (max-width: 600px) {
-  .modal-content, #celebrity-modal .modal-content {
-    padding: 1rem 0.5rem;
-    border-radius: 10px;
-    width: 98%;
-    max-width: 99vw;
-    margin: 0.5rem auto;
-  }
-  .modal-header h2 { font-size: 1.3rem; }
-  .modal-header { padding-bottom: 1rem; margin-bottom: 1rem; }
-  .access-options { gap: 1rem; }
-  .access-tier { padding: 1rem; }
-}
-@media (max-width: 400px) {
-  .modal-content, #celebrity-modal .modal-content {
-    padding: 0.5rem 0.1rem;
-    border-radius: 6px;
-    width: 100vw;
-    margin: 0.2rem auto;
-  }
-  .modal-header h2 { font-size: 1rem; }
-}
-
-/* Access Card Styles */
 .access-card {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
