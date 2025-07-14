@@ -5,6 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In | CelebMingle</title>
     <link rel="stylesheet" href="styles/signin.css">
+    <style>
+      html, body {
+        overflow-x: hidden !important;
+        background: #181818 !important;
+      }
+      .signin-container, .signin-form-container, .signin-sidebar {
+        box-sizing: border-box !important;
+        max-width: 100vw !important;
+      }
+      .signin-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 3vw 0;
+      }
+      .signin-form-container {
+        background: #222 !important;
+        margin: 20px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px 0 rgba(212,175,55,0.10);
+      }
+      .signin-sidebar {
+        background: #222 !important;
+        margin: 20px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px 0 rgba(212,175,55,0.10);
+      }
+      @media (max-width: 600px) {
+        .signin-form-container, .signin-sidebar {
+          max-width: 98vw !important;
+          width: 98vw !important;
+          margin-left: 1vw !important;
+          margin-right: 1vw !important;
+        }
+      }
+
+      /* Premium input styling */
+      .input-container, .input-container.password-input {
+        background: linear-gradient(90deg, #181818 80%, #222 100%);
+        border-radius: 12px;
+        border: 1.5px solid #d4af37;
+        box-shadow: 0 2px 12px 0 rgba(212,175,55,0.08);
+        max-width: 340px;
+        width: 92%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+        transition: box-shadow 0.2s, border 0.2s;
+      }
+      .input-container:focus-within {
+        box-shadow: 0 0 0 2px #d4af37, 0 2px 16px 0 rgba(212,175,55,0.12);
+        border-color: #FFD700;
+      }
+      .input-container input[type="email"],
+      .input-container input[type="password"] {
+        max-width: 100%;
+        width: 100%;
+        height: 52px;
+        background: transparent !important;
+        color: #FFD700;
+        border-radius: 12px;
+        border: none;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0 44px 0 18px;
+        display: block;
+        font-size: 1.08rem;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        outline: none;
+        transition: color 0.2s;
+      }
+      .input-container input[type="email"]::placeholder,
+      .input-container input[type="password"]::placeholder {
+        color: #bfae7c;
+        opacity: 1;
+        font-weight: 400;
+      }
+      .input-container .toggle-password-btn {
+        background: none;
+        border: none;
+        outline: none;
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        padding: 0;
+        z-index: 2;
+        color: #bfae7c;
+        font-size: 1.25rem;
+        transition: color 0.2s;
+      }
+      .input-container .toggle-password-btn:hover,
+      .input-container .toggle-password-btn:focus {
+        color: #FFD700;
+      }
+      .input-container.password-input {
+        position: relative;
+      }
+      .input-container .toggle-password {
+        pointer-events: none;
+      }
+    </style>
     <link rel="stylesheet" href="styles/signin-animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -24,14 +134,14 @@
                 <div id="sinupMessage" class="messageDiv" style="display: none;"></div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <div class="input-container">
-                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    <div class="input-container" style="background: #181818; border-radius: 8px; border: 1px solid #444; max-width: 320px; width: 90%; margin-left: auto; margin-right: auto; box-sizing: border-box; height: 48px; display: flex; align-items: center;">
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required style="max-width: 100%; width: 100%; height: 48px; background: transparent !important; color: #d4af37; border-radius: 8px; border: none; box-sizing: border-box; margin: 0; padding: 0 16px; display: block;">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <div class="input-container password-input">
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                    <div class="input-container password-input" style="background: #181818; border-radius: 8px; border: 1px solid #444; max-width: 320px; width: 90%; margin-left: auto; margin-right: auto; box-sizing: border-box; height: 48px; display: flex; align-items: center;">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password" style="max-width: 100%; width: 100%; height: 48px; background: transparent !important; color: #d4af37; border-radius: 8px; border: none; box-sizing: border-box; margin: 0; padding: 0 16px; display: block;">
                         <button type="button" class="toggle-password-btn"><i class="fas fa-eye-slash toggle-password"></i></button>
                     </div>
                 </div>
