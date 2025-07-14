@@ -70,6 +70,75 @@
             .vipfan-card {
                 padding-top: 0 !important;
             }
+            /* Premium mobile nav menu styles */
+            .nav-menu {
+                background: linear-gradient(135deg, #181c24 60%, #232a34 100%);
+                box-shadow: 0 8px 32px rgba(44,62,80,0.25), 0 0 0 2px #FFD700 inset;
+                border-radius: 0 0 32px 32px;
+                padding-top: 32px;
+                padding-bottom: 32px;
+            }
+            .nav-menu li {
+                margin: 0 0 18px 0;
+                text-align: center;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .nav-menu a {
+                padding: 16px 36px;
+                border-radius: 18px;
+                color: #fff;
+                font-weight: 700;
+                font-size: 1.2rem;
+                text-decoration: none;
+                background: rgba(40,44,52,0.7);
+                margin: 0 auto;
+                box-shadow: 0 2px 12px rgba(44,62,80,0.10);
+                transition: background 0.2s, color 0.2s, box-shadow 0.2s, border 0.2s;
+                display: block;
+                max-width: 320px;
+                text-align: center;
+            }
+            .nav-menu a:hover {
+                background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+                color: #232a34;
+                box-shadow: 0 4px 24px rgba(255,215,0,0.15);
+                border: 2px solid #FFD700;
+            }
+            /* Premium Login and Join Now buttons */
+            .auth-buttons .btn-login {
+                background: rgba(30,34,44,0.85);
+                color: #FFD700;
+                border: 2px solid #FFD700;
+                font-weight: 700;
+                box-shadow: 0 2px 12px rgba(44,62,80,0.10);
+                margin-bottom: 10px;
+                transition: background 0.2s, color 0.2s, border 0.2s;
+            }
+            .auth-buttons .btn-login:hover {
+                background: #FFD700;
+                color: #232a34;
+                border: 2px solid #FFD700;
+                box-shadow: 0 4px 24px rgba(255,215,0,0.15);
+            }
+            .auth-buttons .btn-primary {
+                background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+                color: #232a34;
+                font-weight: 800;
+                border: none;
+                box-shadow: 0 4px 24px rgba(255,215,0,0.18), 0 0 0 2px #FFD700 inset;
+                margin-bottom: 10px;
+                letter-spacing: 0.5px;
+                text-shadow: 0 1px 8px #fff8;
+                transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            }
+            .auth-buttons .btn-primary:hover {
+                background: linear-gradient(90deg, #FFA500 0%, #FFD700 100%);
+                color: #181c24;
+                box-shadow: 0 6px 32px rgba(255,215,0,0.25);
+            }
             /* Membership tier cards: add margin and reduce width for more whitespace */
             .tier-grid {
                 display: flex;
