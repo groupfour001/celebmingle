@@ -51,6 +51,10 @@
                 </div>
             </li>
         </ul>
+        <!-- Cancel X for mobile nav -->
+        <button id="mobileNavCancel" aria-label="Close menu" style="display:none;position:fixed;top:18px;right:18px;z-index:2100;background:none;border:none;font-size:2.2rem;color:#fff;cursor:pointer;">
+            <span>&times;</span>
+        </button>
         <!-- Sidebar mobile menu -->
         <!-- Sidebar removed; mobile menu uses .nav-menu -->
         <style>
@@ -109,35 +113,46 @@
             }
             /* Premium Login and Join Now buttons */
             .auth-buttons .btn-login {
-                background: rgba(30,34,44,0.85);
-                color: #FFD700;
-                border: 2px solid #FFD700;
+                background: #0074D9 !important; /* Blue */
+                color: #fff !important;
+                border: none !important;
                 font-weight: 700;
                 box-shadow: 0 2px 12px rgba(44,62,80,0.10);
                 margin-bottom: 10px;
                 transition: background 0.2s, color 0.2s, border 0.2s;
+                text-align: center;
             }
             .auth-buttons .btn-login:hover {
-                background: #FFD700;
-                color: #232a34;
-                border: 2px solid #FFD700;
-                box-shadow: 0 4px 24px rgba(255,215,0,0.15);
+                background: #005fa3 !important;
+                color: #fff !important;
+                border: none !important;
+                box-shadow: 0 4px 24px rgba(0,116,217,0.15);
             }
             .auth-buttons .btn-primary {
-                background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
-                color: #232a34;
+                background: #2ECC40 !important; /* Green */
+                color: #fff !important;
                 font-weight: 800;
-                border: none;
-                box-shadow: 0 4px 24px rgba(255,215,0,0.18), 0 0 0 2px #FFD700 inset;
+                border: none !important;
+                box-shadow: 0 4px 24px rgba(46,204,64,0.18), 0 0 0 2px #2ECC40 inset;
                 margin-bottom: 10px;
                 letter-spacing: 0.5px;
                 text-shadow: 0 1px 8px #fff8;
                 transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+                text-align: center;
             }
             .auth-buttons .btn-primary:hover {
-                background: linear-gradient(90deg, #FFA500 0%, #FFD700 100%);
-                color: #181c24;
-                box-shadow: 0 6px 32px rgba(255,215,0,0.25);
+                background: #27ae60 !important;
+                color: #fff !important;
+                box-shadow: 0 6px 32px rgba(46,204,64,0.25);
+            }
+            .auth-buttons .btn {
+                display: block;
+                margin: 12px auto;
+                width: 80%;
+                max-width: 260px;
+                font-size: 1.1rem;
+                border-radius: 16px;
+                text-align: center;
             }
             /* Membership tier cards: add margin and reduce width for more whitespace */
             .tier-grid {
@@ -684,6 +699,7 @@
     const navUserName = document.getElementById('navUserName');
     const navUserInitials = document.getElementById('navUserInitials');
     const navSignOut = document.getElementById('navSignOut');
+    const mobileNavCancel = document.getElementById('mobileNavCancel');
 
     // Force reload to index.html when Home is clicked in mobile menu
     document.addEventListener('DOMContentLoaded', function() {
@@ -760,6 +776,18 @@
       navMenu.style.opacity = isActive ? '1' : '0';
       navMenu.style.pointerEvents = isActive ? 'auto' : 'none';
       document.body.style.overflow = isActive ? 'hidden' : '';
+      // Show/hide cancel X
+      if (mobileNavCancel) {
+        mobileNavCancel.style.display = isActive ? 'block' : 'none';
+      }
+    }
+
+    // Cancel X click closes menu
+    if (mobileNavCancel) {
+      mobileNavCancel.addEventListener('click', function(e) {
+        e.stopPropagation();
+        window.location.href = 'index.html';
+      });
     }
 
     hamburgerBtn.addEventListener('click', function(e) {
@@ -2053,7 +2081,7 @@
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
             background: #2a2a2a;
-            color: white;
+               
         }
 
         #chatInput:focus {
