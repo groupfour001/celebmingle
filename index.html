@@ -70,27 +70,6 @@
             position: relative;
         }
         @media (max-width: 768px) {
-            /* Center the parent <ul> of cyan texts in membership tier cards on mobile */
-            .tier-card ul,
-            .superfan-card ul,
-            .vipfan-card ul {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                padding-left: 0 !important;
-                width: 100%;
-            }
-            /* Center all cyan texts in membership tier cards on mobile */
-            .tier-card span[style*='color: #00bcd4;'],
-            .superfan-card span[style*='color: #00bcd4;'],
-            .vipfan-card span[style*='color: #00bcd4;'] {
-                display: block;
-                text-align: center !important;
-                margin-left: auto !important;
-                margin-right: auto !important;
-                width: 100%;
-            }
             .superfan-card,
             .vipfan-card {
                 padding-top: 0 !important;
@@ -507,12 +486,12 @@
         <div class="features-grid">
            
              
-            <div class="feature-card celeb-hub" id="celeb-hub-card" style="margin-left: 18px; margin-right: 18px;">
+            <div class="feature-card celeb-hub" id="celeb-hub-card">
                 <a href="celeb.html" class="celeb-hub-link" style="display: none; text-decoration: none; color: inherit;">
                     <div class="hub-content">
                         <i class="fas fa-star"></i>
                         <h3>Celeb Hub</h3>
-                        <p style="color: #00bcd4;">Search and get scheduled to meet your favorite star(s), plus membership bonuses</p>
+                        <p>Search and get scheduled to meet your favorite star(s), plus membership bonuses</p>
                         <div class="hub-icons">
                             <i class="fas fa-calendar-check"></i>
                             <i class="fas fa-users"></i>
@@ -524,7 +503,7 @@
                     <div class="hub-content">
                         <i class="fas fa-star"></i>
                         <h3>Celeb Hub</h3>
-                        <p style="color: #00bcd4;">Search and get scheduled to meet your favorite star(s), plus membership bonuses</p>
+                        <p>Search and get scheduled to meet your favorite star(s), plus membership bonuses</p>
                         <div class="hub-icons">
                             <i class="fas fa-calendar-check"></i>
                             <i class="fas fa-users"></i>
@@ -535,12 +514,12 @@
             </div>
            
             
-            <div class="feature-card exclusive-merch" id="exclusive-merch-card" style="margin-left: 18px; margin-right: 18px;">
+            <div class="feature-card exclusive-merch" id="exclusive-merch-card">
                 <a href="merch.html" class="exclusive-merch-link" style="display: none; text-decoration: none; color: inherit;">
                     <div class="merch-wrapper">
                         <i class="fas fa-shopping-bag"></i>
                         <h3>Exclusive Merch</h3>
-                        <p style="color: #00bcd4;">Get access to limited edition merchandise</p>
+                        <p>Get access to limited edition merchandise</p>
                         <div class="merch-icons">
                             <i class="fas fa-tshirt"></i>
                             <i class="fas fa-tags"></i>
@@ -552,7 +531,7 @@
                     <div class="merch-wrapper">
                         <i class="fas fa-shopping-bag"></i>
                         <h3>Exclusive Merch</h3>
-                        <p style="color: #00bcd4;">Get access to limited edition merchandise</p>
+                        <p>Get access to limited edition merchandise</p>
                         <div class="merch-icons">
                             <i class="fas fa-tshirt"></i>
                             <i class="fas fa-tags"></i>
@@ -573,9 +552,9 @@
                 <h3>Super Fan</h3>
                 <p class="price">$749.99/mo</p>
                 <ul>
-                    <li><i class="fas fa-crown" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Exclusive content access</span></li>
-                    <li><i class="fas fa-broadcast-tower" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Live stream access</span></li>
-                    <li><i class="fas fa-comments" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Members-only chat</span></li>
+                    <li><i class="fas fa-check"></i> Exclusive content access</li>
+                    <li><i class="fas fa-check"></i> Live stream access</li>
+                    <li><i class="fas fa-check"></i> Members-only chat</li>
                 </ul>
                 <a href="generalpay.html?plan=superfan&price=749.99" class="btn btn-secondary crypto-subscribe" data-plan="superfan">
                     <i class="fab fa-bitcoin"></i> Subscribe with Crypto
@@ -586,9 +565,9 @@
                 <h3>Registration</h3>
                 <p class="price">$299.99/mo</p>
                 <ul>
-                    <li><i class="fas fa-star" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Platform access</span></li>
-                    <li><i class="fas fa-user-friends" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Meet your favorite star</span></li>
-                    <li><i class="fas fa-id-badge" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Membership ID</span></li>
+                    <li>Platform access<br>Meet your favorite star</li>
+                    <li>Membership ID</li>
+                    
                 </ul>
                 <a href="register.html" class="btn btn-primary">Join Now</a>
             </div>
@@ -598,10 +577,10 @@
                 <h3>VIP Fan</h3>
                 <p class="price">$1499.99/mo</p>
                 <ul>
-                    <li><i class="fas fa-gem" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Everything in Super Fan</span></li>
-                    <li><i class="fas fa-bullhorn" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Personal shoutouts</span></li>
-                    <li><i class="fas fa-tags" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Merchandise discount</span></li>
-                    <li><i class="fas fa-headset" style="color: #FFD700;"></i> <span style="color: #00bcd4; display: inline-block; text-align: left; margin-left: 8px;">Priority support</span></li>
+                    <li><i class="fas fa-check"></i> Everything in Super Fan</li>
+                    <li><i class="fas fa-check"></i> Personal shoutouts</li>
+                    <li><i class="fas fa-check"></i> Merchandise discount</li>
+                    <li><i class="fas fa-check"></i> Priority support</li>
                 </ul>
                 <a href="generalpay.html?plan=vipfan&price=1499.99" class="btn btn-secondary crypto-subscribe" data-plan="vipfan">
                     <i class="fab fa-bitcoin"></i> Subscribe with Crypto
@@ -1526,6 +1505,8 @@
             overflow: hidden;
             opacity: 1 !important;
             visibility: visible !important;
+            margin-left: 24px;
+            margin-right: 24px;
         }
         
         .feature-card a,
@@ -1786,6 +1767,62 @@
                 min-height: 250px;
                 height: 250px;
                 max-height: 250px;
+                margin-left: 10vw;
+                margin-right: 10vw;
+            }
+            .auth-buttons, .logged-out-buttons {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                width: 100vw;
+                margin: 0 0 30px 0;
+                padding: 0;
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 0 !important;
+                z-index: 1001;
+            }
+            .nav-menu {
+                
+                max-height: 90vh;
+                min-height: 320px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: inherit;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+            .auth-buttons button, .logged-out-buttons button {
+                width: 100%;
+                min-width: 0 !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                border-right: 1px solid #eee;
+                border-left: none;
+                border-top: none;
+                border-bottom: none;
+                box-sizing: border-box;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                height: 56px;
+                font-size: 1.1em;
+            }
+            .auth-buttons button:last-child, .logged-out-buttons button:last-child {
+                border-right: none;
+            }
+
+            /* Hide cancel button by default, show only when nav-menu is active */
+            #mobileNavCancel {
+                display: none !important;
+            }
+            .nav-menu.active #mobileNavCancel {
+                display: block !important;
             }
         }
         
@@ -1794,6 +1831,8 @@
                 min-height: 220px;
                 height: 220px;
                 max-height: 220px;
+                margin-left: 5vw;
+                margin-right: 5vw;
             }
         }
 
