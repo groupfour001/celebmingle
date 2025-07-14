@@ -66,6 +66,40 @@
             position: relative;
         }
         @media (max-width: 768px) {
+            /* Membership tier cards: add margin and reduce width for more whitespace */
+            .tier-grid {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .tier-card {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: calc(100vw - 36px) !important;
+                max-width: 340px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            /* Feature cards: add margin and reduce width for more whitespace */
+            .features-grid {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .feature-card {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: calc(100vw - 36px) !important;
+                max-width: 340px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
             .nav-menu {
                 position: fixed;
                 top: 0;
