@@ -24,9 +24,12 @@
                 <img src="images/minglelogo.jpg" alt="Mingle" class="brand-logo" style="height: 50px; width: auto;">
             </a>
         </div>
-        <div class="nav-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
+        <button class="nav-toggle" id="hamburgerBtn" aria-label="Open menu" style="background: none; border: none; outline: none;">
+            <span style="font-size:2rem; color:var(--accent-color);">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-times" style="display:none;"></i>
+            </span>
+        </button>
         <ul class="nav-menu">
             <li><a href="#">Home</a></li>
             <li><a href="/about.html">About</a></li>
@@ -34,60 +37,191 @@
             <li><a href="#" id="supportLink" title="Need help? Reach out to our 24/7 support team">Support</a></li>
             <li class="auth-buttons">
                 <!-- These will be toggled by JavaScript -->
-                <div class="logged-out-buttons">
-                    <a href="signin.html" class="btn btn-login" style="background: linear-gradient(135deg, #2c3e50, #3498db); color: white; border: none; padding: 10px 20px; border-radius: 25px; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3); transition: all 0.3s ease;">Login</a>
-                    <a href="register.html" class="btn btn-primary" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border: none; padding: 10px 25px; border-radius: 25px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); margin-left: 15px; transition: all 0.3s ease; animation: pulse 2s infinite;">Join Now</a>
+                <div class="logged-out-buttons" id="navLoggedOut">
+                    <a href="signin.html" class="btn btn-login">Login</a>
+                    <a href="register.html" class="btn btn-primary">Join Now</a>
                 </div>
-                <div class="logged-in-buttons" style="display: none; align-items: center;">
-                    <div class="user-welcome" style="background: linear-gradient(135deg, #2c3e50, #3498db); padding: 8px 15px; border-radius: 20px; display: flex; align-items: center;">
-                        <span class="welcome-text" style="color: white;">Welcome, </span>
-                        <span class="user-name" style="color: #FFD700; font-weight: 600; margin-left: 5px;"></span>
-                        <div class="user-initials" style="background: rgba(255, 215, 0, 0.2); color: #FFD700; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 10px; font-size: 14px;"></div>
+                <div class="logged-in-buttons" id="navLoggedIn">
+                    <div class="user-welcome">
+                        <span class="welcome-text">Welcome, </span>
+                        <span class="user-name" id="navUserName"></span>
+                        <div class="user-initials" id="navUserInitials"></div>
                     </div>
-                    <button class="btn btn-logout" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 8px 20px; border-radius: 20px; margin-left: 10px; transition: all 0.3s ease; cursor: pointer;">Sign Out</button>
+                    <button class="btn btn-logout" id="navSignOut">Sign Out</button>
                 </div>
-                <style>
-                    @keyframes pulse {
-                        0% { transform: scale(1); }
-                        50% { transform: scale(1.05); }
-                        100% { transform: scale(1); }
-                    }
-                    .btn-login:hover {
-                        transform: translateY(-2px);
-                        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-                    }
-                    .btn-primary:hover {
-                        transform: translateY(-2px);
-                        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-                    }
-                    .btn-logout:hover {
-                        transform: translateY(-2px);
-                        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
-                    }
-                    
-                    /* Mobile responsiveness for auth buttons */
-                    @media (max-width: 768px) {
-                        .logged-in-buttons {
-                            flex-direction: column;
-                            gap: 10px;
-                        }
-                        .user-welcome {
-                            font-size: 14px;
-                        }
-                        .user-initials {
-                            width: 25px !important;
-                            height: 25px !important;
-                            font-size: 12px !important;
-                        }
-                        .btn-logout {
-                            margin-left: 0 !important;
-                            width: 100%;
-                            padding: 10px 15px !important;
-                        }
-                    }
-                </style>
             </li>
         </ul>
+        <!-- Sidebar mobile menu -->
+        <!-- Sidebar removed; mobile menu uses .nav-menu -->
+        <style>
+        /* Hamburger dropdown styles - premium dark centered */
+        .nav-menu {
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu li {
+            position: relative;
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: linear-gradient(135deg, #181c24 60%, #232a34 100%);
+                box-shadow: 0 8px 32px rgba(44,62,80,0.25);
+                border-radius: 0;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 0;
+                z-index: 2000;
+                display: none;
+                opacity: 0;
+                transform: scale(0.98) translateY(-10px);
+                transition: all 0.35s cubic-bezier(.4,2,.3,1);
+                overflow-y: auto;
+                overflow-x: hidden;
+                scrollbar-width: thin;
+                scrollbar-color: #FFD700 #232a34;
+            }
+            .nav-menu.active {
+                display: flex;
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            .nav-menu li {
+                margin: 0 0 18px 0;
+                text-align: center;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .nav-menu li:last-child {
+                margin-bottom: 0;
+            }
+            .nav-menu a {
+                padding: 16px 36px;
+                border-radius: 18px;
+                color: #fff;
+                font-weight: 700;
+                font-size: 1.2rem;
+                text-decoration: none;
+                background: rgba(40,44,52,0.7);
+                margin: 0 auto;
+                box-shadow: 0 2px 12px rgba(44,62,80,0.10);
+                transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+                display: block;
+                max-width: 320px;
+                text-align: center;
+            }
+            .nav-menu a:hover {
+                background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+                color: #232a34;
+                box-shadow: 0 4px 24px rgba(255,215,0,0.15);
+            }
+            .auth-buttons {
+                margin-top: 18px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .auth-buttons .btn {
+                width: 90%;
+                margin: 8px auto;
+                font-size: 1.1rem;
+                border-radius: 16px;
+                display: block;
+                text-align: center;
+            }
+            .logged-in-buttons, .logged-out-buttons {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .logged-in-buttons {
+                display: none;
+            }
+            .logged-in-buttons.active {
+                display: flex !important;
+            }
+            .user-welcome {
+                background: linear-gradient(135deg, #232a34 60%, #3498db 100%);
+                padding: 12px 20px;
+                border-radius: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 12px;
+                box-shadow: 0 2px 12px rgba(44,62,80,0.10);
+                font-size: 1.1rem;
+                width: 90%;
+                max-width: 340px;
+                text-align: center;
+            }
+            .user-welcome .welcome-text {
+                color: #fff;
+            }
+            .user-welcome .user-name {
+                color: #FFD700;
+                font-weight: 700;
+                margin-left: 5px;
+            }
+            .user-welcome .user-initials {
+                background: rgba(255, 215, 0, 0.2);
+                color: #FFD700;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                margin-left: 10px;
+                font-size: 15px;
+            }
+            .btn-logout {
+                background: linear-gradient(135deg, #e74c3c, #c0392b);
+                color: white;
+                border: none;
+                padding: 10px 24px;
+                border-radius: 20px;
+                margin: 0 auto 0 auto;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                font-size: 1.1rem;
+                width: 90%;
+                max-width: 340px;
+                display: block;
+                text-align: center;
+                margin-bottom: 8px;
+            }
+            .btn-logout:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+            }
+            /* Custom scrollbar for nav-menu */
+            .nav-menu::-webkit-scrollbar {
+                width: 8px;
+            }
+            .nav-menu::-webkit-scrollbar-thumb {
+                background: #FFD700;
+                border-radius: 8px;
+            }
+            .nav-menu::-webkit-scrollbar-track {
+                background: #232a34;
+            }
+        }
+        </style>
     </nav>    
     <!-- Hero Section -->    
      <header class="hero">        
@@ -401,6 +535,126 @@
     <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore-compat.js"></script>
     <script src="scripts/firebase-config.js"></script>
     <script src="scripts/index.js"></script>
+    <!-- Hamburger/Sidebar JS with real Firebase Auth integration -->
+    <script>
+    // Hamburger menu logic for mobile nav
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navMenu = document.querySelector('.nav-menu');
+    const barsIcon = hamburgerBtn.querySelector('.fa-bars');
+    const timesIcon = hamburgerBtn.querySelector('.fa-times');
+    const navLoggedOut = document.getElementById('navLoggedOut');
+    const navLoggedIn = document.getElementById('navLoggedIn');
+    const navUserName = document.getElementById('navUserName');
+    const navUserInitials = document.getElementById('navUserInitials');
+    const navSignOut = document.getElementById('navSignOut');
+
+    // Force reload to index.html when Home is clicked in mobile menu
+    document.addEventListener('DOMContentLoaded', function() {
+      const homeLink = document.querySelector('.nav-menu li a[href="#"]');
+      if (homeLink) {
+        homeLink.addEventListener('click', function(e) {
+          if (window.innerWidth < 769) {
+            e.preventDefault();
+            window.location.href = 'index.html';
+            window.location.reload();
+          }
+        });
+      }
+    });
+
+    // Firebase Auth state listener
+    function updateNavAuthFirebase(user) {
+      if (user) {
+        navLoggedOut.style.display = 'none';
+        navLoggedIn.classList.add('active');
+        navLoggedIn.style.display = 'flex';
+        // Use displayName if available, else email prefix
+        let displayName = user.displayName || (user.email ? user.email.split('@')[0] : 'User');
+        navUserName.textContent = displayName;
+        navUserInitials.textContent = (displayName[0] || 'U').toUpperCase();
+      } else {
+        navLoggedOut.style.display = 'flex';
+        navLoggedIn.classList.remove('active');
+        navLoggedIn.style.display = 'none';
+        // Extra: hide all children of navLoggedIn for safety
+        Array.from(navLoggedIn.children).forEach(child => {
+          if (child.style) child.style.display = 'none';
+        });
+      }
+    }
+
+    // Listen for Firebase Auth state changes
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function(user) {
+        updateNavAuthFirebase(user);
+      });
+    } else {
+      // Fallback: hide both if Firebase not loaded
+      navLoggedOut.style.display = 'flex';
+      navLoggedIn.classList.remove('active');
+      navLoggedIn.style.display = 'none';
+    }
+
+    // Sign out button
+    if (navSignOut) {
+      navSignOut.addEventListener('click', function() {
+        if (window.firebase && firebase.auth) {
+          firebase.auth().signOut();
+        }
+      });
+    }
+
+    // Initial state (hide both until Firebase loads)
+    navLoggedOut.style.display = 'none';
+    navLoggedIn.style.display = 'none';
+    // Also hide children of navLoggedIn on initial load
+    Array.from(navLoggedIn.children).forEach(child => {
+      if (child.style) child.style.display = 'none';
+    });
+
+    function toggleMenu() {
+      const isMobile = window.innerWidth < 769;
+      if (!isMobile) return;
+      const isActive = navMenu.classList.toggle('active');
+      hamburgerBtn.classList.toggle('active', isActive);
+      barsIcon.style.display = isActive ? 'none' : '';
+      timesIcon.style.display = isActive ? '' : 'none';
+      navMenu.style.display = isActive ? 'flex' : 'none';
+      navMenu.style.opacity = isActive ? '1' : '0';
+      navMenu.style.pointerEvents = isActive ? 'auto' : 'none';
+      document.body.style.overflow = isActive ? 'hidden' : '';
+    }
+
+    hamburgerBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Close menu on outside click
+    window.addEventListener('click', function(e) {
+      if (window.innerWidth < 769 && navMenu.classList.contains('active') && !navMenu.contains(e.target) && e.target !== hamburgerBtn && !hamburgerBtn.contains(e.target)) {
+        toggleMenu();
+      }
+    });
+
+    // Close menu on resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768) {
+        navMenu.classList.remove('active');
+        hamburgerBtn.classList.remove('active');
+        barsIcon.style.display = '';
+        timesIcon.style.display = 'none';
+        navMenu.style.display = '';
+        navMenu.style.opacity = '';
+        navMenu.style.pointerEvents = '';
+        document.body.style.overflow = '';
+      } else {
+        navMenu.style.display = navMenu.classList.contains('active') ? 'flex' : 'none';
+        navMenu.style.opacity = navMenu.classList.contains('active') ? '1' : '0';
+        navMenu.style.pointerEvents = navMenu.classList.contains('active') ? 'auto' : 'none';
+      }
+    });
+    </script>
     
     <!-- AI Agent JavaScript -->
     <script>
