@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,67 +7,305 @@
     <link rel="stylesheet" href="styles/register.css">
     <link rel="stylesheet" href="styles/register-enhancements.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .warning {
+            border-color: #ff6b6b !important;
+        }
 
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: transparent !important;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c5a35a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            border-color: #c5a35a;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #c5a35a;
+            box-shadow: 0 0 10px rgba(197, 163, 90, 0.2);
+        }
+
+        select:disabled {
+            background-color: transparent !important;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        select option {
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        /* Loading state animation */
+        select.loading {
+            background-color: transparent !important;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+PHBhdGggZmlsbD0iI2M1YTM1YSIgZD0iTTI1LDVBMjAuMTQsMjAuMTQsMCwwLDAsNSwyNUEyMCwyMCwwLDAsMCwyNSw0NSwyMCwyMCwwLDAsMCw0NSwyNSwyMC4xNCwyMC4xNCwwLDAsMCwyNSw1Wm0wLDM1QTE1LDE1LDAsMSwxLDQwLDI1LDE1LDE1LDAsMCwxLDI1LDQwWiI+PGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJyb3RhdGUiIGZyb209IjAgMjUgMjUiIHRvPSIzNjAgMjUgMjUiIGR1cj0iMC42cyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L3BhdGg+PC9zdmc+');
+        }
+
+        /* Custom scrollbar for dropdowns */
+        select::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        select::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        select::-webkit-scrollbar-thumb {
+            background: #c5a35a;
+            border-radius: 4px;
+        }
+
+        select::-webkit-scrollbar-thumb:hover {
+            background: #b18d3d;
+        }
+
+        .password-input-wrapper.password-visible input {
+            background-color: rgba(15, 15, 15, 0.85) !important;
+            border-color: #d4af37 !important;
+            color: #fff !important;
+        }
+        .password-input-wrapper .password-toggle[aria-label="Hide password"] {
+            color: #d4af37 !important;
+        }
+        .password-input-wrapper .password-toggle[aria-label="Hide password"]:hover {
+            color: #f4c842 !important;
+            background-color: rgba(212, 175, 55, 0.15) !important;
+        }
+
+        /* Force transparent background for all select states */
+        select, select:focus, select:hover, select:active, select:disabled, select.loading {
+            background-color: transparent !important;
+        }
+
+        /* Override any inline styles that might set background */
+        #country, #state, #city, #countryCode {
+            background-color: transparent !important;
+        }
+
+        /* Mobile-specific critical styles */
+        @media (max-width: 768px) {
+            input, select {
+                height: 18px !important;
+               
+                padding: 0.5rem 0.7rem !important;
+                font-size: 0.85rem !important;
+            }
+            .form-container {
+                padding: 1rem !important;
+                margin: 0 !important;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem !important;
+            }
+            
+            .form-tabs {
+                overflow-x: auto !important;
+                scrollbar-width: none !important;
+                -ms-overflow-style: none !important;
+            }
+            
+            .form-tabs::-webkit-scrollbar {
+                display: none !important;
+            }
+            
+            .tab {
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+                padding: 0.4rem 0.8rem !important;
+                font-size: 0.85rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.3rem !important;
+            }
+            
+            .form-container {
+                padding: 0.8rem !important;
+                border-radius: 8px !important;
+            }
+            
+            .logo h1 {
+                font-size: 1.6rem !important;
+            }
+            
+            .tab {
+                padding: 0.3rem 0.6rem !important;
+                font-size: 0.8rem !important;
+            }
+            
+            input, select {
+                height: 10px !important;
+                width: 80% !important;
+                min-width: 190px !important;
+                max-width: 300px !important;
+                padding: 0.5rem 0.7rem !important;
+                font-size: 0.85rem !important;
+            }
+            
+            label {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            input, select, button {
+                min-height: 44px !important;
+            }
+            
+            .tab {
+                min-height: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+        }
+
+        .back-home-btn.premium-btn {
+            background: linear-gradient(90deg, #d4af37 0%, #c5a35a 100%);
+            color: #fff !important;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 28px 10px 18px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 12px rgba(197,163,90,0.12);
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            margin-top: 1.2rem;
+            text-decoration: none;
+        }
+        .back-home-btn.premium-btn:hover, .back-home-btn.premium-btn:focus {
+            background: linear-gradient(90deg, #c5a35a 0%, #d4af37 100%);
+            color: #fff !important;
+            box-shadow: 0 4px 18px rgba(197,163,90,0.18);
+            text-decoration: none;
+        }
+        .back-home-btn.premium-btn i {
+            color: #fff !important;
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        @media (max-width: 480px) {
+            .back-home-btn.premium-btn {
+                font-size: 0.95rem;
+                padding: 8px 18px 8px 12px;
+            }
+        }
+
+        .pay-btn {
+            background: linear-gradient(90deg, #d4af37 0%, #c5a35a 100%);
+            color: #fff !important;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 36px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            box-shadow: 0 2px 16px rgba(197,163,90,0.14);
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+            display: inline-block;
+            margin-top: 1.2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+        .pay-btn:hover, .pay-btn:focus {
+            background: linear-gradient(90deg, #c5a35a 0%, #d4af37 100%);
+            color: #fff !important;
+            box-shadow: 0 4px 22px rgba(197,163,90,0.22);
+            outline: none;
+        }
+        @media (max-width: 480px) {
+            .pay-btn {
+                font-size: 1rem;
+                padding: 10px 22px;
+            }
+        }
+    </style>
+</head>
 <body>
     <a href="index.html" class="back-home-btn premium-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
     <div class="container">
         <div class="form-container">
-            <div class="form-header">
+            <div class="form-header" style="margin-bottom: 14px;">
                 <div class="logo">
                     <h1>CELEB<span>MINGLE</span></h1>
                 </div>
                 <h2>Premium Membership Registration</h2>
-                <p>Join our exclusive community of distinguished members</p>
+                <p style="margin-bottom: 10px;">Join our exclusive community of distinguished members</p>
             </div>
 
-            <form id="registrationForm">
-                <div class="form-tabs">
+            <form id="registrationForm" style="line-height: 1px;">
+                <div class="form-tabs" style="margin-bottom: 0px;">
                     <button type="button" class="tab active" data-tab="personal">Personal Details</button>
                     <button type="button" class="tab" data-tab="contact">Contact Information</button>
                     <button type="button" class="tab" data-tab="address">Address Details</button>
                 </div>
 
-                <div class="form-section active" id="personal-section">
+                <div class="form-section active" id="personal-section" style="margin-top: -3px;padding: 4px;">
                     <div class="form-row three-columns">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name"
-                                pattern="[A-Za-z\s]*" onkeypress="return /[A-Za-z\s]/.test(event.key)"
-                                oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" required
-                                autocomplete="off">
+                        <div class="form-group"  style="margin-bottom:6px;margin-left: 10px;margin-right: 10px;">
+                            <label for="firstName" style="margin-bottom: 15px;margin-top: 20px;">First Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" 
+                                   pattern="[A-Za-z\s]* "
+                                   onkeypress="return /[A-Za-z\s]/.test(event.key)"
+                                   oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')"
+                                   required autocomplete="off" style="width: 90%; min-width: 120px; max-width: 220px; height: 32px;" >
+                        </div>
+                        
+                        <div class="form-group"  style="margin-bottom:6px;margin-left: 10px;margin-right: 10px;">
+                            <label for="lastName" style="margin-bottom: 15px;margin-top: 20px;">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name only" 
+                                   pattern="[A-Za-z\s]*" 
+                                   onkeypress="return /[A-Za-z\s]/.test(event.key)"
+                                   oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')"
+                                   required autocomplete="off" style="width: 85%; min-width: 120px; max-width: 250 px;height: 32px;">
                         </div>
 
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name only"
-                                pattern="[A-Za-z\s]*" onkeypress="return /[A-Za-z\s]/.test(event.key)"
-                                oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" required
-                                autocomplete="off">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="gender">Gender</label>
+                        <div class="form-group" style="margin-bottom:6px;margin-left: 10px;margin-right: 10px;">
+                            <label for="gender"  style="margin-bottom: 15px;margin-top: 20px;width: 45%; min-width: 120px; max-width: 100 px;height: 0px;">Gender</label>
                             <select id="gender" name="gender" required>
                                 <option value="">Select gender</option>
                                 <option value="cisgender-male">Male</option>
                                 <option value="cisgender-female">Female</option>
                                 <option value="transgender-male">Transgender Male (Trans Man)</option>
-                                <option value="transgender-female">Transgender Female
+                                <option value="transgender-female">Transgender Female 
                                     (Trans Woman)</option>
-
-                                >
-
-
+                                
+                               >
+                               
+                                
                                 <option value="prefer-not-say">Prefer not to say</option>
                             </select>
                         </div>
                     </div>
-
-                    <div class="form-row birthday-group">
+                    
+                    <div class="form-row birthday-group"  style="margin-bottom:6px;margin-left: 10px;margin-right: 10px;">
                         <div class="form-group">
                             <label for="birthYear">Year of Birth</label>
                             <select id="birthYear" name="birthYear" required>
@@ -171,7 +408,7 @@
                                 <option value="1930">1930</option>
                             </select>
                         </div>
-
+                        
                         <div class="form-group">
                             <label for="birthMonth">Month of Birth</label>
                             <select id="birthMonth" name="birthMonth" required>
@@ -191,45 +428,52 @@
                             </select>
                         </div>
                     </div>
-
+                    
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group" style="margin-left: 10px;margin-right: 10px;" >
                             <label for="password">Create Password</label>
                             <div class="password-input-container">
                                 <div class="password-input-wrapper">
-                                    <input type="password" id="password" name="password"
-                                        placeholder="Create a strong password" autocomplete="new-password"
-                                        data-lpignore="true" data-form-type="password" spellcheck="false"
-                                        autocapitalize="none" required>
-                                    <button type="button" class="password-toggle" tabindex="-1" aria-label="Show password">
-                                        <i class="fa fa-eye-slash eye-icon" aria-hidden="true"></i>
+                                    <input type="password" id="password" name="password" 
+                                           placeholder="Create a strong password" 
+                                           autocomplete="new-password"
+                                           data-lpignore="true"
+                                           data-form-type="password"
+                                           spellcheck="false"
+                                           autocapitalize="none"
+                                           required>
+                                    <button type="button" class="password-toggle" tabindex="-1">
+                                        <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password</label>
                             <div class="password-input-container">
                                 <div class="password-input-wrapper">
-                                    <input type="password" id="confirmPassword" name="confirmPassword"
-                                        placeholder="Confirm your password" autocomplete="new-password"
-                                        data-lpignore="true" data-form-type="password" spellcheck="false"
-                                        autocapitalize="none" required>
-                                    <button type="button" class="password-toggle" tabindex="-1" aria-label="Show password">
-                                        <i class="fa fa-eye-slash eye-icon" aria-hidden="true"></i>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" 
+                                           placeholder="Confirm your password" 
+                                           autocomplete="new-password"
+                                           data-lpignore="true"
+                                           data-form-type="password"
+                                           spellcheck="false"
+                                           autocapitalize="none"
+                                           required>
+                                    <button type="button" class="password-toggle" tabindex="-1">
+                                        <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="form-buttons">
-                        <button type="button" id="to-contact" class="btn next-btn">Next <i
-                                class="fas fa-chevron-right"></i></button>
+                        <button type="button" id="to-contact" class="btn next-btn">Next <i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
-
+                
 
 
 
@@ -239,15 +483,13 @@
                             <label for="email">Email Address</label>
                             <input type="email" id="email" name="email" placeholder="Enter your email address" required>
                         </div>
-
+                        
                         <div class="form-group">
-                            <label for="alternativeEmail">Alternative Email <span
-                                    class="optional">(optional)</span></label>
-                            <input type="email" id="alternativeEmail" name="alternativeEmail"
-                                placeholder="Alternative email address">
+                            <label for="alternativeEmail">Alternative Email <span class="optional">(optional)</span></label>
+                            <input type="email" id="alternativeEmail" name="alternativeEmail" placeholder="Alternative email address">
                         </div>
                     </div>
-
+                    
                     <div class="form-row">
                         <div class="form-group phone-group">
                             <label for="phone">Phone Number</label>
@@ -336,151 +578,153 @@
                                         <option value="+243">🇨🇩 +243 (Democratic Republic of the Congo)</option>
                                         <option value="+244">🇦🇴 +244 (Angola)</option>
                                         <option value="+245">🇬🇼 +245 (Guinea-Bissau)</option>
-                                        <option value="+246">🇮🇴 +246 (British Indian Ocean Territory)</option>
-                                        <option value="+248">🇸🇨 +248 (Seychelles)</option>
-                                        <option value="+249">🇸🇩 +249 (Sudan)</option>
-                                        <option value="+250">🇷🇼 +250 (Rwanda)</option>
-                                        <option value="+251">🇪🇹 +251 (Ethiopia)</option>
-                                        <option value="+252">🇸🇴 +252 (Somalia)</option>
-                                        <option value="+253">🇩🇯 +253 (Djibouti)</option>
-                                        <option value="+254">🇰🇪 +254 (Kenya)</option>
-                                        <option value="+255">🇹🇿 +255 (Tanzania)</option>
-                                        <option value="+256">🇺🇬 +256 (Uganda)</option>
-                                        <option value="+257">🇧🇮 +257 (Burundi)</option>
-                                        <option value="+258">🇲🇿 +258 (Mozambique)</option>
-                                        <option value="+260">🇿🇲 +260 (Zambia)</option>
-                                        <option value="+261">🇲🇬 +261 (Madagascar)</option>
-                                        <option value="+262">🇷🇪 +262 (Réunion)</option>
-                                        <option value="+263">🇿🇼 +263 (Zimbabwe)</option>
-                                        <option value="+264">🇳🇦 +264 (Namibia)</option>
-                                        <option value="+265">🇲🇼 +265 (Malawi)</option>
-                                        <option value="+266">🇱🇸 +266 (Lesotho)</option>
-                                        <option value="+267">🇧🇼 +267 (Botswana)</option>
-                                        <option value="+268">🇸🇿 +268 (Eswatini)</option>
-                                        <option value="+269">🇰🇲 +269 (Comoros)</option>
+    <option value="+246">🇮🇴 +246 (British Indian Ocean Territory)</option>
+    <option value="+248">🇸🇨 +248 (Seychelles)</option>
+    <option value="+249">🇸🇩 +249 (Sudan)</option>
+    <option value="+250">🇷🇼 +250 (Rwanda)</option>
+    <option value="+251">🇪🇹 +251 (Ethiopia)</option>
+    <option value="+252">🇸🇴 +252 (Somalia)</option>
+    <option value="+253">🇩🇯 +253 (Djibouti)</option>
+    <option value="+254">🇰🇪 +254 (Kenya)</option>
+    <option value="+255">🇹🇿 +255 (Tanzania)</option>
+    <option value="+256">🇺🇬 +256 (Uganda)</option>
+    <option value="+257">🇧🇮 +257 (Burundi)</option>
+    <option value="+258">🇲🇿 +258 (Mozambique)</option>
+    <option value="+260">🇿🇲 +260 (Zambia)</option>
+    <option value="+261">🇲🇬 +261 (Madagascar)</option>
+    <option value="+262">🇷🇪 +262 (Réunion)</option>
+    <option value="+263">🇿🇼 +263 (Zimbabwe)</option>
+    <option value="+264">🇳🇦 +264 (Namibia)</option>
+    <option value="+265">🇲🇼 +265 (Malawi)</option>
+    <option value="+266">🇱🇸 +266 (Lesotho)</option>
+    <option value="+267">🇧🇼 +267 (Botswana)</option>
+    <option value="+268">🇸🇿 +268 (Eswatini)</option>
+    <option value="+269">🇰🇲 +269 (Comoros)</option>
                                     </optgroup>
                                     <optgroup label="Europe & Others">
-                                        <option value="+290">🇸🇭 +290 (Saint Helena)</option>
-                                        <option value="+291">🇪🇷 +291 (Eritrea)</option>
-                                        <option value="+297">🇦🇼 +297 (Aruba)</option>
-                                        <option value="+298">🇫🇴 +298 (Faroe Islands)</option>
-                                        <option value="+299">🇬🇱 +299 (Greenland)</option>
-                                        <option value="+350">🇬🇮 +350 (Gibraltar)</option>
-                                        <option value="+351">🇵🇹 +351 (Portugal)</option>
-                                        <option value="+352">🇱🇺 +352 (Luxembourg)</option>
-                                        <option value="+353">🇮🇪 +353 (Ireland)</option>
-                                        <option value="+354">🇮🇸 +354 (Iceland)</option>
-                                        <option value="+355">🇦🇱 +355 (Albania)</option>
-                                        <option value="+356">🇲🇹 +356 (Malta)</option>
-                                        <option value="+357">🇨🇾 +357 (Cyprus)</option>
-                                        <option value="+358">🇫🇮 +358 (Finland)</option>
-                                        <option value="+359">🇧🇬 +359 (Bulgaria)</option>
-                                        <option value="+370">🇱🇹 +370 (Lithuania)</option>
-                                        <option value="+371">🇱🇻 +371 (Latvia)</option>
-                                        <option value="+372">🇪🇪 +372 (Estonia)</option>
-                                        <option value="+373">🇲🇩 +373 (Moldova)</option>
-                                        <option value="+374">🇦🇲 +374 (Armenia)</option>
-                                        <option value="+375">🇧🇾 +375 (Belarus)</option>
-                                        <option value="+376">🇦🇩 +376 (Andorra)</option>
-                                        <option value="+377">🇲🇨 +377 (Monaco)</option>
-                                        <option value="+378">🇸🇲 +378 (San Marino)</option>
-                                        <option value="+380">🇺🇦 +380 (Ukraine)</option>
-                                        <option value="+381">🇷🇸 +381 (Serbia)</option>
-                                        <option value="+382">🇲🇪 +382 (Montenegro)</option>
-                                        <option value="+383">🇽🇰 +383 (Kosovo)</option>
-                                        <option value="+385">🇭🇷 +385 (Croatia)</option>
-                                        <option value="+386">🇸🇮 +386 (Slovenia)</option>
-                                        <option value="+387">🇧🇦 +387 (Bosnia and Herzegovina)</option>
-                                        <option value="+389">🇲🇰 +389 (North Macedonia)</option>
-                                        <option value="+420">🇨🇿 +420 (Czech Republic)</option>
-                                        <option value="+421">🇸🇰 +421 (Slovakia)</option>
-                                        <option value="+423">🇱🇮 +423 (Liechtenstein)</option>
+    <option value="+290">🇸🇭 +290 (Saint Helena)</option>
+    <option value="+291">🇪🇷 +291 (Eritrea)</option>
+    <option value="+297">🇦🇼 +297 (Aruba)</option>
+    <option value="+298">🇫🇴 +298 (Faroe Islands)</option>
+    <option value="+299">🇬🇱 +299 (Greenland)</option>
+    <option value="+350">🇬🇮 +350 (Gibraltar)</option>
+    <option value="+351">🇵🇹 +351 (Portugal)</option>
+    <option value="+352">🇱🇺 +352 (Luxembourg)</option>
+    <option value="+353">🇮🇪 +353 (Ireland)</option>
+    <option value="+354">🇮🇸 +354 (Iceland)</option>
+    <option value="+355">🇦🇱 +355 (Albania)</option>
+    <option value="+356">🇲🇹 +356 (Malta)</option>
+    <option value="+357">🇨🇾 +357 (Cyprus)</option>
+    <option value="+358">🇫🇮 +358 (Finland)</option>
+    <option value="+359">🇧🇬 +359 (Bulgaria)</option>
+    <option value="+370">🇱🇹 +370 (Lithuania)</option>
+    <option value="+371">🇱🇻 +371 (Latvia)</option>
+    <option value="+372">🇪🇪 +372 (Estonia)</option>
+    <option value="+373">🇲🇩 +373 (Moldova)</option>
+    <option value="+374">🇦🇲 +374 (Armenia)</option>
+    <option value="+375">🇧🇾 +375 (Belarus)</option>
+    <option value="+376">🇦🇩 +376 (Andorra)</option>
+    <option value="+377">🇲🇨 +377 (Monaco)</option>
+    <option value="+378">🇸🇲 +378 (San Marino)</option>
+    <option value="+380">🇺🇦 +380 (Ukraine)</option>
+    <option value="+381">🇷🇸 +381 (Serbia)</option>
+    <option value="+382">🇲🇪 +382 (Montenegro)</option>
+    <option value="+383">🇽🇰 +383 (Kosovo)</option>
+    <option value="+385">🇭🇷 +385 (Croatia)</option>
+    <option value="+386">🇸🇮 +386 (Slovenia)</option>
+    <option value="+387">🇧🇦 +387 (Bosnia and Herzegovina)</option>
+    <option value="+389">🇲🇰 +389 (North Macedonia)</option>
+    <option value="+420">🇨🇿 +420 (Czech Republic)</option>
+    <option value="+421">🇸🇰 +421 (Slovakia)</option>
+    <option value="+423">🇱🇮 +423 (Liechtenstein)</option>
                                     </optgroup>
                                     <optgroup label="Americas & Pacific">
-                                        <option value="+500">🇫🇰 +500 (Falkland Islands)</option>
-                                        <option value="+501">🇧🇿 +501 (Belize)</option>
-                                        <option value="+502">🇬🇹 +502 (Guatemala)</option>
-                                        <option value="+503">🇸🇻 +503 (El Salvador)</option>
-                                        <option value="+504">🇭🇳 +504 (Honduras)</option>
-                                        <option value="+505">🇳🇮 +505 (Nicaragua)</option>
-                                        <option value="+506">🇨🇷 +506 (Costa Rica)</option>
-                                        <option value="+507">🇵🇦 +507 (Panama)</option>
-                                        <option value="+508">🇵🇲 +508 (Saint Pierre and Miquelon)</option>
-                                        <option value="+509">🇭🇹 +509 (Haiti)</option>
-                                        <option value="+590">🇬🇵 +590 (Guadeloupe)</option>
-                                        <option value="+591">🇧🇴 +591 (Bolivia)</option>
-                                        <option value="+592">🇬🇾 +592 (Guyana)</option>
-                                        <option value="+593">🇪🇨 +593 (Ecuador)</option>
-                                        <option value="+594">🇬🇫 +594 (French Guiana)</option>
-                                        <option value="+595">🇵🇾 +595 (Paraguay)</option>
-                                        <option value="+596">🇲🇶 +596 (Martinique)</option>
-                                        <option value="+597">🇸🇷 +597 (Suriname)</option>
-                                        <option value="+598">🇺🇾 +598 (Uruguay)</option>
-                                        <option value="+599">🇨🇼 +599 (Curaçao)</option>
-                                        <option value="+670">🇹🇱 +670 (East Timor)</option>
-                                        <option value="+672">🇦🇶 +672 (Antarctica)</option>
-                                        <option value="+673">🇧🇳 +673 (Brunei)</option>
-                                        <option value="+674">🇳🇷 +674 (Nauru)</option>
-                                        <option value="+675">🇵🇬 +675 (Papua New Guinea)</option>
-                                        <option value="+676">🇹🇴 +676 (Tonga)</option>
-                                        <option value="+677">🇸🇧 +677 (Solomon Islands)</option>
-                                        <option value="+678">🇻🇺 +678 (Vanuatu)</option>
-                                        <option value="+679">🇫🇯 +679 (Fiji)</option>
-                                        <option value="+680">🇵🇼 +680 (Palau)</option>
-                                        <option value="+681">🇼🇫 +681 (Wallis and Futuna)</option>
-                                        <option value="+682">🇨🇰 +682 (Cook Islands)</option>
-                                        <option value="+683">🇳🇺 +683 (Niue)</option>
-                                        <option value="+684">🇦🇸 +684 (American Samoa)</option>
-                                        <option value="+685">🇼🇸 +685 (Samoa)</option>
-                                        <option value="+686">🇰🇮 +686 (Kiribati)</option>
-                                        <option value="+687">🇳🇨 +687 (New Caledonia)</option>
-                                        <option value="+688">🇹🇻 +688 (Tuvalu)</option>
-                                        <option value="+689">🇵🇫 +689 (French Polynesia)</option>
-                                        <option value="+690">🇹🇰 +690 (Tokelau)</option>
-                                        <option value="+691">🇫🇲 +691 (Micronesia)</option>
-                                        <option value="+692">🇲🇭 +692 (Marshall Islands)</option>
+    <option value="+500">🇫🇰 +500 (Falkland Islands)</option>
+    <option value="+501">🇧🇿 +501 (Belize)</option>
+    <option value="+502">🇬🇹 +502 (Guatemala)</option>
+    <option value="+503">🇸🇻 +503 (El Salvador)</option>
+    <option value="+504">🇭🇳 +504 (Honduras)</option>
+    <option value="+505">🇳🇮 +505 (Nicaragua)</option>
+    <option value="+506">🇨🇷 +506 (Costa Rica)</option>
+    <option value="+507">🇵🇦 +507 (Panama)</option>
+    <option value="+508">🇵🇲 +508 (Saint Pierre and Miquelon)</option>
+    <option value="+509">🇭🇹 +509 (Haiti)</option>
+    <option value="+590">🇬🇵 +590 (Guadeloupe)</option>
+    <option value="+591">🇧🇴 +591 (Bolivia)</option>
+    <option value="+592">🇬🇾 +592 (Guyana)</option>
+    <option value="+593">🇪🇨 +593 (Ecuador)</option>
+    <option value="+594">🇬🇫 +594 (French Guiana)</option>
+    <option value="+595">🇵🇾 +595 (Paraguay)</option>
+    <option value="+596">🇲🇶 +596 (Martinique)</option>
+    <option value="+597">🇸🇷 +597 (Suriname)</option>
+    <option value="+598">🇺🇾 +598 (Uruguay)</option>
+    <option value="+599">🇨🇼 +599 (Curaçao)</option>
+    <option value="+670">🇹🇱 +670 (East Timor)</option>
+    <option value="+672">🇦🇶 +672 (Antarctica)</option>
+    <option value="+673">🇧🇳 +673 (Brunei)</option>
+    <option value="+674">🇳🇷 +674 (Nauru)</option>
+    <option value="+675">🇵🇬 +675 (Papua New Guinea)</option>
+    <option value="+676">🇹🇴 +676 (Tonga)</option>
+    <option value="+677">🇸🇧 +677 (Solomon Islands)</option>
+    <option value="+678">🇻🇺 +678 (Vanuatu)</option>
+    <option value="+679">🇫🇯 +679 (Fiji)</option>
+    <option value="+680">🇵🇼 +680 (Palau)</option>
+    <option value="+681">🇼🇫 +681 (Wallis and Futuna)</option>
+    <option value="+682">🇨🇰 +682 (Cook Islands)</option>
+    <option value="+683">🇳🇺 +683 (Niue)</option>
+    <option value="+684">🇦🇸 +684 (American Samoa)</option>
+    <option value="+685">🇼🇸 +685 (Samoa)</option>
+    <option value="+686">🇰🇮 +686 (Kiribati)</option>
+    <option value="+687">🇳🇨 +687 (New Caledonia)</option>
+    <option value="+688">🇹🇻 +688 (Tuvalu)</option>
+    <option value="+689">🇵🇫 +689 (French Polynesia)</option>
+    <option value="+690">🇹🇰 +690 (Tokelau)</option>
+    <option value="+691">🇫🇲 +691 (Micronesia)</option>
+    <option value="+692">🇲🇭 +692 (Marshall Islands)</option>
                                     </optgroup>
                                     <optgroup label="Asia & Others">
-                                        <option value="+850">🇰🇵 +850 (North Korea)</option>
-                                        <option value="+852">🇭🇰 +852 (Hong Kong)</option>
-                                        <option value="+853">🇲🇴 +853 (Macau)</option>
-                                        <option value="+855">🇰🇭 +855 (Cambodia)</option>
-                                        <option value="+856">🇱🇦 +856 (Laos)</option>
-                                        <option value="+880">🇧🇩 +880 (Bangladesh)</option>
-                                        <option value="+886">🇹🇼 +886 (Taiwan)</option>
-                                        <option value="+960">🇲🇻 +960 (Maldives)</option>
-                                        <option value="+961">🇱🇧 +961 (Lebanon)</option>
-                                        <option value="+962">🇯🇴 +962 (Jordan)</option>
-                                        <option value="+963">🇸🇾 +963 (Syria)</option>
-                                        <option value="+964">🇮🇶 +964 (Iraq)</option>
-                                        <option value="+965">🇰🇼 +965 (Kuwait)</option>
-                                        <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
-                                        <option value="+967">🇾🇪 +967 (Yemen)</option>
-                                        <option value="+968">🇴🇲 +968 (Oman)</option>
-                                        <option value="+970">🇵🇸 +970 (Palestine)</option>
-                                        <option value="+971">🇦🇪 +971 (United Arab Emirates)</option>
-                                        <option value="+972">🇮🇱 +972 (Israel)</option>
-                                        <option value="+973">🇧🇭 +973 (Bahrain)</option>
-                                        <option value="+974">🇶🇦 +974 (Qatar)</option>
-                                        <option value="+975">🇧🇹 +975 (Bhutan)</option>
-                                        <option value="+976">🇲🇳 +976 (Mongolia)</option>
-                                        <option value="+977">🇳🇵 +977 (Nepal)</option>
-                                        <option value="+992">🇹🇯 +992 (Tajikistan)</option>
-                                        <option value="+993">🇹🇲 +993 (Turkmenistan)</option>
-                                        <option value="+994">🇦🇿 +994 (Azerbaijan)</option>
-                                        <option value="+995">🇬🇪 +995 (Georgia)</option>
-                                        <option value="+996">🇰🇬 +996 (Kyrgyzstan)</option>
-                                        <option value="+998">🇺🇿 +998 (Uzbekistan)</option>
+    <option value="+850">🇰🇵 +850 (North Korea)</option>
+    <option value="+852">🇭🇰 +852 (Hong Kong)</option>
+    <option value="+853">🇲🇴 +853 (Macau)</option>
+    <option value="+855">🇰🇭 +855 (Cambodia)</option>
+    <option value="+856">🇱🇦 +856 (Laos)</option>
+    <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+    <option value="+886">🇹🇼 +886 (Taiwan)</option>
+    <option value="+960">🇲🇻 +960 (Maldives)</option>
+    <option value="+961">🇱🇧 +961 (Lebanon)</option>
+    <option value="+962">🇯🇴 +962 (Jordan)</option>
+    <option value="+963">🇸🇾 +963 (Syria)</option>
+    <option value="+964">🇮🇶 +964 (Iraq)</option>
+    <option value="+965">🇰🇼 +965 (Kuwait)</option>
+    <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+    <option value="+967">🇾🇪 +967 (Yemen)</option>
+    <option value="+968">🇴🇲 +968 (Oman)</option>
+    <option value="+970">🇵🇸 +970 (Palestine)</option>
+    <option value="+971">🇦🇪 +971 (United Arab Emirates)</option>
+    <option value="+972">🇮🇱 +972 (Israel)</option>
+    <option value="+973">🇧🇭 +973 (Bahrain)</option>
+    <option value="+974">🇶🇦 +974 (Qatar)</option>
+    <option value="+975">🇧🇹 +975 (Bhutan)</option>
+    <option value="+976">🇲🇳 +976 (Mongolia)</option>
+    <option value="+977">🇳🇵 +977 (Nepal)</option>
+    <option value="+992">🇹🇯 +992 (Tajikistan)</option>
+    <option value="+993">🇹🇲 +993 (Turkmenistan)</option>
+    <option value="+994">🇦🇿 +994 (Azerbaijan)</option>
+    <option value="+995">🇬🇪 +995 (Georgia)</option>
+    <option value="+996">🇰🇬 +996 (Kyrgyzstan)</option>
+    <option value="+998">🇺🇿 +998 (Uzbekistan)</option>
                                     </optgroup>
-                                </select>
-                                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"
-                                    pattern="[0-9\s\-\+\(\)\.]*" inputmode="tel" maxlength="20"
-                                    onkeypress="return /[0-9\s\-\+\(\)\.#\*]/.test(event.key)"
-                                    oninput="this.value = this.value.replace(/[^0-9\s\-\+\(\)\.#\*]/g, ''); formatPhoneInput(this)"
-                                    required>
+</select>
+                                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" 
+                                       pattern="[0-9\s\-\+\(\)\.]*" 
+                                       inputmode="tel"
+                                       maxlength="20"
+                                       onkeypress="return /[0-9\s\-\+\(\)\.#\*]/.test(event.key)"
+                                       oninput="this.value = this.value.replace(/[^0-9\s\-\+\(\)\.#\*]/g, ''); formatPhoneInput(this)"
+                                       required>
                             </div>
                         </div>
-
+                        
                         <div class="form-group">
                             <label for="preferredContact">Preferred Contact Method</label>
                             <select id="preferredContact" name="preferredContact" required>
@@ -491,15 +735,13 @@
                             </select>
                         </div>
                     </div>
-
+                    
                     <div class="form-buttons">
-                        <button type="button" id="back-to-personal" class="btn back-btn"><i
-                                class="fas fa-chevron-left"></i> Back</button>
-                        <button type="button" id="to-address" class="btn next-btn">Next <i
-                                class="fas fa-chevron-right"></i></button>
+                        <button type="button" id="back-to-personal" class="btn back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+                        <button type="button" id="to-address" class="btn next-btn">Next <i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
-
+                
                 <div class="form-section" id="address-section">
                     <div class="form-row">
                         <div class="form-group">
@@ -509,7 +751,7 @@
                                 <!-- Countries will be populated by JavaScript -->
                             </select>
                         </div>
-
+                        
                         <div class="form-group">
                             <label for="state">State/Province</label>
                             <select id="state" name="state" required>
@@ -518,7 +760,7 @@
                             </select>
                         </div>
                     </div>
-
+                    
                     <div class="form-row">
                         <div class="form-group city-group">
                             <label for="city">City</label>
@@ -527,50 +769,45 @@
                                 <!-- Cities will be populated by JavaScript -->
                             </select>
                         </div>
-
+                        
                         <div class="form-group">
                             <label for="postalCode">Postal Code</label>
-                            <input type="text" id="postalCode" name="postalCode" placeholder="Enter postal code"
-                                required>
+                            <input type="text" id="postalCode" name="postalCode" placeholder="Enter postal code" required>
                         </div>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="streetAddress">Street Address</label>
-                        <input type="text" id="streetAddress" name="streetAddress" placeholder="e.g., 123 Luxury Avenue"
-                            required>
+                        <input type="text" id="streetAddress" name="streetAddress" placeholder="e.g., 123 Luxury Avenue" required>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="addressLine2">Address Line 2 <span class="optional">(optional)</span></label>
-                        <input type="text" id="addressLine2" name="addressLine2"
-                            placeholder="Apt, Suite, Unit, Building (optional)">
+                        <input type="text" id="addressLine2" name="addressLine2" placeholder="Apt, Suite, Unit, Building (optional)">
                     </div>
-
+                    
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="newsletter" name="newsletter">
                         <label for="newsletter">Subscribe to our newsletter for updates and exclusive offers</label>
                     </div>
-
+                    
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="marketing" name="marketing">
                         <label for="marketing">I agree to receive marketing communications</label>
                     </div>
-
+                    
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="termsConditions" name="termsConditions" required>
-                        <label for="termsConditions">I agree to the <a href="#" class="gold-link">Terms & Conditions</a>
-                            and <a href="#" class="gold-link">Privacy Policy</a></label>
+                        <label for="termsConditions">I agree to the <a href="#" class="gold-link">Terms & Conditions</a> and <a href="#" class="gold-link">Privacy Policy</a></label>
                     </div>
-
+                    
                     <div class="form-buttons">
-                        <button type="button" id="back-to-contact" class="btn back-btn"><i
-                                class="fas fa-chevron-left"></i> Back</button>
-                        <button type="submit" class="pay-btn">Become a Member</button>
+                        <button type="button" id="back-to-contact" class="btn back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+                            <button type="submit" class="pay-btn">Become a Member</button>
                     </div>
                 </div>
             </form>
-
+            
             <div class="login-links">
                 <p>Already have an account? <a href="signin.html" class="gold-link">Sign In</a></p>
                 <p><a href="#" class="gold-link forgot-password">Forgot Password?</a></p>
@@ -588,8 +825,7 @@
                     <li><i class="fas fa-check-circle"></i> Advanced profile features</li>
                 </ul>
                 <div class="testimonial">
-                    <p>"Joining the premium membership was the best decision I made this year. The exclusive benefits
-                        are truly exceptional."</p>
+                    <p>"Joining the premium membership was the best decision I made this year. The exclusive benefits are truly exceptional."</p>
                     <div class="testimonial-author">
                         <span>— Sophia Laurent</span>
                         <span class="member-type">Platinum Member</span>
@@ -624,9 +860,7 @@
             <div class="modal-body">
                 <div class="terms-content">
                     <h4>1. Acceptance of Terms</h4>
-                    <p>By accessing and using CelebMingle's premium membership services, you acknowledge that you have
-                        read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to
-                        these terms, please do not use our services.</p>
+                    <p>By accessing and using CelebMingle's premium membership services, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.</p>
 
                     <h4>2. Premium Membership</h4>
                     <p>Your premium membership grants you access to exclusive features including:</p>
@@ -649,33 +883,25 @@
                     </ul>
 
                     <h4>4. Payment and Billing</h4>
-                    <p>Premium membership fees are charged according to your selected plan. All payments are processed
-                        securely through our payment partners. Membership fees are non-refundable except where required
-                        by law.</p>
+                    <p>Premium membership fees are charged according to your selected plan. All payments are processed securely through our payment partners. Membership fees are non-refundable except where required by law.</p>
 
                     <h4>5. Privacy and Data Protection</h4>
-                    <p>We are committed to protecting your privacy. Your personal information is handled in accordance
-                        with our Privacy Policy, which forms an integral part of these terms.</p>
+                    <p>We are committed to protecting your privacy. Your personal information is handled in accordance with our Privacy Policy, which forms an integral part of these terms.</p>
 
                     <h4>6. Intellectual Property</h4>
-                    <p>All content, features, and functionality of CelebMingle are owned by us and are protected by
-                        copyright, trademark, and other intellectual property laws.</p>
+                    <p>All content, features, and functionality of CelebMingle are owned by us and are protected by copyright, trademark, and other intellectual property laws.</p>
 
                     <h4>7. Limitation of Liability</h4>
-                    <p>CelebMingle shall not be liable for any indirect, incidental, special, consequential, or punitive
-                        damages arising from your use of our services.</p>
+                    <p>CelebMingle shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services.</p>
 
                     <h4>8. Termination</h4>
-                    <p>We reserve the right to terminate or suspend your membership at any time for violation of these
-                        terms or for any other reason at our sole discretion.</p>
+                    <p>We reserve the right to terminate or suspend your membership at any time for violation of these terms or for any other reason at our sole discretion.</p>
 
                     <h4>9. Changes to Terms</h4>
-                    <p>We may update these terms from time to time. Continued use of our services after changes
-                        constitutes acceptance of the modified terms.</p>
+                    <p>We may update these terms from time to time. Continued use of our services after changes constitutes acceptance of the modified terms.</p>
 
                     <h4>10. Contact Information</h4>
-                    <p>For questions regarding these terms, please contact us at legal@celebmingle.com or through our
-                        customer support channels.</p>
+                    <p>For questions regarding these terms, please contact us at legal@celebmingle.com or through our customer support channels.</p>
 
                     <p class="last-updated">Last updated: June 26, 2025</p>
                 </div>
@@ -717,8 +943,7 @@
                     </ul>
 
                     <h4>3. Information Sharing</h4>
-                    <p>We do not sell, trade, or rent your personal information to third parties. We may share your
-                        information only in the following circumstances:</p>
+                    <p>We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:</p>
                     <ul>
                         <li>With your explicit consent</li>
                         <li>With trusted service providers who assist in our operations</li>
@@ -727,8 +952,7 @@
                     </ul>
 
                     <h4>4. Data Security</h4>
-                    <p>We implement industry-standard security measures to protect your personal information, including:
-                    </p>
+                    <p>We implement industry-standard security measures to protect your personal information, including:</p>
                     <ul>
                         <li>Encryption of sensitive data in transit and at rest</li>
                         <li>Regular security audits and monitoring</li>
@@ -747,25 +971,19 @@
                     </ul>
 
                     <h4>6. Cookies and Tracking</h4>
-                    <p>We use cookies and similar technologies to enhance your experience, analyze usage patterns, and
-                        provide personalized content. You can manage cookie preferences through your browser settings.
-                    </p>
+                    <p>We use cookies and similar technologies to enhance your experience, analyze usage patterns, and provide personalized content. You can manage cookie preferences through your browser settings.</p>
 
                     <h4>7. Third-Party Services</h4>
-                    <p>Our platform may integrate with third-party services. This privacy policy does not cover the
-                        practices of third parties, and we encourage you to review their privacy policies.</p>
+                    <p>Our platform may integrate with third-party services. This privacy policy does not cover the practices of third parties, and we encourage you to review their privacy policies.</p>
 
                     <h4>8. International Data Transfers</h4>
-                    <p>Your information may be transferred to and processed in countries other than your country of
-                        residence. We ensure appropriate safeguards are in place for such transfers.</p>
+                    <p>Your information may be transferred to and processed in countries other than your country of residence. We ensure appropriate safeguards are in place for such transfers.</p>
 
                     <h4>9. Children's Privacy</h4>
-                    <p>Our services are not intended for individuals under 18 years of age. We do not knowingly collect
-                        personal information from children.</p>
+                    <p>Our services are not intended for individuals under 18 years of age. We do not knowingly collect personal information from children.</p>
 
                     <h4>10. Changes to Privacy Policy</h4>
-                    <p>We may update this privacy policy periodically. We will notify you of significant changes through
-                        our platform or by email.</p>
+                    <p>We may update this privacy policy periodically. We will notify you of significant changes through our platform or by email.</p>
 
                     <h4>11. Contact Us</h4>
                     <p>For privacy-related questions or concerns, contact us at:</p>
@@ -784,155 +1002,219 @@
         </div>
     </div>
 
-
+    
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Password toggle functionality
-            const passwordToggles = document.querySelectorAll('.password-toggle');
-            passwordToggles.forEach(toggle => {
-                toggle.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    togglePasswordVisibility(this);
-                });
+document.addEventListener('DOMContentLoaded', function() {
+    // Password toggle functionality
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            togglePasswordVisibility(this);
+        });
+        
+        // Add keyboard support
+        toggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                togglePasswordVisibility(this);
+            }
+        });
+        
+        // Set initial attributes
+        toggle.setAttribute('title', 'Show password');
+        toggle.setAttribute('aria-label', 'Show password');
+        toggle.setAttribute('tabindex', '0');
+    });
+    
+    // Toggle password visibility function
+    function togglePasswordVisibility(toggle) {
+        // Get the password field from the wrapper
+        const passwordField = toggle.parentElement.querySelector('input');
+        const icon = toggle.querySelector('i');
+        
+        if (!passwordField) return; // Safety check
+        
+        // Store cursor position
+        const selectionStart = passwordField.selectionStart;
+        const selectionEnd = passwordField.selectionEnd;
+        
+        if (passwordField.type === 'password') {
+            // Show password
+            passwordField.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+            toggle.setAttribute('title', 'Hide password');
+            toggle.setAttribute('aria-label', 'Hide password');
+        } else {
+            // Hide password
+            passwordField.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+            toggle.setAttribute('title', 'Show password');
+            toggle.setAttribute('aria-label', 'Show password');
+        }
+        
+        // Restore cursor position and focus
+        setTimeout(() => {
+            passwordField.focus();
+            passwordField.setSelectionRange(selectionStart, selectionEnd);
+        }, 0);
+    }
 
-                // Add keyboard support
-                toggle.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        togglePasswordVisibility(this);
-                    }
-                });
+    // Enhanced Password Toggle Functionality
+    document.querySelectorAll('.password-input-wrapper').forEach(wrapper => {
+        const input = wrapper.querySelector('input[type="password"], input[type="text"]');
+        const toggle = wrapper.querySelector('.password-toggle');
+        const icon = toggle.querySelector('i');
 
-                // Set initial attributes
+        // Set initial state
+        toggle.setAttribute('title', 'Show password');
+        toggle.setAttribute('aria-label', 'Show password');
+        toggle.setAttribute('tabindex', '0');
+
+        function setVisibleState(visible) {
+            if (visible) {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                toggle.setAttribute('title', 'Hide password');
+                toggle.setAttribute('aria-label', 'Hide password');
+                wrapper.classList.add('password-visible');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
                 toggle.setAttribute('title', 'Show password');
                 toggle.setAttribute('aria-label', 'Show password');
-                toggle.setAttribute('tabindex', '0');
-            });
-
-            // Toggle password visibility function
-            function togglePasswordVisibility(toggle) {
-                // Get the password field from the wrapper
-                const passwordField = toggle.parentElement.querySelector('input');
-                const icon = toggle.querySelector('i');
-                if (!passwordField || !icon) return;
-                // Store cursor position
-                const selectionStart = passwordField.selectionStart;
-                const selectionEnd = passwordField.selectionEnd;
-                if (passwordField.type === 'password') {
-                    passwordField.type = 'text';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                    toggle.setAttribute('title', 'Hide password');
-                    toggle.setAttribute('aria-label', 'Hide password');
-                } else {
-                    passwordField.type = 'password';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                    toggle.setAttribute('title', 'Show password');
-                    toggle.setAttribute('aria-label', 'Show password');
-                }
-                setTimeout(() => {
-                    passwordField.setSelectionRange(selectionStart, selectionEnd);
-                    passwordField.focus();
-                }, 0);
+                wrapper.classList.remove('password-visible');
             }
+        }
 
-            // Tab navigation logic (should be outside togglePasswordVisibility)
-            const tabs = document.querySelectorAll('.tab');
-            const sections = document.querySelectorAll('.form-section');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function () {
-                    const target = this.getAttribute('data-tab');
-                    tabs.forEach(t => t.classList.remove('active'));
-                    sections.forEach(s => s.classList.remove('active'));
-                    this.classList.add('active');
-                    document.getElementById(target + '-section').classList.add('active');
-                });
-            });
+        // Toggle handler
+        function togglePassword() {
+            const isVisible = input.type === 'text';
+            // Preserve cursor position
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            setVisibleState(!isVisible);
+            setTimeout(() => {
+                input.focus();
+                input.setSelectionRange(start, end);
+            }, 0);
+        }
 
-            // Enhanced next button navigation with validation
-            nextBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const currentSection = this.closest('.form-section');
-                    const sectionId = currentSection.id;
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            togglePassword();
+        });
+        toggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                togglePassword();
+            }
+        });
+    });
+    // Form navigation
+    const tabs = document.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.form-section');
+    const nextBtns = document.querySelectorAll('.next-btn');
+    const backBtns = document.querySelectorAll('.back-btn');
 
-                    // Special validation for contact section
-                    if (sectionId === 'contact-section') {
-                        // Validate contact section before proceeding
-                        let isValid = true;
-                        let firstErrorField = null;
+    // Tab click navigation
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const target = this.getAttribute('data-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById(target + '-section').classList.add('active');
+        });
+    });
 
-                        // Check email
-                        if (!emailInput.value || !validateEmail(emailInput.value)) {
-                            showEmailError(emailInput, 'Please enter a valid email address');
-                            isValid = false;
-                            if (!firstErrorField) firstErrorField = emailInput;
-                        }
-
-                        // Check country code and phone
-                        if (!countryCodeSelect.value) {
-                            countryCodeSelect.classList.add('warning');
-                            isValid = false;
-                            if (!firstErrorField) firstErrorField = countryCodeSelect;
-                        }
-
-                        if (!phoneInput.value || !validatePhoneNumber(phoneInput.value, countryCodeSelect.value)) {
-                            showPhoneError('Please enter a valid phone number');
-                            isValid = false;
-                            if (!firstErrorField) firstErrorField = phoneInput;
-                        }
-
-                        // Check preferred contact method
-                        if (!preferredContactSelect.value) {
-                            preferredContactSelect.classList.add('warning');
-                            isValid = false;
-                            if (!firstErrorField) firstErrorField = preferredContactSelect;
-                        }
-
-                        if (!isValid) {
-                            // Focus on first error field
-                            if (firstErrorField) {
-                                firstErrorField.focus();
-                            }
-
-                            // Show notification
-                            showNotification('Please fill in all required contact information correctly', 'error');
-                            return;
-                        }
-
-                        // Clear any warnings
-                        clearEmailError(emailInput);
-                        clearEmailError(alternativeEmailInput);
-                        clearPhoneError();
-                        preferredContactSelect.classList.remove('warning');
-
-                        // Mark contact tab as completed
-                        document.querySelector('.tab[data-tab="contact"]').classList.add('completed');
+    // Enhanced next button navigation with validation
+    nextBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const currentSection = this.closest('.form-section');
+            const sectionId = currentSection.id;
+            
+            // Special validation for contact section
+            if (sectionId === 'contact-section') {
+                // Validate contact section before proceeding
+                let isValid = true;
+                let firstErrorField = null;
+                
+                // Check email
+                if (!emailInput.value || !validateEmail(emailInput.value)) {
+                    showEmailError(emailInput, 'Please enter a valid email address');
+                    isValid = false;
+                    if (!firstErrorField) firstErrorField = emailInput;
+                }
+                
+                // Check country code and phone
+                if (!countryCodeSelect.value) {
+                    countryCodeSelect.classList.add('warning');
+                    isValid = false;
+                    if (!firstErrorField) firstErrorField = countryCodeSelect;
+                }
+                
+                if (!phoneInput.value || !validatePhoneNumber(phoneInput.value, countryCodeSelect.value)) {
+                    showPhoneError('Please enter a valid phone number');
+                    isValid = false;
+                    if (!firstErrorField) firstErrorField = phoneInput;
+                }
+                
+                // Check preferred contact method
+                if (!preferredContactSelect.value) {
+                    preferredContactSelect.classList.add('warning');
+                    isValid = false;
+                    if (!firstErrorField) firstErrorField = preferredContactSelect;
+                }
+                
+                if (!isValid) {
+                    // Focus on first error field
+                    if (firstErrorField) {
+                        firstErrorField.focus();
                     }
+                    
+                    // Show notification
+                    showNotification('Please fill in all required contact information correctly', 'error');
+                    return;
+                }
+                
+                // Clear any warnings
+                clearEmailError(emailInput);
+                clearEmailError(alternativeEmailInput);
+                clearPhoneError();
+                preferredContactSelect.classList.remove('warning');
+                
+                // Mark contact tab as completed
+                document.querySelector('.tab[data-tab="contact"]').classList.add('completed');
+            }
+            
+            // Proceed to next section
+            let nextSection = currentSection.nextElementSibling;
+            while (nextSection && !nextSection.classList.contains('form-section')) {
+                nextSection = nextSection.nextElementSibling;
+            }
+            if (nextSection) {
+                sections.forEach(s => s.classList.remove('active'));
+                nextSection.classList.add('active');
+                // Activate corresponding tab
+                const tabName = nextSection.id.replace('-section', '');
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelector('.tab[data-tab="' + tabName + '"]').classList.add('active');
+            }
+        });
+    });
 
-                    // Proceed to next section
-                    let nextSection = currentSection.nextElementSibling;
-                    while (nextSection && !nextSection.classList.contains('form-section')) {
-                        nextSection = nextSection.nextElementSibling;
-                    }
-                    if (nextSection) {
-                        sections.forEach(s => s.classList.remove('active'));
-                        nextSection.classList.add('active');
-                        // Activate corresponding tab
-                        const tabName = nextSection.id.replace('-section', '');
-                        tabs.forEach(t => t.classList.remove('active'));
-                        document.querySelector('.tab[data-tab="' + tabName + '"]').classList.add('active');
-                    }
-                });
-            });
-
-            // Notification function
-            function showNotification(message, type = 'info') {
-                const notification = document.createElement('div');
-                const bgColor = type === 'error' ? '#ff6b6b' : type === 'success' ? '#51cf66' : '#339af0';
-
-                notification.style.cssText = `
+    // Notification function
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        const bgColor = type === 'error' ? '#ff6b6b' : type === 'success' ? '#51cf66' : '#339af0';
+        
+        notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
@@ -947,106 +1229,106 @@
             animation: slideInFromRight 0.3s ease-out;
             max-width: 300px;
         `;
-                notification.textContent = message;
-                document.body.appendChild(notification);
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideInFromRight 0.3s ease-out reverse';
+            setTimeout(() => notification.remove(), 300);
+        }, 4000);
+    }
 
-                setTimeout(() => {
-                    notification.style.animation = 'slideInFromRight 0.3s ease-out reverse';
-                    setTimeout(() => notification.remove(), 300);
-                }, 4000);
+    // Back button navigation
+    backBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const currentSection = this.closest('.form-section');
+            let prevSection = currentSection.previousElementSibling;
+            while (prevSection && !prevSection.classList.contains('form-section')) {
+                prevSection = prevSection.previousElementSibling;
             }
-
-            // Back button navigation
-            backBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const currentSection = this.closest('.form-section');
-                    let prevSection = currentSection.previousElementSibling;
-                    while (prevSection && !prevSection.classList.contains('form-section')) {
-                        prevSection = prevSection.previousElementSibling;
-                    }
-                    if (prevSection) {
-                        sections.forEach(s => s.classList.remove('active'));
-                        prevSection.classList.add('active');
-                        // Activate corresponding tab
-                        const tabName = prevSection.id.replace('-section', '');
-                        tabs.forEach(t => t.classList.remove('active'));
-                        document.querySelector('.tab[data-tab="' + tabName + '"]').classList.add('active');
-                    }
-                });
-            });
-
-            // Form submission
-            const registrationForm = document.getElementById('registrationForm');
-            registrationForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-                // Validate all required fields
-                const requiredFields = registrationForm.querySelectorAll('[required]');
-                let allValid = true;
-                requiredFields.forEach(field => {
-                    if ((field.type === 'checkbox' && !field.checked) || (field.type !== 'checkbox' && !field.value.trim())) {
-                        allValid = false;
-                        field.classList.add('error');
-                    } else {
-                        field.classList.remove('error');
-                    }
-                });
-                // Password match validation
-                const password = document.getElementById('password');
-                const confirmPassword = document.getElementById('confirmPassword');
-                if (password.value !== confirmPassword.value) {
-                    allValid = false;
-                    password.classList.add('error');
-                    confirmPassword.classList.add('error');
-                    alert('Passwords do not match.');
-                    return;
-                } else {
-                    password.classList.remove('error');
-                    confirmPassword.classList.remove('error');
-                }
-                // Email match validation (if alternative email is filled)
-                const email = document.getElementById('email');
-                const alternativeEmail = document.getElementById('alternativeEmail');
-                if (alternativeEmail.value && email.value !== alternativeEmail.value) {
-                    alternativeEmail.classList.add('error');
-                    alert('Alternative email must match the main email or leave it blank.');
-                    allValid = false;
-                    return;
-                } else {
-                    alternativeEmail.classList.remove('error');
-                }
-                if (!allValid) {
-                    alert('Please fill in all required fields and agree to the terms.');
-                    return;
-                }
-
-                // Show success overlay and handle redirect
-                const successOverlay = document.getElementById('successOverlay');
-                successOverlay.classList.add('show');
-
-                // After 5 seconds, redirect to payment page
-                setTimeout(() => {
-                    window.location.href = 'payment.html';
-                }, 2000);
-            });
+            if (prevSection) {
+                sections.forEach(s => s.classList.remove('active'));
+                prevSection.classList.add('active');
+                // Activate corresponding tab
+                const tabName = prevSection.id.replace('-section', '');
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelector('.tab[data-tab="' + tabName + '"]').classList.add('active');
+            }
         });
+    });
+
+    // Form submission
+    const registrationForm = document.getElementById('registrationForm');
+    registrationForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Validate all required fields
+        const requiredFields = registrationForm.querySelectorAll('[required]');
+        let allValid = true;
+        requiredFields.forEach(field => {
+            if ((field.type === 'checkbox' && !field.checked) || (field.type !== 'checkbox' && !field.value.trim())) {
+                allValid = false;
+                field.classList.add('error');
+            } else {
+                field.classList.remove('error');
+            }
+        });
+        // Password match validation
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        if (password.value !== confirmPassword.value) {
+            allValid = false;
+            password.classList.add('error');
+            confirmPassword.classList.add('error');
+            alert('Passwords do not match.');
+            return;
+        } else {
+            password.classList.remove('error');
+            confirmPassword.classList.remove('error');
+        }
+        // Email match validation (if alternative email is filled)
+        const email = document.getElementById('email');
+        const alternativeEmail = document.getElementById('alternativeEmail');
+        if (alternativeEmail.value && email.value !== alternativeEmail.value) {
+            alternativeEmail.classList.add('error');
+            alert('Alternative email must match the main email or leave it blank.');
+            allValid = false;
+            return;
+        } else {
+            alternativeEmail.classList.remove('error');
+        }
+        if (!allValid) {
+            alert('Please fill in all required fields and agree to the terms.');
+            return;
+        }
+        
+        // Show success overlay and handle redirect
+        const successOverlay = document.getElementById('successOverlay');
+        successOverlay.classList.add('show');
+
+        // After 5 seconds, redirect to payment page
+        setTimeout(() => {
+            window.location.href = 'payment.html';
+        }, 2000);
+    });
+});
     </script>
     <script>
         // Enhanced personal section functionality
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Enhanced name input auto-capitalization
             const nameInputs = document.querySelectorAll('#firstName, #lastName');
             nameInputs.forEach(input => {
-                input.addEventListener('input', function () {
+                input.addEventListener('input', function() {
                     // Capitalize first letter of each word
                     this.value = this.value.replace(/\b\w/g, letter => letter.toUpperCase());
                 });
             });
-
+            
             // Age calculator for birth year/month
             function updateAgeDisplay() {
                 const birthYear = document.getElementById('birthYear').value;
                 const birthMonth = document.getElementById('birthMonth').value;
-
+                
                 if (birthYear && birthMonth) {
                     const age = new Date().getFullYear() - parseInt(birthYear);
                     const ageDisplay = document.querySelector('.age-display') || document.createElement('div');
@@ -1058,113 +1340,39 @@
                         color: #c5a35a;
                     `;
                     ageDisplay.textContent = `You are ${age} years old`;
-
+                    
                     if (age < 18) {
                         ageDisplay.style.background = 'linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 107, 107, 0.2))';
                         ageDisplay.style.color = '#ff6b6b';
                         ageDisplay.textContent = `You must be 18 or older (currently ${age})`;
                     }
-
+                    
                     if (!document.querySelector('.age-display')) {
                         document.getElementById('birthMonth').parentNode.appendChild(ageDisplay);
                     }
                 }
             }
-
+            
             document.getElementById('birthYear')?.addEventListener('change', updateAgeDisplay);
             document.getElementById('birthMonth')?.addEventListener('change', updateAgeDisplay);
         });
     </script>
-
+    
     <!-- Registration Success Overlay -->
-    <div class="register-overlay"
-        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(5px);">
-        <div class="loading-spinner"
-            style="width: 60px; height: 60px; border: 4px solid rgba(255, 255, 255, 0.3); border-top: 4px solid #FFD700; border-radius: 50%; animation: spin 1s linear infinite;">
-        </div>
+    <div class="register-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(5px);">
+        <div class="loading-spinner" style="width: 60px; height: 60px; border: 4px solid rgba(255, 255, 255, 0.3); border-top: 4px solid #FFD700; border-radius: 50%; animation: spin 1s linear infinite;"></div>
         <div class="success-animation" style="display: none;">
             <!-- Enhanced success animation will be injected here -->
         </div>
     </div>
 
     <style>
-    .phone-input-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: linear-gradient(135deg, rgba(26,26,26,0.95), rgba(15,15,15,0.95));
-        border-radius: 10px;
-        padding: 12px 16px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-        border: 1px solid rgba(197,163,90,0.18);
-        margin-bottom: 8px;
-    }
-    .country-code-select {
-        background: #181818;
-        color: #FFD700;
-        border: 1px solid #c5a35a;
-        border-radius: 6px;
-        font-size: 1rem;
-        padding: 6px 10px;
-        min-width: 110px;
-        outline: none;
-        transition: border-color 0.2s;
-    }
-    .country-code-select:focus {
-        border-color: #FFD700;
-    }
-    #phone {
-        background: #181818;
-        color: #fff;
-        border: 1px solid #c5a35a;
-        border-radius: 6px;
-        font-size: 1rem;
-        padding: 6px 12px;
-        outline: none;
-        width: 100%;
-        transition: border-color 0.2s;
-    }
-    #phone:focus {
-        border-color: #FFD700;
-    }
-    .form-group.phone-group label {
-        font-weight: 600;
-        color: #FFD700;
-        margin-bottom: 6px;
-        display: block;
-        font-size: 1.05rem;
-    }
-    .form-group.phone-group {
-        margin-bottom: 18px;
-    }
-    .form-group.phone-group .error-message {
-        margin-top: 6px;
-        font-size: 0.95rem;
-        color: #ff6b6b;
-        background: rgba(255,107,107,0.08);
-        border-radius: 6px;
-        padding: 6px 10px;
-        font-weight: 500;
-    }
-    .eye-icon {
-        font-size: 1.1rem !important;
-        width: 18px !important;
-        height: 10px !important;
-        padding-right: 15px;
-        padding-bottom: 21px;
-        background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(15, 15, 15, 0.95));
-    }
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
-
+    
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-auth-compat.js"></script>
@@ -1173,193 +1381,215 @@
     <script src="scripts/register.js"></script>
     <script>
         // Enhanced phone formatting function
-        window.formatPhoneInput = function (input) {
-            // Remove all non-numeric characters except spaces, dashes, parentheses, dots, hash, and asterisk
-            let value = input.value.replace(/[^0-9\s\-\+\(\)\.#\*]/g, '');
-
-            // Basic formatting for common patterns
-            if (value.length <= 3) {
-                // Do nothing for first 3 digits
-            } else if (value.length <= 6) {
-                // Format as: 123-456
-                value = value.replace(/(\d{3})(\d{1,3})/, '$1-$2');
-            } else if (value.length <= 10) {
-                // Format as: 123-456-7890
-                value = value.replace(/(\d{3})(\d{3})(\d{1,4})/, '$1-$2-$3');
-            }
-
-            input.value = value;
-        };
-
-        // Email validation enhancement
-        const emailInput = document.getElementById('email');
-        const alternativeEmailInput = document.getElementById('alternativeEmail');
-
-        function validateEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
+    window.formatPhoneInput = function(input) {
+        // Remove all non-numeric characters except spaces, dashes, parentheses, dots, hash, and asterisk
+        let value = input.value.replace(/[^0-9\s\-\+\(\)\.#\*]/g, '');
+        
+        // Basic formatting for common patterns
+        if (value.length <= 3) {
+            // Do nothing for first 3 digits
+        } else if (value.length <= 6) {
+            // Format as: 123-456
+            value = value.replace(/(\d{3})(\d{1,3})/, '$1-$2');
+        } else if (value.length <= 10) {
+            // Format as: 123-456-7890
+            value = value.replace(/(\d{3})(\d{3})(\d{1,4})/, '$1-$2-$3');
         }
+        
+        input.value = value;
+    };
 
-        function showEmailError(input, message) {
-            input.classList.add('warning');
-            // Remove existing error message
-            const existingError = input.parentNode.querySelector('.error-message');
-            if (existingError) existingError.remove();
+    // Email validation enhancement
+    const emailInput = document.getElementById('email');
+    const alternativeEmailInput = document.getElementById('alternativeEmail');
+    
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    function showEmailError(input, message) {
+        input.classList.add('warning');
+        // Remove existing error message
+        const existingError = input.parentNode.querySelector('.error-message');
+        if (existingError) existingError.remove();
+        
+        // Add new error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.color = '#ff6b6b';
+        errorDiv.style.fontSize = '14px';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = message;
+        input.parentNode.appendChild(errorDiv);
+    }
+    
+    function clearEmailError(input) {
+        input.classList.remove('warning');
+        const existingError = input.parentNode.querySelector('.error-message');
+        if (existingError) existingError.remove();
+    }
 
-            // Add new error message
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.style.color = '#ff6b6b';
-            errorDiv.style.fontSize = '14px';
-            errorDiv.style.marginTop = '5px';
-            errorDiv.textContent = message;
-            input.parentNode.appendChild(errorDiv);
+    // Real-time email validation
+    emailInput.addEventListener('blur', function() {
+        if (this.value && !validateEmail(this.value)) {
+            showEmailError(this, 'Please enter a valid email address');
+        } else {
+            clearEmailError(this);
         }
+    });
 
-        function clearEmailError(input) {
-            input.classList.remove('warning');
-            const existingError = input.parentNode.querySelector('.error-message');
-            if (existingError) existingError.remove();
+    emailInput.addEventListener('input', function() {
+        if (this.classList.contains('warning') && validateEmail(this.value)) {
+            clearEmailError(this);
         }
+    });
 
-        // Real-time email validation
-        emailInput.addEventListener('blur', function () {
-            if (this.value && !validateEmail(this.value)) {
-                showEmailError(this, 'Please enter a valid email address');
+    // Alternative email validation (only if filled)
+    alternativeEmailInput.addEventListener('blur', function() {
+        if (this.value && !validateEmail(this.value)) {
+            showEmailError(this, 'Please enter a valid email address');
+        } else {
+            clearEmailError(this);
+        }
+    });
+
+    alternativeEmailInput.addEventListener('input', function() {
+        if (this.classList.contains('warning') && (this.value === '' || validateEmail(this.value))) {
+            clearEmailError(this);
+        }
+    });
+
+    // Phone number validation
+    const phoneInput = document.getElementById('phone');
+    const countryCodeSelect = document.getElementById('countryCode');
+    
+    function validatePhoneNumber(phone, countryCode) {
+        // Remove all non-numeric characters for validation
+        const cleanPhone = phone.replace(/[^0-9]/g, '');
+        
+        // Basic validation - at least 7 digits for most countries
+        if (cleanPhone.length < 7) {
+            return false;
+        }
+        
+        // Country-specific validation
+        if (countryCode === '+1') { // US/Canada
+            return cleanPhone.length === 10;
+        } else if (countryCode === '+44') { // UK
+            return cleanPhone.length >= 10 && cleanPhone.length <= 11;
+        } else if (countryCode === '+91') { // India
+            return cleanPhone.length === 10;
+        }
+        
+        // Default validation for other countries
+        return cleanPhone.length >= 7 && cleanPhone.length <= 15;
+    }
+    
+    function showPhoneError(message) {
+        phoneInput.classList.add('warning');
+        const existingError = phoneInput.parentNode.parentNode.querySelector('.error-message');
+        if (existingError) existingError.remove();
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.color = '#ff6b6b';
+        errorDiv.style.fontSize = '14px';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = message;
+        phoneInput.parentNode.parentNode.appendChild(errorDiv);
+    }
+    
+    function clearPhoneError() {
+        phoneInput.classList.remove('warning');
+        countryCodeSelect.classList.remove('warning');
+        const existingError = phoneInput.parentNode.parentNode.querySelector('.error-message');
+        if (existingError) existingError.remove();
+    }
+
+    phoneInput.addEventListener('blur', function() {
+        const countryCode = countryCodeSelect.value;
+        if (this.value && countryCode) {
+            if (!validatePhoneNumber(this.value, countryCode)) {
+                showPhoneError('Please enter a valid phone number for the selected country');
             } else {
-                clearEmailError(this);
-            }
-        });
-
-        emailInput.addEventListener('input', function () {
-            if (this.classList.contains('warning') && validateEmail(this.value)) {
-                clearEmailError(this);
-            }
-        });
-
-        // Alternative email validation (only if filled)
-        alternativeEmailInput.addEventListener('blur', function () {
-            if (this.value && !validateEmail(this.value)) {
-                showEmailError(this, 'Please enter a valid email address');
-            } else {
-                clearEmailError(this);
-            }
-        });
-
-        alternativeEmailInput.addEventListener('input', function () {
-            if (this.classList.contains('warning') && (this.value === '' || validateEmail(this.value))) {
-                clearEmailError(this);
-            }
-        });
-
-        // Phone number validation
-        const phoneInput = document.getElementById('phone');
-        const countryCodeSelect = document.getElementById('countryCode');
-
-        function validatePhoneNumber(phone, countryCode) {
-            // Remove all non-numeric characters for validation
-            const cleanPhone = phone.replace(/[^0-9]/g, '');
-
-            // Basic validation - at least 7 digits for most countries
-            if (cleanPhone.length < 7) {
-                return false;
-            }
-
-            // Country-specific validation
-            if (countryCode === '+1') { // US/Canada
-                return cleanPhone.length === 10;
-            } else if (countryCode === '+44') { // UK
-                return cleanPhone.length >= 10 && cleanPhone.length <= 11;
-            } else if (countryCode === '+91') { // India
-                return cleanPhone.length === 10;
-            }
-
-            // Default validation for other countries
-            return cleanPhone.length >= 7 && cleanPhone.length <= 15;
-        }
-
-        function showPhoneError(message) {
-            phoneInput.classList.add('warning');
-            const existingError = phoneInput.parentNode.parentNode.querySelector('.error-message');
-            if (existingError) existingError.remove();
-
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.style.color = '#ff6b6b';
-            errorDiv.style.fontSize = '14px';
-            errorDiv.style.marginTop = '5px';
-            errorDiv.textContent = message;
-            phoneInput.parentNode.parentNode.appendChild(errorDiv);
-        }
-
-        function clearPhoneError() {
-            phoneInput.classList.remove('warning');
-            countryCodeSelect.classList.remove('warning');
-            const existingError = phoneInput.parentNode.parentNode.querySelector('.error-message');
-            if (existingError) existingError.remove();
-        }
-
-        phoneInput.addEventListener('blur', function () {
-            const countryCode = countryCodeSelect.value;
-            if (this.value && countryCode) {
-                if (!validatePhoneNumber(this.value, countryCode)) {
-                    showPhoneError('Please enter a valid phone number for the selected country');
-                } else {
-                    clearPhoneError();
-                }
-            } else if (this.value && !countryCode) {
-                countryCodeSelect.classList.add('warning');
-                showPhoneError('Please select a country code');
-            }
-        });
-
-        countryCodeSelect.addEventListener('change', function () {
-            if (phoneInput.value && this.value) {
-                phoneInput.dispatchEvent(new Event('blur'));
-            } else if (this.value) {
                 clearPhoneError();
             }
-        });
-
-        // Preferred contact method visual feedback
-        const preferredContactSelect = document.getElementById('preferredContact');
-
-        preferredContactSelect.addEventListener('change', function () {
-            const emailRow = emailInput.closest('.form-row');
-            const phoneRow = phoneInput.closest('.form-row');
-
-            // Remove any previous highlighting
-            emailRow.style.backgroundColor = '';
-            phoneRow.style.backgroundColor = '';
-            emailRow.style.border = '';
-            phoneRow.style.border = '';
-
-            // Add visual feedback based on selection
-            if (this.value === 'email') {
-                emailRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
-                emailRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
-                emailRow.style.borderRadius = '8px';
-                emailRow.style.padding = '10px';
-            } else if (this.value === 'phone') {
-                phoneRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
-                phoneRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
-                phoneRow.style.borderRadius = '8px';
-                phoneRow.style.padding = '10px';
-            } else if (this.value === 'both') {
-                emailRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
-                emailRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
-                emailRow.style.borderRadius = '8px';
-                emailRow.style.padding = '10px';
-                phoneRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
-                phoneRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
-                phoneRow.style.borderRadius = '8px';
-                phoneRow.style.padding = '10px';
-            }
-        });
-
-        // Add CSS animation for notifications
-        if (!document.querySelector('#contact-notification-styles')) {
-
+        } else if (this.value && !countryCode) {
+            countryCodeSelect.classList.add('warning');
+            showPhoneError('Please select a country code');
         }
+    });
+
+    countryCodeSelect.addEventListener('change', function() {
+        if (phoneInput.value && this.value) {
+            phoneInput.dispatchEvent(new Event('blur'));
+        } else if (this.value) {
+            clearPhoneError();
+        }
+    });
+
+    // Preferred contact method visual feedback
+    const preferredContactSelect = document.getElementById('preferredContact');
+    
+    preferredContactSelect.addEventListener('change', function() {
+        const emailRow = emailInput.closest('.form-row');
+        const phoneRow = phoneInput.closest('.form-row');
+        
+        // Remove any previous highlighting
+        emailRow.style.backgroundColor = '';
+        phoneRow.style.backgroundColor = '';
+        emailRow.style.border = '';
+        phoneRow.style.border = '';
+        
+        // Add visual feedback based on selection
+        if (this.value === 'email') {
+            emailRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
+            emailRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
+            emailRow.style.borderRadius = '8px';
+            emailRow.style.padding = '10px';
+        } else if (this.value === 'phone') {
+            phoneRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
+            phoneRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
+            phoneRow.style.borderRadius = '8px';
+            phoneRow.style.padding = '10px';
+        } else if (this.value === 'both') {
+            emailRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
+            emailRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
+            emailRow.style.borderRadius = '8px';
+            emailRow.style.padding = '10px';
+            phoneRow.style.backgroundColor = 'rgba(197, 163, 90, 0.1)';
+            phoneRow.style.border = '1px solid rgba(197, 163, 90, 0.3)';
+            phoneRow.style.borderRadius = '8px';
+            phoneRow.style.padding = '10px';
+        }
+    });
+
+    // Add CSS animation for notifications
+    if (!document.querySelector('#contact-notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'contact-notification-styles';
+        style.textContent = `
+            @keyframes slideInFromRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            .error-message {
+                animation: fadeIn 0.3s ease-in;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
     </script>
 </body>
+</html>
