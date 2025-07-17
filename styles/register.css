@@ -1,3 +1,55 @@
+@media (max-width: 480px) {
+    .form-row.birthday-group .form-group {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+    .form-row.birthday-group {
+        padding: 0.2rem 0 !important;
+        gap: 0.5rem !important;
+    }
+    .form-row.birthday-group .form-group {
+        margin-bottom: 8px !important;
+    }
+    .form-row.birthday-group label {
+        font-size: 0.75rem !important;
+        margin-bottom: 4px !important;
+    }
+    .form-row.birthday-group select {
+        font-size: 0.8rem !important;
+        padding: 0.3rem 0.5rem !important;
+        min-width: 120px !important;
+        max-width: 180px !important;
+        height: 24px !important;
+    }
+    .form-row.birthday-group {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.5rem !important;
+    }
+
+    #firstName,
+    #lastName,
+    #gender {
+        width: 95% !important;
+        min-width: 180px !important;
+        max-width: 320px !important;
+        font-size: 0.95rem !important;
+        height: 32px !important;
+    }
+
+    #firstName:invalid,
+    #lastName:invalid,
+    #gender:invalid {
+        box-sizing: border-box;
+        width: 95% !important;
+        min-width: 180px !important;
+        max-width: 320px !important;
+    }
+}
+
 :root {
     --gold: #D4AF37;
     --gold-hover: #BFA532;
@@ -9,7 +61,8 @@
 
 
 body {
-    width: 90.90909090909091%; /* 100/1.1 to compensate for zoom */
+    width: 90.90909090909091%;
+    /* 100/1.1 to compensate for zoom */
     height: 90.90909090909091%;
     margin: 0;
     padding: 0;
@@ -22,7 +75,7 @@ body {
 .container {
     display: flex;
     max-width: 1400px;
-    margin: 0 auto;
+
     padding: 2rem;
     gap: 2rem;
 }
@@ -40,10 +93,12 @@ body {
         box-sizing: border-box;
         overflow-x: hidden;
     }
+
     .form-container {
         width: 100%;
         max-width: 480px;
-        margin: 0 auto !important;
+        margin-left: 10px;
+        margin-right: 10px;
         padding: 2vw 3vw 2vw 3vw !important;
         box-sizing: border-box;
     }
@@ -54,11 +109,13 @@ body {
     background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(15, 15, 15, 0.95));
     padding-right: 0px;
     border-radius: 15px;
-    border:none;
+    border: none;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-   
+     margin-left: 10px;
+     margin-right: 10px;
+
 }
 
 .form-header {
@@ -165,7 +222,8 @@ label {
     font-weight: 500;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 0.3rem 1rem;
     border: 1px solid rgba(212, 175, 55, 0.3);
@@ -175,7 +233,7 @@ input, select {
     font-size: 1rem;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     cursor: pointer;
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D4AF37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
@@ -303,12 +361,14 @@ input, select {
         flex-direction: column;
         align-items: stretch;
     }
+
     .country-code-select {
         width: 100%;
         max-width: 100%;
         border-right: none;
         border-bottom: 1px solid rgba(212, 175, 55, 0.3);
     }
+
     .phone-input-container input[type="tel"] {
         width: 100%;
         padding: 0.75rem 0.5rem;
@@ -327,10 +387,10 @@ select {
     font-size: 1.1rem;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     cursor: pointer;
     appearance: none;
-    
+
     /* Custom arrow styling */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D4AF37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -381,7 +441,7 @@ select option:checked {
         background-color: var(--dark);
         color: #fff;
     }
-    
+
     select:hover {
         border-color: var(--gold-hover);
     }
@@ -392,14 +452,14 @@ select:focus {
     outline: none;
     border-color: var(--gold);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2),
-                0 4px 8px rgba(0, 0, 0, 0.3);
+        0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 select:hover {
     background: linear-gradient(145deg, rgba(25, 25, 25, 0.95), rgba(35, 35, 35, 0.95));
     border-color: rgba(212, 175, 55, 0.4);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 select:focus {
@@ -407,7 +467,7 @@ select:focus {
     background: linear-gradient(145deg, rgba(28, 28, 28, 0.95), rgba(38, 38, 38, 0.95));
     border-color: var(--gold);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2),
-                0 6px 12px rgba(0, 0, 0, 0.3);
+        0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 select option {
@@ -422,19 +482,22 @@ select option:hover {
     color: #000;
 }
 
-input:hover, select:hover {
+input:hover,
+select:hover {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(212, 175, 55, 0.3);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--gold);
     background: rgba(212, 175, 55, 0.05);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--gold);
     background: rgba(212, 175, 55, 0.05);
@@ -526,12 +589,14 @@ input:focus, select:focus {
         flex-direction: column;
         align-items: stretch;
     }
+
     .country-code-select {
         width: 100%;
         max-width: 100%;
         border-right: none;
         border-bottom: 1px solid rgba(212, 175, 55, 0.3);
     }
+
     .phone-input-container input[type="tel"] {
         width: 100%;
         padding: 0.75rem 0.5rem;
@@ -550,10 +615,10 @@ select {
     font-size: 1.1rem;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     cursor: pointer;
     appearance: none;
-    
+
     /* Custom arrow styling */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D4AF37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -604,7 +669,7 @@ select option:checked {
         background-color: var(--dark);
         color: #fff;
     }
-    
+
     select:hover {
         border-color: var(--gold-hover);
     }
@@ -615,14 +680,14 @@ select:focus {
     outline: none;
     border-color: var(--gold);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2),
-                0 4px 8px rgba(0, 0, 0, 0.3);
+        0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 select:hover {
     background: linear-gradient(145deg, rgba(25, 25, 25, 0.95), rgba(35, 35, 35, 0.95));
     border-color: rgba(212, 175, 55, 0.4);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 select:focus {
@@ -630,7 +695,7 @@ select:focus {
     background: linear-gradient(145deg, rgba(28, 28, 28, 0.95), rgba(38, 38, 38, 0.95));
     border-color: var(--gold);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2),
-                0 6px 12px rgba(0, 0, 0, 0.3);
+        0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 select option {
@@ -645,19 +710,22 @@ select option:hover {
     color: #000;
 }
 
-input:hover, select:hover {
+input:hover,
+select:hover {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(212, 175, 55, 0.3);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--gold);
     background: rgba(212, 175, 55, 0.05);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--gold);
     background: rgba(212, 175, 55, 0.05);
@@ -749,12 +817,14 @@ input:focus, select:focus {
         flex-direction: column;
         align-items: stretch;
     }
+
     .country-code-select {
         width: 100%;
         max-width: 100%;
         border-right: none;
         border-bottom: 1px solid rgba(212, 175, 55, 0.3);
     }
+
     .phone-input-container input[type="tel"] {
         width: 100%;
         padding: 0.75rem 0.5rem;
@@ -767,13 +837,12 @@ input:focus, select:focus {
         position: relative;
         width: 100%;
     }
-    
     .password-input-wrapper input {
         padding-right: 2.5rem;
         height: 42px;
         font-size: 0.9rem;
     }
-    
+
     .password-toggle {
         position: absolute;
         right: 0.5rem;
@@ -797,7 +866,7 @@ input:focus, select:focus {
         font-size: 0.85rem;
         padding-right: 2.2rem;
     }
-    
+
     .password-toggle {
         width: 28px;
         height: 28px;
@@ -884,7 +953,8 @@ input:focus, select:focus {
 }
 
 /* Premium Birth Year and Month Dropdowns */
-#birthYear, #birthMonth {
+#birthYear,
+#birthMonth {
     width: 100%;
     padding: 0.8rem 3rem 0.8rem 1.2rem;
     border-radius: 10px;
@@ -897,10 +967,10 @@ input:focus, select:focus {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     appearance: none;
-    box-shadow: 
+    box-shadow:
         0 4px 15px rgba(0, 0, 0, 0.2),
         inset 0 1px 3px rgba(255, 255, 255, 0.1);
-    
+
     /* Custom dropdown arrow */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D4AF37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -908,28 +978,31 @@ input:focus, select:focus {
     background-size: 16px;
 }
 
-#birthYear:hover, #birthMonth:hover {
+#birthYear:hover,
+#birthMonth:hover {
     border-color: var(--gold);
     background: linear-gradient(135deg, #222, #333);
     transform: translateY(-2px);
-    box-shadow: 
+    box-shadow:
         0 8px 25px rgba(212, 175, 55, 0.15),
         inset 0 1px 3px rgba(255, 255, 255, 0.15);
 }
 
-#birthYear:focus, #birthMonth:focus {
+#birthYear:focus,
+#birthMonth:focus {
     outline: none;
     border-color: var(--gold);
     background: linear-gradient(135deg, #252525, #353535);
     transform: translateY(-1px);
-    box-shadow: 
+    box-shadow:
         0 12px 35px rgba(212, 175, 55, 0.25),
         inset 0 1px 3px rgba(255, 255, 255, 0.2),
         0 0 0 6px rgba(212, 175, 55, 0.15);
 }
 
 /* Premium dropdown options styling */
-#birthYear option, #birthMonth option {
+#birthYear option,
+#birthMonth option {
     background-color: #1a1a1a;
     color: #fff;
     padding: 1rem;
@@ -937,14 +1010,17 @@ input:focus, select:focus {
     border-bottom: 1px solid rgba(212, 175, 55, 0.1);
 }
 
-#birthYear option:hover, #birthMonth option:hover,
-#birthYear option:checked, #birthMonth option:checked {
+#birthYear option:hover,
+#birthMonth option:hover,
+#birthYear option:checked,
+#birthMonth option:checked {
     background: linear-gradient(135deg, var(--gold), var(--gold-hover));
     color: var(--darker);
 }
 
 /* Add subtle container styling for birth fields */
-.form-group:has(#birthYear), .form-group:has(#birthMonth) {
+.form-group:has(#birthYear),
+.form-group:has(#birthMonth) {
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.03), rgba(212, 175, 55, 0.01));
     border-radius: 12px;
     padding: 0.3rem;
@@ -952,7 +1028,8 @@ input:focus, select:focus {
 }
 
 /* Labels for birth fields */
-label[for="birthYear"], label[for="birthMonth"] {
+label[for="birthYear"],
+label[for="birthMonth"] {
     color: rgba(255, 255, 255, 0.95);
     font-weight: 600;
     font-size: 0.95rem;
@@ -1049,10 +1126,25 @@ input[type="password"]::-webkit-input-placeholder {
     transition: all 0.3s ease;
 }
 
-.strength-meter-fill[data-strength="1"] { width: 25%; background: #ff4444; }
-.strength-meter-fill[data-strength="2"] { width: 50%; background: #ffbb33; }
-.strength-meter-fill[data-strength="3"] { width: 75%; background: #00C851; }
-.strength-meter-fill[data-strength="4"] { width: 100%; background: var(--gold); }
+.strength-meter-fill[data-strength="1"] {
+    width: 25%;
+    background: #ff4444;
+}
+
+.strength-meter-fill[data-strength="2"] {
+    width: 50%;
+    background: #ffbb33;
+}
+
+.strength-meter-fill[data-strength="3"] {
+    width: 75%;
+    background: #00C851;
+}
+
+.strength-meter-fill[data-strength="4"] {
+    width: 100%;
+    background: var(--gold);
+}
 
 .strength-text {
     font-size: 0.8rem;
@@ -1184,12 +1276,14 @@ input[type="tel"]:focus {
     gap: 0.5rem;
 }
 
-.next-btn, .submit-btn {
+.next-btn,
+.submit-btn {
     background: var(--gold);
     color: var(--darker);
 }
 
-.next-btn:hover, .submit-btn:hover {
+.next-btn:hover,
+.submit-btn:hover {
     background: var(--gold-hover);
 }
 
@@ -1302,8 +1396,8 @@ input[type="tel"]:focus {
     border-radius: 20px;
     border: 1px solid rgba(212, 175, 55, 0.2);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 0 0 1px rgba(212, 175, 55, 0.1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(212, 175, 55, 0.1);
     width: 90%;
     max-width: 500px;
     position: relative;
@@ -1433,18 +1527,21 @@ input[type="tel"]:focus {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 480px) {
     .container {
         flex-direction: column;
     }
-    
+
     .sidebar {
         width: auto;
     }
 }
-
-

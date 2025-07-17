@@ -1,19 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Password show/hide toggle
-    document.querySelectorAll('.password-toggle').forEach(function(toggleBtn) {
-        toggleBtn.addEventListener('click', function() {
-            const input = this.parentElement.querySelector('input[type="password"], input[type="text"]');
-            const svg = this.querySelector('.eye-icon');
-            if (!input || !svg) return;
-            if (input.type === 'password') {
-                input.type = 'text';
-                svg.classList.remove('eye-slash');
-            } else {
-                input.type = 'password';
-                svg.classList.add('eye-slash');
-            }
-        });
-    });
     const auth = firebase.auth();
     const db = firebase.firestore();
     const registrationForm = document.getElementById('registrationForm');
