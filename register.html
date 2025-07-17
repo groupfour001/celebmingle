@@ -11,306 +11,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
         rel="stylesheet">
-    <style>
-        .warning {
-            border-color: #ff6b6b !important;
-        }
-
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: transparent !important;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c5a35a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        select:hover {
-            border-color: #c5a35a;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #c5a35a;
-            box-shadow: 0 0 10px rgba(197, 163, 90, 0.2);
-        }
-
-        select:disabled {
-            background-color: transparent !important;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        select option {
-            padding: 12px;
-            font-size: 16px;
-        }
-
-        /* Loading state animation */
-        select.loading {
-            background-color: transparent !important;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+PHBhdGggZmlsbD0iI2M1YTM1YSIgZD0iTTI1LDVBMjAuMTQsMjAuMTQsMCwwLDAsNSwyNUEyMCwyMCwwLDAsMCwyNSw0NSwyMCwyMCwwLDAsMCw0NSwyNSwyMC4xNCwyMC4xNCwwLDAsMCwyNSw1Wm0wLDM1QTE1LDE1LDAsMSwxLDQwLDI1LDE1LDE1LDAsMCwxLDI1LDQwWiI+PGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJyb3RhdGUiIGZyb209IjAgMjUgMjUiIHRvPSIzNjAgMjUgMjUiIGR1cj0iMC42cyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L3BhdGg+PC9zdmc+');
-        }
-
-        /* Custom scrollbar for dropdowns */
-        select::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        select::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        select::-webkit-scrollbar-thumb {
-            background: #c5a35a;
-            border-radius: 4px;
-        }
-
-        select::-webkit-scrollbar-thumb:hover {
-            background: #b18d3d;
-        }
-
-        .password-input-wrapper.password-visible input {
-            background-color: rgba(15, 15, 15, 0.85) !important;
-            border-color: #d4af37 !important;
-            color: #fff !important;
-        }
-
-        .password-input-wrapper .password-toggle[aria-label="Hide password"] {
-            color: #d4af37 !important;
-        }
-
-        .password-input-wrapper .password-toggle[aria-label="Hide password"]:hover {
-            color: #f4c842 !important;
-            background-color: rgba(212, 175, 55, 0.15) !important;
-        }
-
-        /* Force transparent background for all select states */
-        select,
-        select:focus,
-        select:hover,
-        select:active,
-        select:disabled,
-        select.loading {
-            background-color: transparent !important;
-        }
-
-        /* Override any inline styles that might set background */
-        #country,
-        #state,
-        #city,
-        #countryCode {
-            background-color: transparent !important;
-        }
-
-        /* Mobile-specific critical styles */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0.5rem !important;
-                gap: 0.5rem !important;
-            }
-
-            .form-container {
-                padding: 1rem !important;
-                margin: 0 !important;
-            }
-
-            .logo h1 {
-                font-size: 1.8rem !important;
-            }
-
-            .form-tabs {
-                overflow-x: auto !important;
-                scrollbar-width: none !important;
-                -ms-overflow-style: none !important;
-            }
-
-            .form-tabs::-webkit-scrollbar {
-                display: none !important;
-            }
-
-            .tab {
-                white-space: nowrap !important;
-                flex-shrink: 0 !important;
-                padding: 0.4rem 0.8rem !important;
-                font-size: 0.85rem !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0.3rem !important;
-            }
-
-            .form-container {
-                padding: 0.8rem !important;
-                border-radius: 8px !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-
-            .form-section {
-                width: 100% !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-
-            .form-row {
-                width: 100% !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                gap: 0.7rem !important;
-                margin-bottom: 0.7rem !important;
-            }
-
-            .form-group {
-                width: 100% !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                margin-bottom: 0.5rem !important;
-            }
-
-            .form-group input,
-            .form-group select {
-                width: 100% !important;
-                max-width: 320px !important;
-                margin: 0 auto !important;
-                height: 38px !important;
-                padding: 0.5rem 0.7rem !important;
-                font-size: 0.85rem !important;
-                text-align: center !important;
-            }
-
-            .form-group label {
-                font-size: 0.8rem !important;
-                margin-bottom: 0.2rem !important;
-                text-align: center !important;
-            }
-
-            .form-buttons {
-                width: 100% !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                gap: 0.5rem !important;
-                margin-top: 0.7rem !important;
-            }
-
-            .logo h1 {
-                font-size: 1.6rem !important;
-            }
-
-            .tab {
-                padding: 0.3rem 0.6rem !important;
-                font-size: 0.8rem !important;
-            }
-        }
-
-        /* Touch-friendly improvements */
-        @media (hover: none) and (pointer: coarse) {
-
-            input,
-            select,
-            button {
-                min-height: 44px !important;
-            }
-
-            .tab {
-                min-height: 44px !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-        }
-
-        .back-home-btn.premium-btn {
-            background: linear-gradient(90deg, #d4af37 0%, #c5a35a 100%);
-            color: #fff !important;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 28px 10px 18px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 12px rgba(197, 163, 90, 0.12);
-            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 1.5rem;
-            margin-top: 1.2rem;
-            text-decoration: none;
-        }
-
-        .back-home-btn.premium-btn:hover,
-        .back-home-btn.premium-btn:focus {
-            background: linear-gradient(90deg, #c5a35a 0%, #d4af37 100%);
-            color: #fff !important;
-            box-shadow: 0 4px 18px rgba(197, 163, 90, 0.18);
-            text-decoration: none;
-        }
-
-        .back-home-btn.premium-btn i {
-            color: #fff !important;
-            font-size: 1.2em;
-            margin-right: 8px;
-        }
-
-        @media (max-width: 480px) {
-            .back-home-btn.premium-btn {
-                font-size: 0.95rem;
-                padding: 8px 18px 8px 12px;
-            }
-        }
-
-        .pay-btn {
-            background: linear-gradient(90deg, #d4af37 0%, #c5a35a 100%);
-            color: #fff !important;
-            border: none;
-            border-radius: 30px;
-            padding: 12px 36px;
-            font-weight: 700;
-            font-size: 1.15rem;
-            box-shadow: 0 2px 16px rgba(197, 163, 90, 0.14);
-            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-            display: inline-block;
-            margin-top: 1.2rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-        }
-
-        .pay-btn:hover,
-        .pay-btn:focus {
-            background: linear-gradient(90deg, #c5a35a 0%, #d4af37 100%);
-            color: #fff !important;
-            box-shadow: 0 4px 22px rgba(197, 163, 90, 0.22);
-            outline: none;
-        }
-
-        @media (max-width: 480px) {
-            .pay-btn {
-                font-size: 1rem;
-                padding: 10px 22px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -501,8 +201,8 @@
                                         placeholder="Create a strong password" autocomplete="new-password"
                                         data-lpignore="true" data-form-type="password" spellcheck="false"
                                         autocapitalize="none" required>
-                                    <button type="button" class="password-toggle" tabindex="-1">
-                                        <i class="fas fa-eye"></i>
+                                    <button type="button" class="password-toggle" tabindex="-1" aria-label="Show password">
+                                        <i class="fa fa-eye-slash eye-icon" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -516,8 +216,8 @@
                                         placeholder="Confirm your password" autocomplete="new-password"
                                         data-lpignore="true" data-form-type="password" spellcheck="false"
                                         autocapitalize="none" required>
-                                    <button type="button" class="password-toggle" tabindex="-1">
-                                        <i class="fas fa-eye"></i>
+                                    <button type="button" class="password-toggle" tabindex="-1" aria-label="Show password">
+                                        <i class="fa fa-eye-slash eye-icon" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -1115,96 +815,32 @@
                 // Get the password field from the wrapper
                 const passwordField = toggle.parentElement.querySelector('input');
                 const icon = toggle.querySelector('i');
-
-                if (!passwordField) return; // Safety check
-
+                if (!passwordField || !icon) return;
                 // Store cursor position
                 const selectionStart = passwordField.selectionStart;
                 const selectionEnd = passwordField.selectionEnd;
-
                 if (passwordField.type === 'password') {
-                    // Show password
                     passwordField.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
                     toggle.setAttribute('title', 'Hide password');
                     toggle.setAttribute('aria-label', 'Hide password');
                 } else {
-                    // Hide password
                     passwordField.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
                     toggle.setAttribute('title', 'Show password');
                     toggle.setAttribute('aria-label', 'Show password');
                 }
-
-                // Restore cursor position and focus
                 setTimeout(() => {
-                    passwordField.focus();
                     passwordField.setSelectionRange(selectionStart, selectionEnd);
+                    passwordField.focus();
                 }, 0);
             }
 
-            // Enhanced Password Toggle Functionality
-            document.querySelectorAll('.password-input-wrapper').forEach(wrapper => {
-                const input = wrapper.querySelector('input[type="password"], input[type="text"]');
-                const toggle = wrapper.querySelector('.password-toggle');
-                const icon = toggle.querySelector('i');
-
-                // Set initial state
-                toggle.setAttribute('title', 'Show password');
-                toggle.setAttribute('aria-label', 'Show password');
-                toggle.setAttribute('tabindex', '0');
-
-                function setVisibleState(visible) {
-                    if (visible) {
-                        input.type = 'text';
-                        icon.classList.remove('fa-eye');
-                        icon.classList.add('fa-eye-slash');
-                        toggle.setAttribute('title', 'Hide password');
-                        toggle.setAttribute('aria-label', 'Hide password');
-                        wrapper.classList.add('password-visible');
-                    } else {
-                        input.type = 'password';
-                        icon.classList.remove('fa-eye-slash');
-                        icon.classList.add('fa-eye');
-                        toggle.setAttribute('title', 'Show password');
-                        toggle.setAttribute('aria-label', 'Show password');
-                        wrapper.classList.remove('password-visible');
-                    }
-                }
-
-                // Toggle handler
-                function togglePassword() {
-                    const isVisible = input.type === 'text';
-                    // Preserve cursor position
-                    const start = input.selectionStart;
-                    const end = input.selectionEnd;
-                    setVisibleState(!isVisible);
-                    setTimeout(() => {
-                        input.focus();
-                        input.setSelectionRange(start, end);
-                    }, 0);
-                }
-
-                toggle.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    togglePassword();
-                });
-                toggle.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        togglePassword();
-                    }
-                });
-            });
-            // Form navigation
+            // Tab navigation logic (should be outside togglePasswordVisibility)
             const tabs = document.querySelectorAll('.tab');
             const sections = document.querySelectorAll('.form-section');
-            const nextBtns = document.querySelectorAll('.next-btn');
-            const backBtns = document.querySelectorAll('.back-btn');
-
-            // Tab click navigation
             tabs.forEach(tab => {
                 tab.addEventListener('click', function () {
                     const target = this.getAttribute('data-tab');
@@ -1452,6 +1088,72 @@
     </div>
 
     <style>
+    .phone-input-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(135deg, rgba(26,26,26,0.95), rgba(15,15,15,0.95));
+        border-radius: 10px;
+        padding: 12px 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        border: 1px solid rgba(197,163,90,0.18);
+        margin-bottom: 8px;
+    }
+    .country-code-select {
+        background: #181818;
+        color: #FFD700;
+        border: 1px solid #c5a35a;
+        border-radius: 6px;
+        font-size: 1rem;
+        padding: 6px 10px;
+        min-width: 110px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    .country-code-select:focus {
+        border-color: #FFD700;
+    }
+    #phone {
+        background: #181818;
+        color: #fff;
+        border: 1px solid #c5a35a;
+        border-radius: 6px;
+        font-size: 1rem;
+        padding: 6px 12px;
+        outline: none;
+        width: 100%;
+        transition: border-color 0.2s;
+    }
+    #phone:focus {
+        border-color: #FFD700;
+    }
+    .form-group.phone-group label {
+        font-weight: 600;
+        color: #FFD700;
+        margin-bottom: 6px;
+        display: block;
+        font-size: 1.05rem;
+    }
+    .form-group.phone-group {
+        margin-bottom: 18px;
+    }
+    .form-group.phone-group .error-message {
+        margin-top: 6px;
+        font-size: 0.95rem;
+        color: #ff6b6b;
+        background: rgba(255,107,107,0.08);
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-weight: 500;
+    }
+    .eye-icon {
+        font-size: 1.1rem !important;
+        width: 18px !important;
+        height: 10px !important;
+        padding-right: 15px;
+        padding-bottom: 21px;
+        background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(15, 15, 15, 0.95));
+    }
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -1657,30 +1359,7 @@
 
         // Add CSS animation for notifications
         if (!document.querySelector('#contact-notification-styles')) {
-            const style = document.createElement('style');
-            style.id = 'contact-notification-styles';
-            style.textContent = `
-            @keyframes slideInFromRight {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            .error-message {
-                animation: fadeIn 0.3s ease-in;
-            }
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-        `;
-            document.head.appendChild(style);
+
         }
     </script>
 </body>
-
-</html>
