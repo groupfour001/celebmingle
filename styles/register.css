@@ -8,6 +8,14 @@ body {
     margin: 0;
     position: relative;
 }
+/* Style the calendar icon of the date input yellow for Chrome, Edge, Safari */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(68%) sepia(98%) saturate(748%) hue-rotate(2deg) brightness(105%) contrast(101%);
+}
+/* For Firefox */
+input[type="date"]::-moz-calendar-picker-indicator {
+    filter: invert(68%) sepia(98%) saturate(748%) hue-rotate(2deg) brightness(105%) contrast(101%);
+}
 
 .back-home-btn {
     display: inline-block;
