@@ -112,7 +112,24 @@
                 </div>
                 <div class="form-group checkbox-group terms-group">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the <a href="#" class="gold-link" style="color: rgb(157, 1, 192);">Terms & Conditions</a></label>
+<label for="terms">I agree to the <a href="#" class="gold-link" style="color: rgb(157, 1, 192);" id="termsLink">Terms & Conditions</a></label>
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10001; background: #181818; color: #FFD700; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); width: 90%; max-width: 480px; padding: 32px 24px; text-align: left;">
+    <h2 style="color: #FFD700; margin-top: 0;">Terms & Conditions</h2>
+    <div style="max-height: 320px; overflow-y: auto; font-size: 16px;">
+        <p>Welcome to CelebMingle! By registering, you agree to the following terms:</p>
+        <ul>
+            <li>Your account must be used in accordance with all applicable laws.</li>
+            <li>Content provided is for personal use only and may not be redistributed.</li>
+            <li>Respect all members and celebrities on the platform.</li>
+            <li>Do not share your password or personal information with others.</li>
+            <li>Membership benefits are subject to change at any time.</li>
+            <li>Violation of these terms may result in account suspension or termination.</li>
+        </ul>
+        <p>For full details, please contact support or visit our website.</p>
+    </div>
+    <button id="closeTermsModal" style="margin-top: 24px; background: #FFD700; color: #181818; border: none; border-radius: 8px; padding: 10px 24px; font-size: 16px; cursor: pointer; font-weight: bold;">Close</button>
+</div>
                 </div>
                 <button type="submit" class="btn register-btn">Register</button>
                 <div class="form-links">
@@ -152,9 +169,24 @@
             0% {
                 transform: rotate(0deg);
             }
-
             100% {
                 transform: rotate(360deg);
+            }
+        }
+        /* Center Terms Modal on mobile */
+        #termsModal {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @media (max-width: 600px) {
+            #termsModal {
+                width: 95vw;
+                max-width: 98vw;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 18px 8px;
             }
         }
     </style>
@@ -173,6 +205,14 @@
     <script src="scripts/firebase-config.js"></script>
     <script src="scripts/register.js"></script>
     <script>
+        // Terms & Conditions Modal Logic
+        document.getElementById('termsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('termsModal').style.display = 'block';
+        });
+        document.getElementById('closeTermsModal').addEventListener('click', function() {
+            document.getElementById('termsModal').style.display = 'none';
+        });
         function validateEmailInput() {
             const emailInput = document.getElementById('email');
             const emailValidIcon = document.getElementById('emailValidIcon');
