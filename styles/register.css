@@ -64,6 +64,62 @@
     --light-gold: rgba(212, 175, 55, 0.1);
 }
 
+/* Password field container and eye icon styling */
+.password {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.password input[type="password"],
+.password input[type="text"] {
+    padding-right: 2.8rem !important; /* space for eye icon */
+    box-sizing: border-box;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 1.3rem;
+    cursor: pointer;
+    opacity: 0.85;
+    z-index: 2;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.password-toggle:hover {
+    color: var(--gold-hover);
+    opacity: 1;
+}
+
+@media (max-width: 480px) {
+    .password {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .password input[type="password"],
+    .password input[type="text"] {
+        padding-right: 2.8rem !important;
+        height: 44px !important;
+        font-size: 1rem !important;
+    }
+    .password-toggle {
+        right: 0.8rem;
+        font-size: 1.4rem;
+    }
+}
+
 
 
 body {
