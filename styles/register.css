@@ -112,11 +112,25 @@
     .password input[type="text"] {
         padding-right: 2.8rem !important;
         height: 44px !important;
-        font-size: 1rem !important;
+        font-size: 0.8rem;
     }
     .password-toggle {
         right: 0.8rem;
         font-size: 1.4rem;
+    }
+
+    /* Ensure password labels stay on top of their fields for mobile */
+    .password-input-wrapper label[for="password"],
+    .password-input-wrapper label[for="confirmPassword"] {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 8px !important;
+        text-align: left !important;
+        font-size: 1.08rem !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        letter-spacing: 0.01em !important;
+        position: static !important;
     }
 }
 
