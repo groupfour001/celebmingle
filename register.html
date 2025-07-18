@@ -422,12 +422,82 @@
                 max-width: none;
             }
         }
+        /* Center .password div and adjust label/input alignment for mobile (300px+) */
+        @media (max-width: 480px) and (min-width: 300px) {
+            .password {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 100% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            .password .form-group {
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            .password label {
+                text-align: left !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+            .password-input-wrapper input[type="password"],
+            .password-input-wrapper input[type="text"] {
+                display: block !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: 95% !important;
+                min-width: 300px !important;
+                max-width: 380px !important;
+                margin-left: 0px;
+                /* maxlength property should be set in HTML input, not CSS */
+            }
+        }
     </style>
     <script>
-        // Custom validation for required fields on submit
+        // Custom validation for required fields and password match on submit
         document.addEventListener('DOMContentLoaded', function () {
             var form = document.getElementById('registrationForm');
             var payBtn = document.querySelector('button.pay-btn[type="submit"]');
+            var password = document.getElementById('password');
+            var confirmPassword = document.getElementById('confirmPassword');
+            // Real-time password match feedback
+            if (password && confirmPassword) {
+                var feedbackId = 'password-match-feedback';
+                var feedback = document.createElement('div');
+                feedback.id = feedbackId;
+                feedback.style.background = 'transparent';
+                feedback.style.color = '#ff6b6b';
+                feedback.style.padding = '4px 0 0 0';
+                feedback.style.fontWeight = '600';
+                feedback.style.fontSize = '0.95rem';
+                feedback.style.margin = '0 0 0 0';
+                feedback.style.position = 'relative';
+                feedback.style.zIndex = '10';
+                // Insert feedback after confirmPassword field
+                if (confirmPassword.parentNode) {
+                    confirmPassword.parentNode.insertBefore(feedback, confirmPassword.nextSibling);
+                }
+                function updateFeedback() {
+                    if (confirmPassword.value.length === 0) {
+                        feedback.textContent = '';
+                        return;
+                    }
+                    if (password.value !== confirmPassword.value) {
+                        feedback.textContent = 'Passwords do not match.';
+                        feedback.style.color = '#ff6b6b';
+                    } else {
+                        feedback.textContent = 'Passwords match.';
+                        feedback.style.color = '#2ecc40';
+                    }
+                }
+                password.addEventListener('input', updateFeedback);
+                confirmPassword.addEventListener('input', updateFeedback);
+            }
             if (form && payBtn) {
                 form.addEventListener('submit', function (e) {
                     var requiredFields = form.querySelectorAll('[required]');
@@ -443,6 +513,30 @@
                     // Remove any previous message
                     var oldMsg = document.getElementById('form-warning-msg');
                     if (oldMsg) oldMsg.remove();
+                    // Password match validation
+                    if (password && confirmPassword && password.value !== confirmPassword.value) {
+                        e.preventDefault();
+                        var msg = document.createElement('div');
+                        msg.id = 'form-warning-msg';
+                        msg.textContent = 'Passwords do not match.';
+                        msg.style.background = 'linear-gradient(90deg, #ff6b6b 0%, #c5a35a 100%)';
+                        msg.style.color = '#fff';
+                        msg.style.padding = '8px 18px';
+                        msg.style.borderRadius = '18px';
+                        msg.style.fontWeight = '600';
+                        msg.style.fontSize = '1rem';
+                        msg.style.margin = '8px 0';
+                        msg.style.boxShadow = '0 2px 12px rgba(197, 163, 90, 0.12)';
+                        msg.style.position = 'relative';
+                        msg.style.zIndex = '10';
+                        // Insert message after the confirmPassword field
+                        if (confirmPassword.parentNode) {
+                            confirmPassword.parentNode.insertBefore(msg, confirmPassword.nextSibling);
+                            confirmPassword.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            confirmPassword.focus();
+                        }
+                        return;
+                    }
                     if (firstInvalid) {
                         e.preventDefault();
                         // Create styled message
@@ -788,18 +882,18 @@
                                 <label for="password" style="display: block; width: 100%; margin-bottom: 8px; text-align: left; font-size: 0.85rem; font-weight: 400; color: #fff; letter-spacing: 0.01em; position: static;">Password</label>
                                 <input type="password" id="password" name="password" placeholder="Enter password"
                                     required autocomplete="new-password" autocorrect="off" autocapitalize="off"
-                                    spellcheck="false" style="height: 20px !important; min-height: 40px !important; max-height: 20px !important; font-size: 1rem;">
+                                    spellcheck="false" maxlength="15" style="height: 20px !important; min-height: 40px !important; max-height: 20px !important; font-size: 1rem;">
                                 <button type="button" class="password-toggle" aria-label="Show password" tabindex="-1">
-                                    <i class="fas fa-eye" style="margin-right: 40px;font-size: 15px;"></i>
+                                    <i class="fas fa-eye" style="margin-right: 1px;font-size: 15px;"></i>
                                 </button>
                             </div>
-                            <div class="form-group password-input-wrapper">
+                            <div class="form-group password-input-wrapper" style="margin-bottom: 15px;">
 <label for="confirmPassword" style="display: block; width: 100%; margin-bottom: 8px; text-align: left; font-size: 0.85rem; font-weight: 400; color: #fff; letter-spacing: 0.01em; position: static;">Confirm Password</label>
                                 <input type="password" id="confirmPassword" name="confirmPassword"
                                     placeholder="Confirm password" required autocomplete="new-password"
-                                    autocorrect="off" autocapitalize="off" spellcheck="false" style="height: 20px !important; min-height: 40px !important; max-height: 20px !important; font-size: 1rem;">
+                                    autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="15" style="height: 20px !important; min-height: 40px !important; max-height: 20px !important; font-size: 1rem;">
                                 <button type="button" class="password-toggle" aria-label="Show password" tabindex="-1">
-                                    <i class="fas fa-eye" style="margin-right: 40px;font-size: 15px;"></i>
+                                    <i class="fas fa-eye" style="margin-right: 1px;font-size: 15px;"></i>
                                 </button>
                             </div>
                         </div>
