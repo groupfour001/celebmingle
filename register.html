@@ -197,10 +197,14 @@
                 border-radius: 8px;
                 border: 1px solid #444;
                 box-sizing: border-box;
-                /* Remove background and color so native calendar icon shows */
                 background: unset;
-                color: unset;
+                color: white;
                 appearance: auto;
+            }
+            /* Make the calendar icon yellow on Webkit browsers */
+            .form-group .input-container input[type="date"]::-webkit-calendar-picker-indicator {
+                filter: brightness(0) saturate(100%) invert(81%) sepia(98%) saturate(749%) hue-rotate(1deg) brightness(105%);
+                /* This filter makes the icon yellow */
             }
             /* Only target the DOB input container, not all input-containers */
             .form-group .input-container#dob-container {
