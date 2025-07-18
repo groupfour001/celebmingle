@@ -511,19 +511,7 @@
       }
       setupPasswordToggle('.password-input-wrapper', 'input');
 
-      // Prevent browser autofill and clear password fields on focus
-      var passwordFields = [document.getElementById('password'), document.getElementById('confirmPassword')];
-      passwordFields.forEach(function(field) {
-        if (field) {
-          field.addEventListener('focus', function() {
-            // Clear any autofilled value
-            field.value = '';
-            // Set autocomplete to off and randomize name to prevent browser suggestions
-            field.setAttribute('autocomplete', 'off');
-            field.setAttribute('name', field.id + '-' + Math.random().toString(36).substring(2, 8));
-          });
-        }
-      });
+      // Removed JS that blocked password entry on iPhone
 
       // Tab switching logic for Next and Back buttons
       var nextBtn = document.getElementById('to-contact');
@@ -1361,12 +1349,6 @@
 
 
 
-    <script>
-        // JavaScript validation removed as requested.
-    </script>
-    <script>
-        // JavaScript validation removed as requested.
-    </script>
 </body>
 
 </html>
