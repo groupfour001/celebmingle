@@ -196,9 +196,11 @@
                 padding: 10px;
                 border-radius: 8px;
                 border: 1px solid #444;
-                background: #181818;
-                color: #FFD700;
                 box-sizing: border-box;
+                /* Remove background and color so native calendar icon shows */
+                background: unset;
+                color: unset;
+                appearance: auto;
             }
             /* Only target the DOB input container, not all input-containers */
             .form-group .input-container#dob-container {
