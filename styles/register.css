@@ -837,49 +837,8 @@ select:focus {
     }
 }
 
-/* Password Input Mobile Optimization */
-@media (max-width: 768px) {
-    .password-input-wrapper {
-        position: relative;
-        width: 100%;
-    }
-    .password-input-wrapper input {
-        padding-right: 2.5rem;
-        height: 42px;
-        font-size: 0.9rem;
-    }
 
-    .password-toggle {
-        position: absolute;
-        right: 0.5rem;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 32px;
-        height: 32px;
-        background: none;
-        border: none;
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.9rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
 
-@media (max-width: 480px) {
-    .password-input-wrapper input {
-        height: 38px;
-        font-size: 0.85rem;
-        padding-right: 2.2rem;
-    }
-
-    .password-toggle {
-        width: 28px;
-        height: 28px;
-        font-size: 0.85rem;
-        right: 0.4rem;
-    }
-}
 
 .form-group.date-group {
     position: relative;
@@ -1043,80 +1002,7 @@ label[for="birthMonth"] {
     display: block;
 }
 
-/* Hide password field dropdown arrows and autofill suggestions */
-input[type="password"]::-webkit-textfield-decoration-container,
-input[type="password"]::-webkit-credentials-auto-fill-button,
-input[type="password"]::-webkit-strong-password-auto-fill-button {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
 
-input[type="password"]::-webkit-reveal {
-    display: none !important;
-}
-
-input[type="password"]::-ms-reveal {
-    display: none !important;
-}
-
-/* Additional browser-specific hiding */
-input[type="password"] {
-    -webkit-text-security: disc !important;
-}
-
-input[type="password"]::-webkit-input-placeholder {
-    -webkit-text-security: none !important;
-}
-
-.password-input {
-    position: relative;
-    background: transparent;
-}
-
-.password-input input[type="password"] {
-    width: 100%;
-    background: linear-gradient(145deg, rgba(18, 18, 18, 0.95), rgba(30, 30, 30, 0.95));
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1.1rem;
-    padding: 1rem 2.5rem 1rem 1.2rem;
-    transition: all 0.3s ease;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
-.password-input input[type="password"]:hover {
-    border-color: rgba(212, 175, 55, 0.4);
-    background: rgba(30, 30, 30, 0.95);
-}
-
-.password-input input[type="password"]:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-    background: rgba(30, 30, 30, 0.98);
-}
-
-.toggle-password {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 2;
-    opacity: 0.7;
-    font-size: 1.1rem;
-}
-
-.toggle-password:hover {
-    opacity: 1;
-    color: var(--gold-hover);
-}
 
 .strength-meter {
     height: 4px;

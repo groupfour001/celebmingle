@@ -9,6 +9,89 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextBtns = document.querySelectorAll('.next-btn');
     const backBtns = document.querySelectorAll('.back-btn');
 
+    // Navigation function
+    function showSection(targetSection) {
+        // Hide all sections
+        sections.forEach(section => section.classList.remove('active'));
+        // Remove active class from all tabs
+        tabs.forEach(tab => tab.classList.remove('active'));
+        
+        // Show target section
+        const sectionElement = document.getElementById(targetSection + '-section');
+        if (sectionElement) {
+            sectionElement.classList.add('active');
+        }
+        
+        // Add active class to corresponding tab
+        const targetTab = document.querySelector(`[data-tab="${targetSection}"]`);
+        if (targetTab) {
+            targetTab.classList.add('active');
+        }
+    }
+
+    // Tab click navigation
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const target = this.getAttribute('data-tab');
+            showSection(target);
+        });
+    });
+
+    // Next button navigation
+    document.getElementById('to-contact')?.addEventListener('click', function() {
+        // Enhanced personal section validation
+        if (validatePersonalSection()) {
+            showSection('contact');
+            // Mark personal tab as completed
+            const personalTab = document.querySelector('[data-tab="personal"]');
+            if (personalTab) {
+                personalTab.classList.add('completed');
+            }
+        }
+    });
+
+    document.getElementById('to-address')?.addEventListener('click', function() {
+        // Enhanced contact section validation
+        if (validateContactSection()) {
+            showSection('address');
+            // Mark contact tab as completed
+            const contactTab = document.querySelector('[data-tab="contact"]');
+            if (contactTab) {
+                contactTab.classList.add('completed');
+            }
+        }
+    });
+
+    // Back button navigation
+    document.getElementById('back-to-personal')?.addEventListener('click', function() {
+        showSection('personal');
+    });
+
+    document.getElementById('back-to-contact')?.addEventListener('click', function() {
+        showSection('contact');
+    });
+
+    // Password toggle functionality
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Get the password field from the wrapper
+            const passwordField = this.parentElement.querySelector('input');
+            const icon = this.querySelector('i');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+
     // Setup country-state-city selection
     const countrySelect = document.getElementById('country');
     const stateSelect = document.getElementById('state');
@@ -632,8 +715,58 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
     
-   
+    // Password strength validation
+    function validatePasswordStrength(password) {
+        let score = 0;
+        let message = '';
+        
+        if (password.length < 8) {
+            return { score: 0, message: 'Password must be at least 8 characters long' };
+        }
+        
+        // Length bonus
+        if (password.length >= 8) score += 1;
+        if (password.length >= 12) score += 1;
+        
+        // Character variety
+        if (/[a-z]/.test(password)) score += 1;
+        if (/[A-Z]/.test(password)) score += 1;
+        if (/[0-9]/.test(password)) score += 1;
+        if (/[^a-zA-Z0-9]/.test(password)) score += 1;
+        
+        // Determine strength
+        if (score < 3) {
+            message = 'Password is weak. Add uppercase, lowercase, numbers, and symbols.';
+        } else if (score < 4) {
+            message = 'Password is moderate. Consider adding more variety.';
+        } else if (score < 5) {
+            message = 'Password is strong.';
+        } else {
+            message = 'Password is very strong!';
+        }
+        
+        return { score, message };
+    }
     
+    // Helper functions for field validation
+    function showFieldError(input, message) {
+        input.classList.add('warning');
+        clearFieldError(input);
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.color = '#ff6b6b';
+        errorDiv.style.fontSize = '14px';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = message;
+        
+        // For password fields, append to the password-input-container instead of the wrapper
+        if (input.closest('.password-input-container')) {
+            input.closest('.password-input-container').appendChild(errorDiv);
+        } else {
+            input.parentNode.appendChild(errorDiv);
+        }
+    }
     
     function clearFieldError(input) {
         // For password fields, look in the password-input-container
@@ -1196,8 +1329,98 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-
-                   
+    // Password strength validation with real-time feedback
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function() {
+            const strength = validatePasswordStrength(this.value);
+            const container = this.closest('.password-input-container');
+            
+            // Remove existing strength indicator
+            const existingIndicator = container.querySelector('.password-strength');
+            if (existingIndicator) existingIndicator.remove();
+            
+            if (this.value.length > 0) {
+                // Create strength indicator
+                const strengthDiv = document.createElement('div');
+                strengthDiv.className = 'password-strength';
+                strengthDiv.style.cssText = `
+                    margin-top: 5px;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    font-weight: 500;
+                `;
+                
+                if (strength.score < 3) {
+                    strengthDiv.style.backgroundColor = 'rgba(255, 107, 107, 0.1)';
+                    strengthDiv.style.color = '#ff6b6b';
+                    strengthDiv.style.border = '1px solid rgba(255, 107, 107, 0.3)';
+                } else if (strength.score < 5) {
+                    strengthDiv.style.backgroundColor = 'rgba(255, 193, 7, 0.1)';
+                    strengthDiv.style.color = '#ffc107';
+                    strengthDiv.style.border = '1px solid rgba(255, 193, 7, 0.3)';
+                } else {
+                    strengthDiv.style.backgroundColor = 'rgba(81, 207, 102, 0.1)';
+                    strengthDiv.style.color = '#51cf66';
+                    strengthDiv.style.border = '1px solid rgba(81, 207, 102, 0.3)';
+                }
+                
+                strengthDiv.textContent = strength.message;
+                container.appendChild(strengthDiv);
+                
+                // Update field validation state
+                if (strength.score >= 3) {
+                    this.classList.remove('warning');
+                    container.classList.add('validated');
+                } else {
+                    this.classList.add('warning');
+                    container.classList.remove('validated');
+                }
+            }
+        });
+    }
+    
+    // Confirm password validation
+    if (confirmPasswordInput && passwordInput) {
+        confirmPasswordInput.addEventListener('input', function() {
+            const container = this.closest('.password-input-container');
+            
+            if (this.value.length > 0) {
+                if (this.value === passwordInput.value) {
+                    clearFieldError(this);
+                    this.classList.remove('warning');
+                    container.classList.add('validated');
+                    
+                    // Show match indicator
+                    const matchDiv = document.createElement('div');
+                    matchDiv.className = 'password-match';
+                    matchDiv.style.cssText = `
+                        margin-top: 5px;
+                        padding: 5px 10px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        font-weight: 500;
+                        background-color: rgba(81, 207, 102, 0.1);
+                        color: #51cf66;
+                        border: 1px solid rgba(81, 207, 102, 0.3);
+                    `;
+                    matchDiv.textContent = '✓ Passwords match';
+                    
+                    const existingMatch = container.querySelector('.password-match');
+                    if (existingMatch) existingMatch.remove();
+                    container.appendChild(matchDiv);
+                } else {
+                    showFieldError(this, 'Passwords do not match');
+                    this.classList.add('warning');
+                    container.classList.remove('validated');
+                    
+                    const existingMatch = container.querySelector('.password-match');
+                    if (existingMatch) existingMatch.remove();
+                }
+            }
+        });
+    }
+    
     // Registration Success Animation Functions
     function showRegistrationOverlay() {
         console.log('Showing registration overlay...');
