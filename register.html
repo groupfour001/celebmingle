@@ -12,6 +12,13 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
         rel="stylesheet">
     <style>
+        /* Hide all form sections except the one with .active */
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
         /* Prevent firstName and lastName fields from resizing */
         #firstName,
         #lastName {
@@ -631,57 +638,60 @@
                 }
             });
 
-            // Tab switching logic for Next and Back buttons
-            var nextBtn = document.getElementById('to-contact');
-            var backBtn = document.getElementById('back-to-personal');
-            var toAddressBtn = document.getElementById('to-address');
-            var backToContactBtn = document.getElementById('back-to-contact');
+            // Tab switching logic for Next and Back buttons (robust)
             var personalSection = document.getElementById('personal-section');
             var contactSection = document.getElementById('contact-section');
             var addressSection = document.getElementById('address-section');
             var tabButtons = document.querySelectorAll('.form-tabs .tab');
-            nextBtn.addEventListener('click', function () {
-                // Hide personal section, show contact section
-                personalSection.classList.remove('active');
-                contactSection.classList.add('active');
-                // Switch tab highlight
-                tabButtons.forEach(function (btn) {
-                    btn.classList.remove('active');
-                });
-                document.querySelector('.form-tabs .tab[data-tab="contact"]').classList.add('active');
-            });
 
-            backBtn.addEventListener('click', function () {
-                // Hide contact section, show personal section
-                contactSection.classList.remove('active');
-                personalSection.classList.add('active');
-                // Switch tab highlight
-                tabButtons.forEach(function (btn) {
-                    btn.classList.remove('active');
-                });
-                document.querySelector('.form-tabs .tab[data-tab="personal"]').classList.add('active');
-            });
-
-            toAddressBtn.addEventListener('click', function () {
-                // Hide contact section, show address section
-                contactSection.classList.remove('active');
-                addressSection.classList.add('active');
-                // Switch tab highlight
-                tabButtons.forEach(function (btn) {
-                    btn.classList.remove('active');
-                });
-                document.querySelector('.form-tabs .tab[data-tab="address"]').classList.add('active');
-            });
-
-            backToContactBtn.addEventListener('click', function () {
-                // Hide address section, show contact section
-                addressSection.classList.remove('active');
-                contactSection.classList.add('active');
-                // Switch tab highlight
-                tabButtons.forEach(function (btn) {
-                    btn.classList.remove('active');
-                });
-                document.querySelector('.form-tabs .tab[data-tab="contact"]').classList.add('active');
+            document.addEventListener('click', function (e) {
+                // Helper: hide all form sections
+                function hideAllSections() {
+                    var sections = document.querySelectorAll('.form-section');
+                    sections.forEach(function (sec) {
+                        sec.classList.remove('active');
+                    });
+                }
+                // Next to Contact
+                if (e.target && e.target.id === 'to-contact') {
+                    hideAllSections();
+                    if (contactSection) contactSection.classList.add('active');
+                    tabButtons.forEach(function (btn) {
+                        btn.classList.remove('active');
+                    });
+                    var contactTab = document.querySelector('.form-tabs .tab[data-tab="contact"]');
+                    if (contactTab) contactTab.classList.add('active');
+                }
+                // Back to Personal
+                if (e.target && e.target.id === 'back-to-personal') {
+                    hideAllSections();
+                    if (personalSection) personalSection.classList.add('active');
+                    tabButtons.forEach(function (btn) {
+                        btn.classList.remove('active');
+                    });
+                    var personalTab = document.querySelector('.form-tabs .tab[data-tab="personal"]');
+                    if (personalTab) personalTab.classList.add('active');
+                }
+                // Next to Address
+                if (e.target && e.target.id === 'to-address') {
+                    hideAllSections();
+                    if (addressSection) addressSection.classList.add('active');
+                    tabButtons.forEach(function (btn) {
+                        btn.classList.remove('active');
+                    });
+                    var addressTab = document.querySelector('.form-tabs .tab[data-tab="address"]');
+                    if (addressTab) addressTab.classList.add('active');
+                }
+                // Back to Contact
+                if (e.target && e.target.id === 'back-to-contact') {
+                    hideAllSections();
+                    if (contactSection) contactSection.classList.add('active');
+                    tabButtons.forEach(function (btn) {
+                        btn.classList.remove('active');
+                    });
+                    var contactTab2 = document.querySelector('.form-tabs .tab[data-tab="contact"]');
+                    if (contactTab2) contactTab2.classList.add('active');
+                }
             });
         });
     </script>
@@ -897,11 +907,6 @@
                                 </button>
                             </div>
                         </div>
-
-
-
-
-
                         <div class="form-buttons">
                             <button type="button" id="to-contact" class="btn next-btn">Next <i
                                     class="fas fa-chevron-right"></i></button>
@@ -1178,6 +1183,13 @@
                                     class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
+
+
+
+
+
+
+
 
                     <div class="form-section" id="address-section">
                         <div class="form-row">
