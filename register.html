@@ -368,8 +368,13 @@
             align-items: center;
             flex-direction: row;
             flex-wrap: wrap;
-            margin-left: -10px;
-            margin-right: -10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            max-width: 480px;
+            box-sizing: border-box;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         .center-birthday-group .form-group {
@@ -407,6 +412,51 @@
         }
     </style>
     <script>
+    // Custom validation for required fields on submit
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.getElementById('registrationForm');
+      var payBtn = document.querySelector('button.pay-btn[type="submit"]');
+      if (form && payBtn) {
+        form.addEventListener('submit', function(e) {
+          var requiredFields = form.querySelectorAll('[required]');
+          var firstInvalid = null;
+          requiredFields.forEach(function(field) {
+            if ((field.type === 'checkbox' && !field.checked) || (field.value.trim() === '')) {
+              if (!firstInvalid) firstInvalid = field;
+              field.classList.add('warning');
+            } else {
+              field.classList.remove('warning');
+            }
+          });
+          // Remove any previous message
+          var oldMsg = document.getElementById('form-warning-msg');
+          if (oldMsg) oldMsg.remove();
+          if (firstInvalid) {
+            e.preventDefault();
+            // Create styled message
+            var msg = document.createElement('div');
+            msg.id = 'form-warning-msg';
+            msg.textContent = 'Please fill out this field.';
+            msg.style.background = 'linear-gradient(90deg, #ff6b6b 0%, #c5a35a 100%)';
+            msg.style.color = '#fff';
+            msg.style.padding = '8px 18px';
+            msg.style.borderRadius = '18px';
+            msg.style.fontWeight = '600';
+            msg.style.fontSize = '1rem';
+            msg.style.margin = '8px 0';
+            msg.style.boxShadow = '0 2px 12px rgba(197, 163, 90, 0.12)';
+            msg.style.position = 'relative';
+            msg.style.zIndex = '10';
+            // Insert message after the invalid field
+            if (firstInvalid.parentNode) {
+              firstInvalid.parentNode.insertBefore(msg, firstInvalid.nextSibling);
+              firstInvalid.scrollIntoView({behavior: 'smooth', block: 'center'});
+              firstInvalid.focus();
+            }
+          }
+        });
+      }
+    });
     // Prevent pinch zoom and double-tap zoom on mobile for .form-tabs
     document.addEventListener('DOMContentLoaded', function() {
       var tabs = document.querySelector('.form-tabs');
@@ -579,9 +629,23 @@
                     </div>
 
                     
-                    <div class="form-row birthday-group center-birthday-group" style="line-height: 2px;margin-bottom: 20px;background: var(--darker);">
+                    <div class="form-row birthday-group center-birthday-group" style="line-height: 2px;
+                    margin-bottom: 20px;
+                    background: var(--darker);
+                    margin-right: auto;
+                    margin-left: auto;
+                    width: 100%;
+                    max-width: 480px;
+                    box-sizing: border-box;
+                    padding-right: 0px;">
                         <div class="form-group"
-                            style="margin-bottom: 15px;background: var(--darker); margin-left: 1px; margin-right: 8px; min-width: 120px; max-width: 180px;">
+                            style="margin-bottom: 15px;
+                            background: var(--darker); 
+                            margin-left: 1px; 
+                            margin-right: 28px;
+                            padding-right: 0px;
+                             min-width: 120px; 
+                             max-width: 180px;">
                             <label for="birthYear" style="margin-bottom: 6px;padding-top: 28px;">Year of Birth</label>
                             <select id="birthYear" name="birthYear" required
                                 style="height: 48px; margin-left: 0; margin-right: 0; min-width: 120px; max-width: 180px;">
@@ -686,7 +750,7 @@
                         </div>
 
                         <div class="form-group"
-                            style="margin-bottom: 15px;background: var(--darker); margin-left: 0px; margin-right: 18px;padding-left: 0px; min-width: 120px; max-width: 180px;">
+                            style="margin-bottom: 15px;background: var(--darker); margin-left: 0px; margin-right: 28px;padding-left: 0px; min-width: 120px; max-width: 180px;">
                             <label for="birthMonth" style="margin-bottom: 6px;padding-top: 28px;">Month of Birth</label>
                             <select id="birthMonth" name="birthMonth" required
                                 style="height: 48px; margin-left: 0; margin-right: 0; min-width: 120px; max-width: 180px;">
