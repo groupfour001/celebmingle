@@ -604,15 +604,14 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
 
 .tier-card:hover {
     transform: translateY(-15px);
-    border: 2px solid var(--accent-color);
-    box-shadow: 
-        0 20px 30px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(218, 165, 32, 0.4);
+    border: 1px solid var(--gray-medium);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
 }
 
 .tier-card:hover::after {
-    transform: scale(1.5);
-    opacity: 1;
+    /* Remove yellow glow on hover */
+    transform: scale(0);
+    opacity: 0;
 }
 
 .tier-card:hover > * {
@@ -627,7 +626,7 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
 }
 
 .tier-card.featured:hover {
-    border: 2px solid var(--accent-color);
+    border: 1px solid var(--gray-medium);
     box-shadow: 
         0 25px 35px rgba(0, 0, 0, 0.5),
         0 0 40px rgba(218, 165, 32, 0.5);
