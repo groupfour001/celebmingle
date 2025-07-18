@@ -412,51 +412,7 @@
         }
     </style>
     <script>
-    // Custom validation for required fields on submit
-    document.addEventListener('DOMContentLoaded', function() {
-      var form = document.getElementById('registrationForm');
-      var payBtn = document.querySelector('button.pay-btn[type="submit"]');
-      if (form && payBtn) {
-        form.addEventListener('submit', function(e) {
-          var requiredFields = form.querySelectorAll('[required]');
-          var firstInvalid = null;
-          requiredFields.forEach(function(field) {
-            if ((field.type === 'checkbox' && !field.checked) || (field.value.trim() === '')) {
-              if (!firstInvalid) firstInvalid = field;
-              field.classList.add('warning');
-            } else {
-              field.classList.remove('warning');
-            }
-          });
-          // Remove any previous message
-          var oldMsg = document.getElementById('form-warning-msg');
-          if (oldMsg) oldMsg.remove();
-          if (firstInvalid) {
-            e.preventDefault();
-            // Create styled message
-            var msg = document.createElement('div');
-            msg.id = 'form-warning-msg';
-            msg.textContent = 'Please fill out this field.';
-            msg.style.background = 'linear-gradient(90deg, #ff6b6b 0%, #c5a35a 100%)';
-            msg.style.color = '#fff';
-            msg.style.padding = '8px 18px';
-            msg.style.borderRadius = '18px';
-            msg.style.fontWeight = '600';
-            msg.style.fontSize = '1rem';
-            msg.style.margin = '8px 0';
-            msg.style.boxShadow = '0 2px 12px rgba(197, 163, 90, 0.12)';
-            msg.style.position = 'relative';
-            msg.style.zIndex = '10';
-            // Insert message after the invalid field
-            if (firstInvalid.parentNode) {
-              firstInvalid.parentNode.insertBefore(msg, firstInvalid.nextSibling);
-              firstInvalid.scrollIntoView({behavior: 'smooth', block: 'center'});
-              firstInvalid.focus();
-            }
-          }
-        });
-      }
-    });
+    
     // Prevent pinch zoom and double-tap zoom on mobile for .form-tabs
     document.addEventListener('DOMContentLoaded', function() {
       var tabs = document.querySelector('.form-tabs');
@@ -511,28 +467,7 @@
       }
       setupPasswordToggle('.password-input-wrapper', 'input');
 
-      // Removed JS that blocked password entry on iPhone
-
-      // Tab switching logic for Next and Back buttons
-      var nextBtn = document.getElementById('to-contact');
-      var backBtn = document.getElementById('back-to-personal');
-      var toAddressBtn = document.getElementById('to-address');
-      var backToContactBtn = document.getElementById('back-to-contact');
-      var personalSection = document.getElementById('personal-section');
-      var contactSection = document.getElementById('contact-section');
-      var addressSection = document.getElementById('address-section');
-      var tabButtons = document.querySelectorAll('.form-tabs .tab');
-      nextBtn.addEventListener('click', function() {
-        // Hide personal section, show contact section
-        personalSection.classList.remove('active');
-        contactSection.classList.add('active');
-        // Switch tab highlight
-        tabButtons.forEach(function(btn) {
-          btn.classList.remove('active');
-        });
-        document.querySelector('.form-tabs .tab[data-tab="contact"]').classList.add('active');
-      });
-
+     
       backBtn.addEventListener('click', function() {
         // Hide contact section, show personal section
         contactSection.classList.remove('active');
