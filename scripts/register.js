@@ -206,7 +206,8 @@ document.addEventListener("DOMContentLoaded", function() {
       option.textContent = country.name + " " + country.code;
       countryCodeSelect.appendChild(option);
     });
-    countryCodeSelect.value = "+234"; // Default to Nigeria
+    
+    countryCodeSelect.value = "+1"; // Default to United States
     countryCodeDisplay.textContent = countryCodeSelect.value;
     countryCodeSelect.addEventListener("change", function() {
       countryCodeDisplay.textContent = countryCodeSelect.value;

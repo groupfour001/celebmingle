@@ -28,8 +28,10 @@
                 <div id="registerMessage" class="messageDiv" style="display: none;"></div>
                 <div class="form-group">
                     <label for="name">Full Name</label>
-                    <div class="input-container">
-                        <input type="text" id="name" name="name" placeholder="Enter your full name"
+                    <div class="input-container"  style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+
+                        <input type="text" id="name" name="name" placeholder="Surname, Firstname, other{optional}"
                             required pattern="[A-Za-z ]{1,45}" maxlength="45"
                             oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'');"
                             style="box-sizing: border-box; width: 100%; overflow: hidden; 
@@ -38,38 +40,35 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <div class="input-container">
-                        <div class="input-container" style="width: 100%; display: flex;
-                         align-items: center; gap: 8px;">
-                            <select id="countryCode" name="countryCode" style="height: 40px;width: 80px; 
-                            border-radius: 8px; background: #181818; color: #b3b3b2;font-size: 16px;">
-                                <!-- Country codes will be populated by JS -->
-                            </select>
-                            <span id="countryCodeDisplay"
-                                style="margin-left: 8px; color: #00faf2; font-size: 16px; font-weight: bold;"></span>
-                            </select>
-                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required
-                                pattern="[0-9]{1,20}" maxlength="20" inputmode="numeric" style="flex: 1;"
-                                oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                        </div>
+                    <div class="input-container" style="display: flex;
+                    flex-direction: row; align-items: center; gap: 10px; max-width: 340px;
+                     margin-left: 15px; margin-right: auto; width: 90%;">
+                        <select id="countryCode" name="countryCode" style="height: 40px; min-width: 70px; max-width: 120px; width: 90px; border-radius: 8px; background: #181818; color: #FFD700; font-size: 16px; border: 1px solid #444; padding: 0 8px; text-align: left;">
+                            <!-- Country codes will be populated by JS -->
+                        </select>
+                        <span id="countryCodeDisplay" style="margin-left: 0px; margin-right:1px; color: #00faf2; font-size: 14px; font-weight: bold;"></span>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required pattern="[0-9]{1,20}" maxlength="20" inputmode="numeric" style="flex: 1; min-width: 120px;" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <div class="input-container" style="justify-content: flex-start; display: flex;width: 47%;">
+                    <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
                         <input type="date" id="dob" name="dob" required max="2025-12-31" style="margin-left: 0;">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <div class="input-container" style="position: relative;">
+                    <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
                         <input type="email" id="email" name="email" placeholder="Enter your email address" required oninput="validateEmailInput()" style="padding-right: 32px;">
                         <span id="emailValidIcon" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #28a745; display: none;"><i class="fas fa-check-circle"></i></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="confirmEmail">Confirm Email Address</label>
-                    <div class="input-container" style="position: relative;">
+                        <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
                         <input type="email" id="confirmEmail" name="confirmEmail"
                             placeholder="Confirm your email address" required oninput="validateEmailMatch()" style="padding-right: 32px;">
                         <span id="emailMatchIcon" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #28a745; display: none;"><i class="fas fa-check-circle"></i></span>
@@ -79,14 +78,16 @@
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <div class="input-container">
+                    <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
                         <input type="text" id="address" name="address" placeholder="Enter your home address" required>
                     </div>
                 </div>
                 <div class="form-group">
                      <label for="address">New Password</label>
                     <div class="input-container password-input"
-                        style="background: #181818; border-radius: 8px; border: 1px solid #444; max-width: 320px; width: 90%; margin-left: auto; margin-right: auto; box-sizing: border-box; height: 48px; display: flex; align-items: center; position: relative;">
+                        style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
                         <input type="password" id="password" name="password" placeholder="Create a password" required
                             autocomplete="new-password"
                             style="max-width: 100%; width: 100%; height: 48px; background: transparent !important; color: #d4af37; border-radius: 8px; border: none; box-sizing: border-box; margin: 0; padding: 0 16px; display: block;">
@@ -98,7 +99,8 @@
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
                     <div class="input-container password-input"
-                        style="background: #181818; border-radius: 8px; border: 1px solid #444; max-width: 320px; width: 90%; margin-left: auto; margin-right: auto; box-sizing: border-box; height: 48px; display: flex; align-items: center; position: relative;">
+                        style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
                         <input type="password" id="confirmPassword" name="confirmPassword"
                             placeholder="Confirm your password" required autocomplete="new-password"
                             style="max-width: 100%; width: 100%; height: 48px; background: transparent !important;
@@ -131,9 +133,11 @@
     <button id="closeTermsModal" style="margin-top: 24px; background: #FFD700; color: #181818; border: none; border-radius: 8px; padding: 10px 24px; font-size: 16px; cursor: pointer; font-weight: bold;">Close</button>
 </div>
                 </div>
-                <button type="submit" class="btn register-btn">Register</button>
+                <button type="submit" class="btn register-btn"  style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">Register</button>
                 <div class="form-links">
-                    <a href="signin.html" class="signin-link">Already have an account? Sign In</a>
+                    <a href="signin.html" class="signin-link" style="color: white;margin-right: 40px;">
+                        Already have an account? <span style="color: #FFD700;">Sign In</span></a>
                 </div>
             </form>
         </div>
