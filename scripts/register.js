@@ -280,12 +280,47 @@ registerForm.addEventListener('submit', function(e) {
     // Show loading overlay
     overlay.style.display = 'flex';
 
-    // Simulate registration (replace with Firebase logic)
-    setTimeout(() => {
-        overlay.style.display = 'none';
-        alert('Registration successful!');
-        registerForm.reset();
-    }, 1500);
+    // Firebase registration and login
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Save extra info to Firestore
+            return firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+                name,
+                phone,
+                dob,
+                address,
+                email,
+                createdAt: new Date().toISOString()
+            });
+        })
+        .then(() => {
+            // Set login mode and user info in localStorage for consistency
+            const userInfo = {
+                name,
+                email,
+                phone,
+                dob,
+                address,
+                initials: name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : (email[0] || '').toUpperCase(),
+                lastLogin: new Date().toISOString()
+            };
+            const authState = {
+                isLoggedIn: true,
+                lastLogin: new Date().toISOString(),
+                userInfo
+            };
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            localStorage.setItem('authState', JSON.stringify(authState));
+            sessionStorage.setItem('isLoggedIn', 'true');
+            // Redirect to index.html
+            window.location.href = 'index.html';
+        })
+        .catch((error) => {
+            overlay.style.display = 'none';
+            showError(error.message || 'Registration failed.');
+        });
 });
 
 function showError(msg) {

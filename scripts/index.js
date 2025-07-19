@@ -1,11 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize all feature cards immediately
     function initializeFeatureCards() {
-        const user = firebase.auth().currentUser;
+        // Check login mode from localStorage (prefer authState)
+        let isLoggedIn = false;
+        const authState = localStorage.getItem('authState');
+        if (authState) {
+            try {
+                const state = JSON.parse(authState);
+                isLoggedIn = !!state.isLoggedIn;
+            } catch (e) {
+                isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            }
+        } else {
+            isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        }
         // Handle guest-only elements visibility
         const guestOnlyElements = document.querySelectorAll('.guest-only');
         guestOnlyElements.forEach(element => {
-            element.style.display = user ? 'none' : 'block';
+            element.style.display = isLoggedIn ? 'none' : 'block';
         });
 
         const features = {
@@ -27,19 +39,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Immediately set the correct visibility for all features
+        // Set feature card interactivity and visibility
         Object.keys(features).forEach(id => {
             const card = document.getElementById(id + '-card');
             if (card) {
                 const link = card.querySelector(features[id].link);
                 const guest = card.querySelector(features[id].guest);
-                
-                if (user) {
-                    if (link) link.style.display = 'block';
+                if (isLoggedIn) {
+                    if (link) {
+                        link.style.display = 'block';
+                        link.classList.remove('disabled');
+                        link.style.pointerEvents = 'auto';
+                        link.style.opacity = '1';
+                    }
                     if (guest) guest.style.display = 'none';
+                    card.classList.remove('disabled-card');
+                    card.style.pointerEvents = 'auto';
+                    card.style.opacity = '1';
                 } else {
-                    if (link) link.style.display = 'none';
+                    if (link) {
+                        link.style.display = 'none';
+                        link.classList.add('disabled');
+                        link.style.pointerEvents = 'none';
+                        link.style.opacity = '0.5';
+                    }
                     if (guest) guest.style.display = 'block';
+                    card.classList.add('disabled-card');
+                    card.style.pointerEvents = 'none';
+                    card.style.opacity = '0.5';
                 }
             }
         });
@@ -47,20 +74,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Firebase auth state listener with immediate feature initialization
     if (typeof firebase !== 'undefined' && firebase.auth) {
-        // Initialize features immediately
-        initializeFeatureCards();
-        
+        // Sync localStorage with Firebase auth state
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 // User is signed in
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', user.email || '');
                 initializeFeatureCards();
-                checkAndUpdateAuthState(user);
+                if (typeof checkAndUpdateAuthState === 'function') checkAndUpdateAuthState(user);
             } else {
                 // User is signed out
+                localStorage.setItem('isLoggedIn', 'false');
+                localStorage.removeItem('userEmail');
                 initializeFeatureCards();
-                handleSignOut();
+                if (typeof handleSignOut === 'function') handleSignOut();
             }
         });
+        // Initialize features immediately
+        initializeFeatureCards();
     }
 
     // Mobile menu toggle with enhanced functionality

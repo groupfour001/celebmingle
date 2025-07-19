@@ -146,8 +146,10 @@ async function handleSignin(event) {
         // Get user data
         const userData = await getUserData(userCredential.user);
         
-        // Store auth state
+        // Store auth state and user info for consistency
         storeAuthData(userData);
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', userData.email);
         
         // Show success
         showSuccess(userData);
