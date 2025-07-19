@@ -894,6 +894,102 @@
     const navUserInitials = document.getElementById('navUserInitials');
     const navSignOut = document.getElementById('navSignOut');
     const mobileNavCancel = document.getElementById('mobileNavCancel');
+    // Show login message on feature card click if logged out
+    document.addEventListener('DOMContentLoaded', function() {
+      // Exclusive Merch card interactivity for logged out users
+      const merchCardDiv = document.getElementById('exclusive-merch-card');
+      const merchCardLink = merchCardDiv ? merchCardDiv.querySelector('.exclusive-merch-link') : null;
+      function updateMerchCardInteractivity() {
+        const loggedInButtons = document.querySelector('.logged-in-buttons');
+        const isLoggedIn = loggedInButtons && loggedInButtons.style.display !== 'none';
+        if (merchCardDiv && merchCardLink) {
+          if (!isLoggedIn) {
+            merchCardDiv.style.pointerEvents = 'auto';
+            merchCardLink.style.pointerEvents = 'none';
+            merchCardLink.style.cursor = 'not-allowed';
+            merchCardDiv.onclick = function(e) {
+              e.preventDefault();
+              if (typeof showLoginRequiredMessage === 'function') {
+                showLoginRequiredMessage();
+              } else if (typeof showLoginMessage === 'function') {
+                showLoginMessage();
+              } else {
+                alert('Please login to access this feature.');
+              }
+            };
+          } else {
+            merchCardDiv.style.pointerEvents = '';
+            merchCardLink.style.pointerEvents = '';
+            merchCardLink.style.cursor = '';
+            merchCardDiv.onclick = null;
+          }
+        }
+      }
+      updateMerchCardInteractivity();
+      if (window.firebase && firebase.auth) {
+        firebase.auth().onAuthStateChanged(function() {
+          updateMerchCardInteractivity();
+        });
+      }
+      const celebHubCard = document.getElementById('celeb-hub-card');
+      const celebHubLink = celebHubCard ? celebHubCard.querySelector('.celeb-hub-link') : null;
+      function updateCelebHubInteractivity() {
+        const loggedInButtons = document.querySelector('.logged-in-buttons');
+        const isLoggedIn = loggedInButtons && loggedInButtons.style.display !== 'none';
+        if (celebHubCard && celebHubLink) {
+          if (!isLoggedIn) {
+            celebHubCard.style.pointerEvents = 'auto';
+            celebHubLink.style.pointerEvents = 'none';
+            celebHubLink.style.cursor = 'not-allowed';
+            celebHubCard.onclick = function(e) {
+              e.preventDefault();
+              if (typeof showLoginRequiredMessage === 'function') {
+                showLoginRequiredMessage();
+              } else if (typeof showLoginMessage === 'function') {
+                showLoginMessage();
+              } else {
+                alert('Please login to access this feature.');
+              }
+            };
+          } else {
+            celebHubCard.style.pointerEvents = '';
+            celebHubLink.style.pointerEvents = '';
+            celebHubLink.style.cursor = '';
+            celebHubCard.onclick = null;
+          }
+        }
+      }
+      updateCelebHubInteractivity();
+      // Update interactivity on auth state change
+      if (window.firebase && firebase.auth) {
+        firebase.auth().onAuthStateChanged(function() {
+          updateCelebHubInteractivity();
+        });
+      }
+    });
+
+    function showLoginMessage() {
+      // Always show a new modal, even if one is present
+      const oldMsg = document.getElementById('login-message-modal');
+      if (oldMsg) oldMsg.remove();
+      const msg = document.createElement('div');
+      msg.id = 'login-message-modal';
+      msg.style.position = 'fixed';
+      msg.style.top = '0';
+      msg.style.left = '0';
+      msg.style.width = '100vw';
+      msg.style.height = '100vh';
+      msg.style.display = 'flex';
+      msg.style.alignItems = 'center';
+      msg.style.justifyContent = 'center';
+      msg.style.zIndex = '99999';
+      msg.style.background = 'rgba(0,0,0,0.5)';
+      msg.innerHTML = '<div style="background: #fff; padding: 40px 32px; border-radius: 18px; box-shadow: 0 8px 32px rgba(44,62,80,0.18); text-align: center; font-size: 1.3rem; color: #232a34; font-family: Montserrat, sans-serif; min-width: 260px; max-width: 90vw;">Please login to access this feature<br><button id="close-login-message" style="margin-top: 24px; background: linear-gradient(90deg, #FFD700, #FFA500); color: #232a34; border: none; border-radius: 12px; padding: 10px 28px; font-size: 1.1rem; font-weight: 700; cursor: pointer;">Close</button></div>';
+      document.body.appendChild(msg);
+      document.getElementById('close-login-message').onclick = function() {
+        msg.remove();
+      };
+    }
 
     // Force reload to index.html when Home is clicked in mobile menu
     document.addEventListener('DOMContentLoaded', function() {

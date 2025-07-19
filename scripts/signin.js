@@ -52,7 +52,7 @@ function setupApp() {
         
         // Setup components
         setupForm();
-        setupPasswordToggle();
+        setupPasswordToggle('.password-input-wrapper', 'input');
         setupForgotPassword();
         
         console.log('✅ Signin app ready');
@@ -60,6 +60,33 @@ function setupApp() {
         console.error('❌ Setup failed:', error);
         showToast('Setup failed. Please refresh the page.');
     }
+// Password toggle setup (show/hide password with eye icon)
+function setupPasswordToggle(wrapperSelector, inputSelector) {
+    document.querySelectorAll(wrapperSelector).forEach(function(wrapper) {
+        var input = wrapper.querySelector(inputSelector);
+        var toggle = wrapper.querySelector('.password-toggle');
+        if (!input || !toggle) return;
+        toggle.addEventListener('click', function() {
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.setAttribute('aria-label', 'Hide password');
+                var icon = toggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            } else {
+                input.type = 'password';
+                toggle.setAttribute('aria-label', 'Show password');
+                var icon = toggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            }
+        });
+    });
+}
 }
 
 function setupForm() {
@@ -72,21 +99,6 @@ function setupForm() {
     console.log('📝 Form events attached');
 }
 
-function setupPasswordToggle() {
-    const toggleBtn = document.querySelector('.toggle-password-btn');
-    const passwordField = document.getElementById('password');
-    const toggleIcon = document.querySelector('.toggle-password');
-    
-    if (toggleBtn && passwordField && toggleIcon) {
-        toggleBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const isVisible = passwordField.type === 'text';
-            passwordField.type = isVisible ? 'password' : 'text';
-            toggleIcon.className = isVisible ? 'fas fa-eye-slash' : 'fas fa-eye';
-        });
-        console.log('👁️ Password toggle ready');
-    }
-}
 
 function setupForgotPassword() {
     const modal = document.getElementById('forgotPasswordModal');
