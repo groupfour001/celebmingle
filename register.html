@@ -51,7 +51,7 @@
         var saved = localStorage.getItem('registerFormData');
         var payBtn = document.getElementById('payBtn');
         var proceedBtn = document.getElementById('proceedPaymentBtn');
-        // If user returns from payment, replace payBtn with animated processing state
+        // If user returns from payment, replace payBtn with a blue Register button
         if (saved && payBtn) {
             try {
                 var data = JSON.parse(saved);
@@ -65,11 +65,11 @@
                     });
                 }
             } catch(e) {}
-            // Replace payBtn with animated processing state
-            var processingDiv = document.createElement('div');
-            processingDiv.id = 'payBtnProcessing';
-            processingDiv.innerHTML = '<span class="spinner-pay" style="display:inline-block;width:1.2em;height:1.2em;border:3px solid #FFD700;border-top:3px solid #fff;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle;"></span>Payment Processing...';
-            payBtn.parentNode.replaceChild(processingDiv, payBtn);
+            // Replace payBtn with a blue Register button
+            var registerDiv = document.createElement('div');
+            registerDiv.id = 'payBtnProcessing';
+            registerDiv.innerHTML = '<button type="submit" id="registerAfterPicBtn" class="btn register-btn" style="background: #0074D9; color: #fff; border: none; border-radius: 8px; padding: 12px 0; font-size: 1.1rem; font-weight: bold; width: 90%; max-width: 340px; margin: 10px 0 0 15px; display: block; cursor: pointer; transition: opacity 0.15s;">Register</button>';
+            payBtn.parentNode.replaceChild(registerDiv, payBtn);
             localStorage.removeItem('registerFormData');
         }
         // Require doc upload before enabling Register button
@@ -188,11 +188,14 @@
                 </div>
                 <!-- Pay Button below Confirm Password -->
                 <div class="form-group">
-                <button type="button" id="payBtn" class="btn pay-btn" style="background: #FFD700; 
-                color: #23243a; border: none; border-radius: 8px; padding: 12px 0; font-size: 1.1rem;
-                 font-weight: bold; width: 90%; max-width: 340px; margin: 10px 0 0 15px; display: block; cursor: pointer; transition: opacity 0.15s;">
-                 <i class="fas fa-credit-card" style="margin-right: 8px;"></i>Proceed with Payment</button>
-                <script>
+                  <button type="button" id="payBtn" class="btn pay-btn" style="background: #FFD700; 
+                  color: #23243a; border: none; border-radius: 8px; padding: 12px 0; font-size: 1.1rem;
+                  font-weight: bold; width: 90%; max-width: 340px; margin: 10px 0 0 15px; display: block; cursor: pointer; transition: opacity 0.15s;">
+                    <i class="fas fa-credit-card" style="margin-right: 8px;"></i>Proceed with Payment
+                  </button>
+                  
+                  <script>
+                  // Payment button logic (existing)
                   const payBtn = document.getElementById('payBtn');
                   payBtn.addEventListener('click', function() {
                     // Save form data before redirect
@@ -221,7 +224,26 @@
                   payBtn.addEventListener('mouseleave', function() {
                     payBtn.style.opacity = '1';
                   });
-                </script>
+
+                  // Show Register button if picUploaded flag is set (from celeb.html)
+                  document.addEventListener('DOMContentLoaded', function() {
+                    var registerBtn = document.getElementById('proceedPaymentBtn');
+                    if (localStorage.getItem('picUploaded') === 'true') {
+                      // Hide payBtn and any processing
+                      if (payBtn) payBtn.style.display = 'none';
+                      // Show Register button
+                      if (registerBtn) {
+                        registerBtn.style.display = 'block';
+                        registerBtn.disabled = false;
+                        registerBtn.style.pointerEvents = 'auto';
+                        registerBtn.style.opacity = '1';
+                        registerBtn.style.filter = 'none';
+                      }
+                      // Remove the flag so it doesn't persist
+                      localStorage.removeItem('picUploaded');
+                    }
+                  });
+                  </script>
                 </div>
                 <div class="form-group checkbox-group terms-group">
 <input type="checkbox" id="terms" name="terms" required checked>
@@ -269,17 +291,19 @@
                 <p>We may update these terms from time to time. Continued use of our services after changes constitutes acceptance of the modified terms.</p>
                 <h4 style="color: #FFD700;">10. Contact Information</h4>
                 <p>For questions regarding these terms, please contact us at <a href="mailto:legal@celebmingle.com" style="color:#FFD700; text-decoration:underline;">legal@celebmingle.com</a> or through our customer support channels.</p>
-                <p class="last-updated" style="color: #FFD700; font-size: 0.95rem; margin-top: 18px;">Last updated: June 26, 2025</p>
+                <p class="last-updated" style="color: #FFD700; font-size: 0.95rem; margin-top: 18px;">
+                    Last updated: feb , 2025</p>
             </div>
         </div>
         <div class="modal-footer" style="padding: 24px 32px; text-align: right; background: #181818; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;">
-            <button type="button" class="btn close-terms-btn" id="closeTermsModalBtn" style="background: #FFD700; color: #23243a; border: none; border-radius: 8px; padding: 10px 28px; font-size: 1.1rem; cursor: pointer; font-weight: bold;">Close</button>
+            <button type="button" class="btn close-terms-btn" id="closeTermsModalBtn" style="background: #FFD700;
+             color: #23243a; border: none; border-radius: 8px; padding: 10px 28px; font-size: 1.1rem;
+              cursor: pointer; font-weight: bold;">Close</button>
         </div>
     </div>
 </div>
                 </div>
-<button type="submit" id="proceedPaymentBtn" class="btn register-btn" style="position: relative;
-    max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%; display: block; text-align: center; text-decoration: none; background: #0074D9; color: #fff; font-weight: bold; border-radius: 8px; padding: 14px 0; font-size: 1.1rem; pointer-events: none; opacity: 0.6;">Register</button>
+
                 <div class="form-links">
                     <a href="signin.html" class="signin-link" style="color: white;margin-right: 40px;">
                         Already have an account? <span style="color: #FFD700;">Sign In</span></a>
@@ -439,6 +463,37 @@
         }
     </style>
     <!-- Error Message Display -->
+
+
+    <script>
+    // Permanently hide the Register button
+    document.addEventListener('DOMContentLoaded', function() {
+        var registerBtn = document.getElementById('proceedPaymentBtn');
+        if (registerBtn) {
+            registerBtn.style.display = 'none';
+        }
+    });
+
+    // Listen for Proceed with Payment button click to enable Register (no persistence)
+document.addEventListener('DOMContentLoaded', function() {
+    var payBtn = document.getElementById('payBtn');
+    var registerBtn = document.getElementById('proceedPaymentBtn');
+    if (payBtn && registerBtn) {
+        payBtn.addEventListener('click', function() {
+            registerBtn.disabled = false;
+            registerBtn.style.pointerEvents = 'auto';
+            registerBtn.style.opacity = '1';
+            registerBtn.style.filter = 'none';
+            // If docUploaded is set, also show Register button
+            if (localStorage.getItem('docUploaded') === 'true') {
+                registerBtn.style.display = 'block';
+            }
+        });
+    }
+});
+
+    // No persistence: Register button always resets to disabled on refresh
+    </script>
     <div id="errorDisplay" class="error-display" style="display: none;">
         <div class="error-content">
             <i class="fas fa-exclamation-circle"></i>
