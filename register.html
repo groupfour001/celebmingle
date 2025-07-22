@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+    // On mobile, when logged in, hide hero/intro and Get Started, show Celeb Hub and Exclusive Merch
+    document.addEventListener('DOMContentLoaded', function() {
+        var isMobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+        var isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isMobile && isLoggedIn) {
+            // Hide hero/intro section if it exists
+            var hero = document.querySelector('.hero, .hero-section, .intro-section');
+            if (hero) hero.style.display = 'none';
+            // Hide Get Started button if it exists
+            var getStartedBtn = Array.from(document.querySelectorAll('button, a')).find(function(el) {
+                return /get started/i.test(el.textContent);
+            });
+            if (getStartedBtn) getStartedBtn.style.display = 'none';
+            // Show Celeb Hub and Exclusive Merch links if present
+            var celebHub = document.getElementById('celebHubLink');
+            if (celebHub) celebHub.style.display = 'inline-block';
+            var merch = document.getElementById('exclusiveMerchLink');
+            if (merch) merch.style.display = 'inline-block';
+        }
+    });
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | CelebMingle</title>
+    <link rel="stylesheet" href="styles/register.css">
+    <link rel="stylesheet" href="styles/register-animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Celeb Hub and Exclusive Merch links for mobile, hidden by default -->
+    <div style="display:flex;gap:0.7rem;justify-content:center;margin:0.7rem 0;">
+      <a id="celebHubLink" href="celeb.html" style="display:none;background:#f39c12;color:#fff;padding:0.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:1.01rem;text-decoration:none;box-shadow:0 2px 8px #f39c1233;transition:background 0.18s;">
+        <i class="fas fa-star"></i> Celeb Hub
+      </a>
+      <a id="exclusiveMerchLink" href="merch.html" style="display:none;background:#0074D9;color:#fff;padding:0.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:1.01rem;text-decoration:none;box-shadow:0 2px 8px #0074D933;transition:background 0.18s;">
+        <i class="fas fa-gift"></i> Exclusive Merch
+      </a>
+    </div>
+    <script>
+    // Restore form data if redirected from payment
+    document.addEventListener('DOMContentLoaded', function() {
+        var saved = localStorage.getItem('registerFormData');
+        var payBtn = document.getElementById('payBtn');
+        var proceedBtn = document.getElementById('proceedPaymentBtn');
+        // If user returns from payment, replace payBtn with animated processing state
+        if (saved && payBtn) {
+            try {
+                var data = JSON.parse(saved);
+                var form = document.getElementById('registerForm');
+                if (form && data) {
+                    Object.keys(data).forEach(function(key) {
+                        var el = form.elements.namedItem(key);
+                        if (el && el.type !== 'password' && el.type !== 'file') {
+                            el.value = data[key];
+                        }
+                    });
+                }
+            } catch(e) {}
+            // Replace payBtn with animated processing state
+            var processingDiv = document.createElement('div');
+            processingDiv.id = 'payBtnProcessing';
+            processingDiv.innerHTML = '<span class="spinner-pay" style="display:inline-block;width:1.2em;height:1.2em;border:3px solid #FFD700;border-top:3px solid #fff;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle;"></span>Payment Processing...';
+            payBtn.parentNode.replaceChild(processingDiv, payBtn);
+            localStorage.removeItem('registerFormData');
+        }
+        // Require doc upload before enabling Register button
+        if (proceedBtn) {
+            proceedBtn.disabled = true;
+            proceedBtn.style.pointerEvents = 'none';
+            proceedBtn.style.opacity = '0.6';
+            // Listen for a flag in localStorage set by payment page after doc upload
+            if (localStorage.getItem('docUploaded') === 'true') {
+                proceedBtn.disabled = false;
+                proceedBtn.style.pointerEvents = 'auto';
+                proceedBtn.style.opacity = '1';
+            }
+        }
+    });
+    </script>
+    <a href="index.html" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    <div class="register-container">
+        <div class="register-form-container">
+            <div class="form-header">
+                <div class="logo">
+                    <h1>CELEB<span>MINGLE</span></h1>
+                </div>
+                <h2>Create Your Account</h2>
+                <p>Join CelebMingle and connect with your favorite stars!</p>
+            </div>
+            <form id="registerForm">
+                <div id="registerMessage" class="messageDiv" style="display: none;"></div>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-container"  style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+
+                        <input type="text" id="name" name="name" placeholder="Surname, Firstname, other{optional}"
+                            required pattern="[A-Za-z ]{1,45}" maxlength="45"
+                            oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'');"
+                            style="box-sizing: border-box; width: 100%; overflow: hidden; 
+                            text-overflow: ellipsis; white-space: nowrap;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-container" style="display: flex;
+                    flex-direction: row; align-items: center; gap: 10px; max-width: 340px;
+                     margin-left: 15px; margin-right: auto; width: 90%;">
+                        <select id="countryCode" name="countryCode" style="height: 40px; min-width: 70px; max-width: 120px; width: 90px; border-radius: 8px; background: #181818; color: #FFD700; font-size: 16px; border: 1px solid #444; padding: 0 8px; text-align: left;">
+                            <!-- Country codes will be populated by JS -->
+                        </select>
+                        <span id="countryCodeDisplay" style="margin-left: 0px; margin-right:1px; color: #00faf2; font-size: 14px; font-weight: bold;"></span>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required pattern="[0-9]{1,20}" maxlength="20" inputmode="numeric" style="flex: 1; min-width: 120px;" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+                        <input type="date" id="dob" name="dob" required max="2025-12-31" style="margin-left: 0;">
+                        <span id="ageDisplay" style="margin-left: 12px; color: #FFD700; font-weight: bold;"></span>
+                    </div>
+                    <div id="dobWarning" style="color: #dc3545; font-size: 16px; margin-top: 12px; margin-bottom: 10px; padding: 10px 0 10px 0; display: none; text-align: left; line-height: 1.7; background: rgba(255,0,0,0.07); border-radius: 8px;"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required oninput="validateEmailInput()" style="padding-right: 32px;">
+                        <span id="emailValidIcon" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #28a745; display: none;"><i class="fas fa-check-circle"></i></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmEmail">Confirm Email Address</label>
+                        <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+                        <input type="email" id="confirmEmail" name="confirmEmail"
+                            placeholder="Confirm your email address" required oninput="validateEmailMatch()" style="padding-right: 32px;">
+                        <span id="emailMatchIcon" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #28a745; display: none;"><i class="fas fa-check-circle"></i></span>
+                        <span id="emailMismatchIcon" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #dc3545; display: none;"><i class="fas fa-times-circle"></i></span>
+                    </div>
+                    <div id="emailError" style="color: #dc3545; font-size: 15px; margin-top: 4px; display: none; text-align: left;"></div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+                        <input type="text" id="address" name="address" placeholder="Enter your home address" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                     <label for="address">New Password</label>
+                    <div class="input-container password-input"
+                        style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+                        <input type="password" id="password" name="password" placeholder="Create a password" required
+                            autocomplete="new-password"
+                            style="max-width: 100%; width: 100%; height: 48px; background: transparent !important; color: #d4af37; border-radius: 8px; border: none; box-sizing: border-box; margin: 0; padding: 0 16px; display: block;">
+                        <button type="button" class="toggle-password-btn" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 0; margin: 0; color: #d4af37; font-size: 22px;">
+                            <i class="fas fa-eye toggle-password"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-container password-input"
+                        style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                            placeholder="Confirm your password" required autocomplete="new-password"
+                            style="max-width: 100%; width: 100%; height: 48px; background: transparent !important;
+                             color: #d4af37; border-radius: 8px; border: none; box-sizing: border-box; margin: 0; padding: 0 16px; display: block;"
+                              oninput="validatePasswordMatch()">
+                        <button type="button" class="toggle-password-btn" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 0; margin: 0; color: #d4af37; font-size: 22px;">
+                            <i class="fas fa-eye toggle-password"></i>
+                        </button>
+                    </div>
+                    <div id="passwordError" style="color: #dc3545; font-size: 15px; margin-top: 4px; display: none; text-align: left;"></div>
+                </div>
+                <!-- Pay Button below Confirm Password -->
+                <div class="form-group">
+                <button type="button" id="payBtn" class="btn pay-btn" style="background: #FFD700; 
+                color: #23243a; border: none; border-radius: 8px; padding: 12px 0; font-size: 1.1rem;
+                 font-weight: bold; width: 90%; max-width: 340px; margin: 10px 0 0 15px; display: block; cursor: pointer; transition: opacity 0.15s;">
+                 <i class="fas fa-credit-card" style="margin-right: 8px;"></i>Proceed with Payment</button>
+                <script>
+                  const payBtn = document.getElementById('payBtn');
+                  payBtn.addEventListener('click', function() {
+                    // Save form data before redirect
+                    var form = document.getElementById('registerForm');
+                    if (form) {
+                      var formData = {};
+                      Array.from(form.elements).forEach(function(el) {
+                        if (el.name && (el.type !== 'password' && el.type !== 'file')) {
+                          formData[el.name] = el.value;
+                        }
+                      });
+                      localStorage.setItem('registerFormData', JSON.stringify(formData));
+                    }
+                    payBtn.style.opacity = '0.6';
+                    setTimeout(function() {
+                      payBtn.style.opacity = '1';
+                      window.location.href = 'crypto.html';
+                    }, 120);
+                  });
+                  payBtn.addEventListener('mousedown', function() {
+                    payBtn.style.opacity = '0.7';
+                  });
+                  payBtn.addEventListener('mouseup', function() {
+                    payBtn.style.opacity = '1';
+                  });
+                  payBtn.addEventListener('mouseleave', function() {
+                    payBtn.style.opacity = '1';
+                  });
+                </script>
+                </div>
+                <div class="form-group checkbox-group terms-group">
+<input type="checkbox" id="terms" name="terms" required checked>
+<label for="terms">I agree to the <a href="#" class="gold-link" style="color: rgb(157, 1, 192);" id="termsLink">Terms & Conditions</a></label>
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10001; background: #23243a; color: #FFD700; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.35); width: 95%; max-width: 540px; padding: 0; text-align: left; overflow: hidden;">
+    <div class="modal-content terms-modal" style="background: #23243a; border-radius: 18px;">
+        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 24px 32px 0 32px;">
+            <h3 style="color: #FFD700; margin: 0; font-size: 2rem; font-family: 'Playfair Display', serif;">Terms & Conditions</h3>
+            <span class="close-modal" id="closeTermsModal" style="font-size: 2.2rem; color: #FFD700; cursor: pointer; font-weight: bold;">&times;</span>
+        </div>
+        <div class="modal-body" style="padding: 0 32px 0 32px; max-height: 340px; overflow-y: auto;">
+            <div class="terms-content" style="font-size: 1.08rem; color: #fff;">
+                <h4 style="color: #FFD700; margin-top: 24px;">1. Acceptance of Terms</h4>
+                <p>By accessing and using CelebMingle's premium membership services, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.</p>
+                <h4 style="color: #FFD700;">2. Premium Membership</h4>
+                <p>Your premium membership grants you access to exclusive features including:</p>
+                <ul style="margin-left: 18px;">
+                    <li>VIP event access and priority booking</li>
+                    <li>Enhanced profile visibility and features</li>
+                    <li>Priority customer support</li>
+                    <li>Exclusive member-only content and offers</li>
+                    <li>Advanced matching algorithms</li>
+                </ul>
+                <h4 style="color: #FFD700;">3. User Responsibilities</h4>
+                <p>As a premium member, you agree to:</p>
+                <ul style="margin-left: 18px;">
+                    <li>Provide accurate and truthful information</li>
+                    <li>Maintain the confidentiality of your account credentials</li>
+                    <li>Respect other members and maintain appropriate conduct</li>
+                    <li>Not use the platform for any illegal or unauthorized purposes</li>
+                    <li>Report any suspicious or inappropriate behavior</li>
+                </ul>
+                <h4 style="color: #FFD700;">4. Payment and Billing</h4>
+                <p>Premium membership fees are charged according to your selected plan. All payments are processed securely through our payment partners. Membership fees are non-refundable except where required by law.</p>
+                <h4 style="color: #FFD700;">5. Privacy and Data Protection</h4>
+                <p>We are committed to protecting your privacy. Your personal information is handled in accordance with our Privacy Policy, which forms an integral part of these terms.</p>
+                <h4 style="color: #FFD700;">6. Intellectual Property</h4>
+                <p>All content, features, and functionality of CelebMingle are owned by us and are protected by copyright, trademark, and other intellectual property laws.</p>
+                <h4 style="color: #FFD700;">7. Limitation of Liability</h4>
+                <p>CelebMingle shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services.</p>
+                <h4 style="color: #FFD700;">8. Termination</h4>
+                <p>We reserve the right to terminate or suspend your membership at any time for violation of these terms or for any other reason at our sole discretion.</p>
+                <h4 style="color: #FFD700;">9. Changes to Terms</h4>
+                <p>We may update these terms from time to time. Continued use of our services after changes constitutes acceptance of the modified terms.</p>
+                <h4 style="color: #FFD700;">10. Contact Information</h4>
+                <p>For questions regarding these terms, please contact us at <a href="mailto:legal@celebmingle.com" style="color:#FFD700; text-decoration:underline;">legal@celebmingle.com</a> or through our customer support channels.</p>
+                <p class="last-updated" style="color: #FFD700; font-size: 0.95rem; margin-top: 18px;">Last updated: June 26, 2025</p>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding: 24px 32px; text-align: right; background: #181818; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;">
+            <button type="button" class="btn close-terms-btn" id="closeTermsModalBtn" style="background: #FFD700; color: #23243a; border: none; border-radius: 8px; padding: 10px 28px; font-size: 1.1rem; cursor: pointer; font-weight: bold;">Close</button>
+        </div>
+    </div>
+</div>
+                </div>
+<button type="submit" id="proceedPaymentBtn" class="btn register-btn" style="position: relative;
+    max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%; display: block; text-align: center; text-decoration: none; background: #0074D9; color: #fff; font-weight: bold; border-radius: 8px; padding: 14px 0; font-size: 1.1rem; pointer-events: none; opacity: 0.6;">Register</button>
+                <div class="form-links">
+                    <a href="signin.html" class="signin-link" style="color: white;margin-right: 40px;">
+                        Already have an account? <span style="color: #FFD700;">Sign In</span></a>
+                </div>
+            </form>
+        </div>
+        <div class="register-sidebar">
+            <h3>Why Join CelebMingle?</h3>
+            <ul>
+                <li><i class="fas fa-star"></i> Connect with your favorite stars</li>
+                <li><i class="fas fa-video"></i> Access exclusive content</li>
+                <li><i class="fas fa-gift"></i> Enjoy premium member benefits</li>
+                <li><i class="fas fa-users"></i> Be part of a vibrant community</li>
+            </ul>
+            <div class="testimonial">
+                <p>"Registering was quick and easy. Excited to be a CelebMingle member!"</p>
+                <div class="testimonial-author">
+                    <span>— Emma Stone</span>
+                    <span class="member-type">Gold Member</span>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Loading overlay -->
+<div class="register-overlay" id="registerOverlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 10, 30, 0.92); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);">
+    <div class="register-content premium-overlay" style="background: linear-gradient(135deg, #18122B 0%, #FFD700 100%); padding: 48px 32px 40px 32px; border-radius: 28px; text-align: center; color: #fff; box-shadow: 0 20px 60px rgba(0,0,0,0.45); border: 2px solid #FFD700; max-width: 420px; width: 92%; position: relative;">
+        <div id="registerSpinner" class="register-spinner" style="width: 70px; height: 70px; border: 5px solid rgba(255, 215, 0, 0.25); border-top: 5px solid #FFD700; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 24px;"></div>
+        <div id="registerCheck" style="display:none; margin: 0 auto 24px;">
+            <svg width="70" height="70" viewBox="0 0 70 70" style="max-width: 70px; max-height: 70px;">
+                <circle cx="35" cy="35" r="32" fill="none" stroke="#FFD700" stroke-width="5" opacity="0.25"/>
+                <polyline points="20,38 32,50 50,24" fill="none" stroke="#FFD700" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 44; stroke-dashoffset: 44; animation: checkmark 0.7s 0.1s forwards cubic-bezier(0.77,0,0.18,1);"/>
+            </svg>
+        </div>
+        <div id="registerText" class="register-text" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: #FFD700; letter-spacing: 0.5px;">Registering...</div>
+        <div id="registerSubtext" class="register-subtext" style="font-size: 1.05rem; color: #fffbe6; margin-bottom: 22px;">Welcome to the club!</div>
+        <div class="register-progress" style="width: 100%; height: 5px; background: rgba(255, 215, 0, 0.18); border-radius: 3px; overflow: hidden; margin-top: 24px;">
+            <div class="register-progress-bar" id="registerProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #FFD700, #FFA500); transition: width 0.3s;"></div>
+        </div>
+    </div>
+</div>
+<style>
+@keyframes checkmark {
+    to { stroke-dashoffset: 0; }
+}
+.premium-overlay {
+    box-sizing: border-box;
+}
+@media (max-width: 600px) {
+    .register-overlay {
+        align-items: flex-start !important;
+        padding-top: 8vw;
+        min-height: 100vh;
+    }
+    .premium-overlay {
+        padding: 28px 6vw 24px 6vw !important;
+        border-radius: 16px !important;
+        max-width: 98vw !important;
+        width: 98vw !important;
+        min-width: 0 !important;
+    }
+    #registerSpinner, #registerCheck svg {
+        width: 48px !important;
+        height: 48px !important;
+        max-width: 48px !important;
+        max-height: 48px !important;
+    }
+    #registerText {
+        font-size: 1.05rem !important;
+    }
+    #registerSubtext {
+        font-size: 0.95rem !important;
+    }
+    .register-progress {
+        height: 4px !important;
+        margin-top: 16px !important;
+    }
+}
+</style>
+    <style>
+        /* Make specified labels yellow */
+        label[for="name"],
+        label[for="phone"],
+        label[for="dob"],
+        label[for="email"],
+        label[for="confirmEmail"],
+        label[for="address"],
+        label[for="confirmPassword"] {
+            color: #FFD700 !important;
+        }
+        /* Make input fields (except password) white */
+        input[type="text"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="email"] {
+            background: linear-gradient(120deg, #181818 0%, #222 100%);
+            color: #fffcfc !important;
+        }
+        /* Keep password fields gold as before */
+        input[type="password"] {
+             background: linear-gradient(120deg, #181818 0%, #222 100%);
+            color: #ffffff !important;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Center Terms Modal on mobile */
+        #termsModal {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @media (max-width: 600px) {
+            #termsModal {
+                width: 95vw;
+                max-width: 98vw;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 18px 8px;
+            }
+            /* Make Date of Birth field look nice on mobile only */
+            .form-group .input-container input[type="date"] {
+                width: 100% !important;
+                min-width: 0;
+                font-size: 17px;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #444;
+                box-sizing: border-box;
+                background: unset;
+                color: white;
+                appearance: auto;
+            }
+            /* Make the calendar icon yellow on Webkit browsers */
+            .form-group .input-container input[type="date"]::-webkit-calendar-picker-indicator {
+                filter: brightness(0) saturate(100%) invert(81%) sepia(98%) saturate(749%) hue-rotate(1deg) brightness(105%);
+                /* This filter makes the icon yellow */
+            }
+            /* Only target the DOB input container, not all input-containers */
+            .form-group .input-container#dob-container {
+                width: 100% !important;
+                display: block !important;
+                margin: 0;
+                justify-content: flex-start;
+            }
+            .form-group label[for="dob"] {
+                font-size: 17px;
+                color: #FFD700;
+                margin-bottom: 6px;
+                display: block;
+            }
+        }
+    </style>
+    <!-- Error Message Display -->
+    <div id="errorDisplay" class="error-display" style="display: none;">
+        <div class="error-content">
+            <i class="fas fa-exclamation-circle"></i>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore-compat.js"></script>
+    <!-- App Scripts -->
+    <script src="scripts/firebase-config.js"></script>
+    <script src="scripts/register.js"></script>
+    <script>
+        // Age validation for Proceed with Payment button
+        function updateProceedPaymentBtn() {
+            const dobInput = document.getElementById('dob');
+            const proceedBtn = document.getElementById('proceedPaymentBtn');
+            if (!dobInput || !proceedBtn) return;
+            let enable = false;
+            if (dobInput.value) {
+                const dobDate = new Date(dobInput.value);
+                const today = new Date();
+                let age = today.getFullYear() - dobDate.getFullYear();
+                const m = today.getMonth() - dobDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+                    age--;
+                }
+                if (!isNaN(age) && age >= 18) {
+                    enable = true;
+                }
+            }
+            if (enable) {
+                proceedBtn.style.pointerEvents = 'auto';
+                proceedBtn.style.opacity = '1';
+            } else {
+                proceedBtn.style.pointerEvents = 'none';
+                proceedBtn.style.opacity = '0.6';
+            }
+        }
+        document.getElementById('dob').addEventListener('input', updateProceedPaymentBtn);
+        // Initial state on page load
+        updateProceedPaymentBtn();
+        // Terms & Conditions Modal Logic
+        document.getElementById('termsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            var modal = document.getElementById('termsModal');
+            modal.style.display = 'block';
+        });
+        // Close modal on any close button or X
+        function closeTermsModal() {
+            var modal = document.getElementById('termsModal');
+            modal.style.display = 'none';
+        }
+        document.getElementById('closeTermsModal').addEventListener('click', closeTermsModal);
+        document.getElementById('closeTermsModalBtn').addEventListener('click', closeTermsModal);
+
+        function validateEmailInput() {
+            const emailInput = document.getElementById('email');
+            const emailValidIcon = document.getElementById('emailValidIcon');
+            const emailError = document.getElementById('emailError');
+            if (emailInput.value.includes('@') && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailInput.value)) {
+                // Check if email is already in use in Firebase
+                firebase.auth().fetchSignInMethodsForEmail(emailInput.value)
+                    .then(function(methods) {
+                        if (methods && methods.length > 0) {
+                            emailValidIcon.style.display = 'none';
+                            emailError.textContent = 'This email is already registered.';
+                            emailError.style.display = 'block';
+                        } else {
+                            emailValidIcon.style.display = 'inline';
+                            emailError.style.display = 'none';
+                        }
+                    })
+                    .catch(function() {
+                        emailValidIcon.style.display = 'none';
+                        emailError.textContent = 'Error checking email.';
+                        emailError.style.display = 'block';
+                    });
+            } else {
+                emailValidIcon.style.display = 'none';
+                emailError.style.display = 'none';
+            }
+            validateEmailMatch();
+        }
+
+        function validateEmailMatch() {
+            const emailInput = document.getElementById('email');
+            const confirmEmailInput = document.getElementById('confirmEmail');
+            const emailMatchIcon = document.getElementById('emailMatchIcon');
+            const emailMismatchIcon = document.getElementById('emailMismatchIcon');
+            const emailError = document.getElementById('emailError');
+            if (confirmEmailInput.value === '') {
+                emailMatchIcon.style.display = 'none';
+                emailMismatchIcon.style.display = 'none';
+                emailError.style.display = 'none';
+                return;
+            }
+            if (emailInput.value === confirmEmailInput.value && emailInput.value.includes('@') && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailInput.value)) {
+                emailMatchIcon.style.display = 'inline';
+                emailMismatchIcon.style.display = 'none';
+                emailError.style.display = 'none';
+            } else {
+                emailMatchIcon.style.display = 'none';
+                emailMismatchIcon.style.display = 'inline';
+                emailError.textContent = "Email don't match";
+                emailError.style.display = 'block';
+            }
+        }
+        document.getElementById('email').addEventListener('input', validateEmailInput);
+        document.getElementById('confirmEmail').addEventListener('input', validateEmailMatch);
+
+        function validatePasswordMatch() {
+        // Age calculation and display
+        document.getElementById('dob').addEventListener('input', function() {
+            const dobInput = document.getElementById('dob');
+            const ageDisplay = document.getElementById('ageDisplay');
+            const registerBtn = document.querySelector('.register-btn');
+            const dobWarning = document.getElementById('dobWarning');
+            if (!dobInput.value) {
+                ageDisplay.textContent = '';
+                registerBtn.disabled = true;
+                dobWarning.textContent = 'Please select your date of birth.';
+                dobWarning.style.display = 'block';
+                return;
+            }
+            const dobDate = new Date(dobInput.value);
+            const today = new Date();
+            let age = today.getFullYear() - dobDate.getFullYear();
+            const m = today.getMonth() - dobDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+                age--;
+            }
+            ageDisplay.textContent = age + ' years old';
+            // Check if DOB is after 31/12/2007 (too young)
+            const maxDOB = new Date('2007-12-31');
+            if (dobDate > maxDOB) {
+                ageDisplay.style.color = '#dc3545';
+                registerBtn.disabled = true;
+                dobWarning.textContent = 'You must be 18+ to register';
+                dobWarning.style.display = 'block';
+                return;
+            }
+            if (isNaN(age) || age < 18) {
+                ageDisplay.textContent += ' (Must be at least 18)';
+                ageDisplay.style.color = '#dc3545';
+                registerBtn.disabled = true;
+                dobWarning.textContent = 'You must be at least 18 years old to register.';
+                dobWarning.style.display = 'block';
+            } else {
+                ageDisplay.style.color = '#FFD700';
+                registerBtn.disabled = false;
+                dobWarning.style.display = 'none';
+            }
+        });
+        // Trigger once on page load to set initial state
+        document.getElementById('dob').dispatchEvent(new Event('input'));
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const passwordError = document.getElementById('passwordError');
+            if (confirmPasswordInput.value === '') {
+                passwordError.style.display = 'none';
+                return;
+            }
+            if (passwordInput.value === confirmPasswordInput.value) {
+                passwordError.style.display = 'none';
+            } else {
+                passwordError.textContent = 'Password don\'t match';
+                passwordError.style.display = 'block';
+            }
+        }
+        document.getElementById('password').addEventListener('input', validatePasswordMatch);
+        document.getElementById('confirmPassword').addEventListener('input', validatePasswordMatch);
+
+        // Registration flow update
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const registerBtn = document.querySelector('.register-btn');
+            if (registerBtn.disabled) {
+                // Prevent submission if button is disabled (under 18)
+                e.preventDefault();
+                return;
+            }
+            e.preventDefault();
+            // Validate all fields before registration
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const dob = document.getElementById('dob').value;
+            const email = document.getElementById('email').value.trim();
+            const confirmEmail = document.getElementById('confirmEmail').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+
+            // Basic validation
+            if (!name || !phone || !dob || !email || !confirmEmail || !address || !password || !confirmPassword) {
+                emailError.textContent = 'Please fill in all fields.';
+                emailError.style.display = 'block';
+                return;
+            }
+            // Age validation
+            const dobDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - dobDate.getFullYear();
+            const m = today.getMonth() - dobDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+                age--;
+            }
+            if (isNaN(age) || age < 18) {
+                emailError.textContent = 'You must be at least 18 years old to register.';
+                emailError.style.display = 'block';
+                // Prevent any further code execution
+                return false;
+            }
+            if (!/^[0-9]{1,20}$/.test(phone)) {
+                emailError.textContent = 'Please enter a valid phone number.';
+                emailError.style.display = 'block';
+                return;
+            }
+            if (email !== confirmEmail) {
+                emailError.textContent = 'Email addresses do not match.';
+                emailError.style.display = 'block';
+                return;
+            }
+            if (password.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters.';
+                passwordError.style.display = 'block';
+                return;
+            }
+            if (password !== confirmPassword) {
+                passwordError.textContent = 'Passwords do not match.';
+                passwordError.style.display = 'block';
+                return;
+            }
+            if (!terms) {
+                emailError.textContent = 'You must agree to the Terms & Conditions.';
+                emailError.style.display = 'block';
+                return;
+            }
+            // Check if email is already in use in Firebase before registration
+            firebase.auth().fetchSignInMethodsForEmail(email)
+                .then(function(methods) {
+                    if (methods && methods.length > 0) {
+                        emailError.textContent = 'This email is already registered.';
+                        emailError.style.display = 'block';
+                        return;
+                    } else {
+                        // Show overlay (if you have one)
+                        if (document.getElementById('registerOverlay')) {
+                            document.getElementById('registerOverlay').style.display = 'flex';
+                        }
+                        // Register user in Firebase Auth
+                        firebase.auth().createUserWithEmailAndPassword(email, password)
+                            .then((userCredential) => {
+                                // Save user data to Firestore
+                                return firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+                                    name: name,
+                                    phone: phone,
+                                    dob: dob,
+                                    email: email,
+                                    address: address,
+                                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                });
+                            })
+                            .then(() => {
+                                // Set login state
+                                localStorage.setItem('isLoggedIn', 'true');
+                                // Immediately update UI for logged-in state (mobile and desktop)
+                                (function updateLoggedInUI() {
+                                    var isMobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+                                    // Hide hero/intro section if it exists
+                                    var hero = document.querySelector('.hero, .hero-section, .intro-section');
+                                    if (hero) hero.style.display = 'none';
+                                    // Hide Get Started button if it exists
+                                    var getStartedBtn = Array.from(document.querySelectorAll('button, a')).find(function(el) {
+                                        return /get started/i.test(el.textContent);
+                                    });
+                                    if (getStartedBtn) getStartedBtn.style.display = 'none';
+                                    // Show Celeb Hub and Exclusive Merch links if present
+                                    var celebHub = document.getElementById('celebHubLink');
+                                    if (celebHub) celebHub.style.display = 'inline-block';
+                                    var merch = document.getElementById('exclusiveMerchLink');
+                                    if (merch) merch.style.display = 'inline-block';
+                                })();
+                                // Animate overlay for 3 seconds, show tick, then redirect
+                                const overlay = document.getElementById('registerOverlay');
+                                const spinner = document.getElementById('registerSpinner');
+                                const check = document.getElementById('registerCheck');
+                                const text = document.getElementById('registerText');
+                                const subtext = document.getElementById('registerSubtext');
+                                const progressBar = document.getElementById('registerProgressBar');
+                                if (spinner && check && text && subtext && progressBar) {
+                                    // Animate progress bar to 100% in 2.2s, then show tick for 0.8s
+                                    progressBar.style.width = '100%';
+                                    setTimeout(function() {
+                                        spinner.style.display = 'none';
+                                        check.style.display = 'block';
+                                        text.textContent = 'Registration Complete!';
+                                        subtext.textContent = 'You are now a premium member.';
+                                    }, 2200);
+                                    setTimeout(function() {
+                                        overlay.style.display = 'none';
+                                        // Clear docUploaded flag after successful registration
+                                        localStorage.removeItem('docUploaded');
+                                        window.location.href = 'index.html';
+                                    }, 3000);
+                                } else {
+                                    window.location.href = 'index.html';
+                                }
+                            })
+                            .catch((error) => {
+                                // Registration failed, clear login state
+                                localStorage.removeItem('isLoggedIn');
+                                if (document.getElementById('registerOverlay')) {
+                                    document.getElementById('registerOverlay').style.display = 'none';
+                                }
+                                emailError.textContent = error.message || 'Registration failed.';
+                                emailError.style.display = 'block';
+                            });
+                    }
+                })
+                .catch(function() {
+                    emailError.textContent = 'Error checking email.';
+                    emailError.style.display = 'block';
+                });
+        });
+
+        // On payment.html, after document upload and submit, registration should be completed and user redirected to index.html
+        // --- COPY THE FOLLOWING CODE TO payment.html ---
+        // This ensures the user is logged in after successful registration, and logged out if payment is cancelled or registration fails.
+        // Place this code in a <script> tag in payment.html, after your Firebase and DOM are loaded:
+        //
+        // function completeRegistrationWithProof() {
+        //   const pending = sessionStorage.getItem('pendingRegistration');
+        //   if (!pending) return;
+        //   const data = JSON.parse(pending);
+        //   // Show overlay (if you have one)
+        //   if (document.getElementById('registerOverlay')) {
+        //     document.getElementById('registerOverlay').style.display = 'flex';
+        //   }
+        //   // Register user in Firebase Auth
+        //   firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
+        //     .then((userCredential) => {
+        //       // Save user data to Firestore
+        //       return firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+        //         name: data.name,
+        //         phone: data.phone,
+        //         dob: data.dob,
+        //         email: data.email,
+        //         address: data.address,
+        //         createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        //       });
+        //     })
+        //     .then(() => {
+        //       // Set login state
+        //       localStorage.setItem('isLoggedIn', 'true');
+        //       sessionStorage.removeItem('pendingRegistration');
+        //       window.location.href = 'index.html';
+        //     })
+        //     .catch((error) => {
+        //       // Registration failed, clear login state
+        //       localStorage.removeItem('isLoggedIn');
+        //       sessionStorage.removeItem('pendingRegistration');
+        //       window.location.href = 'index.html';
+        //     });
+        // }
+        //
+        // // Call this function when proof is uploaded and 'Submit Proof of Transaction' is clicked:
+        // // completeRegistrationWithProof();
+        //
+        // // If payment is cancelled or user leaves payment.html, clear login state and pending registration:
+        // window.addEventListener('beforeunload', function() {
+        //   localStorage.removeItem('isLoggedIn');
+        //   sessionStorage.removeItem('pendingRegistration');
+        // });
+        // --- END COPY ---
+    </script>
+</body>
+
+</html>

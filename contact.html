@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Celebrity Fan Club</title>
+  <link rel="stylesheet" href="contact.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+  <a href="index.html" class="back-home-btn" title="Back to Home">
+    <i class="fas fa-arrow-left"></i> Home
+  </a>
+  <div class="contact-container premium-contact">
+    <h1 class="contact-title">Contact Us</h1>
+    <p class="contact-description">We'd love to hear from you! Please fill out the form below and our team will get back to you as soon as possible.</p>
+    <form id="contactForm">
+      <div class="form-group">
+        <label for="name"><i class="fas fa-user"></i> Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+        <input type="email" id="email" name="email" required placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label for="subject"><i class="fas fa-tag"></i> Subject</label>
+        <input type="text" id="subject" name="subject" required placeholder="Subject of your message">
+      </div>
+      <div class="form-group">
+        <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Type your message here..."></textarea>
+      </div>
+      <button type="submit" class="contact-btn premium-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+      <div id="contactStatus" class="contact-status"></div>
+    </form>
+    <div class="contact-info">
+      <h2>Other Ways to Reach Us</h2>
+      <ul>
+       
+        <li><i class="fas fa-envelope-open-text"></i> <span>support@celebmingle.com</span></li>
+        
+      </ul>
+      <div class="contact-hours">
+        <strong>Support Hours:</strong> Mon-Fri, 9am-6pm (PST)
+      </div>
+    </div>
+  </div>
+  <script src="contact.js"></script>
+</body>
+</html>

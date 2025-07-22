@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebrity Profiles</title>
+    <link rel="stylesheet" href="styles/celeb.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .celeb-icon {
+            color: #FFD700;
+            margin-right: 7px;
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
+        /* Separator style for mobile between modal cards */
+        @media (max-width: 600px) {
+            .modal-separator-mobile {
+                border: none;
+                border-top: 2px dashed #FFD700;
+                margin: 10px 0 18px 0;
+                width: 80%;
+                display: block;
+            }
+        }
+        @media (min-width: 601px) {
+            .modal-separator-mobile {
+                display: none;
+            }
+        }
+        /* Mobile Responsive Styles */
+        @media (max-width: 600px) {
+            .access-tier {
+                margin-bottom: 18px !important;
+            }
+            /* Add extra margin below Basic card only on mobile */
+            #celebrity-modal .access-tier[data-tier="basic"] {
+                margin-bottom: 32px !important;
+            }
+            .access-tier:last-child {
+                margin-bottom: 0 !important;
+            }
+            .access-tier .tier-header h3 {
+                font-size: 0.8em !important;
+                margin-bottom: 2px !important;
+            }
+            .access-tier .tier-price {
+                font-size: 0.8em !important;
+                padding: 1px 0 !important;
+            }
+            .access-tier .price-amount {
+                font-size: 0.85em !important;
+            }
+            .access-tier .currency {
+                font-size: 0.8em !important;
+            }
+            .access-tier .tier-features {
+                padding-left: 10px !important;
+                margin-bottom: 3px !important;
+            }
+            .access-tier .tier-features li {
+                font-size: 0.75em !important;
+                margin-bottom: 1px !important;
+            }
+            .access-tier .purchase-btn {
+                font-size: 0.8em !important;
+                padding: 4px 6px !important;
+            }
+            .access-tier .tier-badge {
+                font-size: 0.7em !important;
+                padding: 2px 6px !important;
+            }
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+                margin: 0;
+                font-size: 1em;
+                background: #000000;
+            }
+            .header-content {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 10px;
+                text-align: center;
+                width: 100%;
+            }
+        /* Ensure celebrity cards stay centered after filtering/sorting */
+        .celebrity-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            .celebrity-card {
+                flex-direction: row;
+                align-items: center;
+            }
+            .celebrity-card img {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 50%;
+                margin-bottom: 0;
+                margin-right: 16px;
+            }
+            .celebrity-info {
+                flex: 1;
+                text-align: left;
+            }
+        }
+        @media (min-width: 601px) {
+            .celebrity-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 18px;
+                justify-items: center;
+                align-items: stretch;
+            }
+        }
+            .main-nav-mobile {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .main-nav-list {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+            .main-nav-link {
+                text-align: center;
+                font-size: 1.1em;
+                padding: 8px 16px;
+                display: inline-block;
+                color: #fff;
+                background: #222;
+                border-radius: 8px;
+                text-decoration: none;
+            }
+            .main-nav-link.active {
+                background: #FFD700;
+                color: #222;
+                font-weight: bold;
+            }
+            .controls-container {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 5px;
+            }
+            .search-box input {
+                width: 100%;
+                font-size: 1em;
+                padding: 8px;
+            }
+            .filter-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            .filter-btn {
+                flex: 1 1 45%;
+                font-size: 0.95em;
+                padding: 8px 0;
+            }
+            .sort-options select {
+                width: 100%;
+                font-size: 1em;
+                padding: 8px;
+            }
+            .celebrity-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 18px;
+                padding: 10px 5px;
+            }
+            .celebrity-card {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                margin: 0 auto;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                padding: 10px 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .celebrity-card img {
+                width: 100%;
+                max-width: 220px;
+                height: auto;
+                border-radius: 10px;
+                margin-bottom: 8px;
+            }
+            .celebrity-info h2 {
+                font-size: 1.1em;
+                text-align: center;
+            }
+            .celebrity-info p, .celebrity-info .celebrity-field {
+                font-size: 0.98em;
+                text-align: center;
+            }
+            .buy-access {
+                width: 100%;
+                font-size: 1em;
+                padding: 10px 0;
+                margin-top: 8px;
+            }
+            #back-to-top {
+                right: 10px;
+                bottom: 10px;
+                font-size: 1.2em;
+                padding: 8px 12px;
+            }
+            .newsletter-section {
+                padding: 15px 5px;
+            }
+            .newsletter-container {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px 8px;
+            }
+            #newsletter-form input {
+                width: 100%;
+                font-size: 1em;
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+            .newsletter-btn {
+                width: 100%;
+                font-size: 1em;
+                padding: 10px 0;
+            }
+           /* Modal Responsive */
+#celebrity-modal .modal-content {
+    width: 75vw;
+    max-width: 90vw;
+    padding: 8px 2px;
+    border-radius: 8px;
+}
+.access-options {
+    flex-direction: column;
+    gap: 12px;
+}
+.access-tier {
+    width: 100%;
+    margin-bottom: 18px; /* Increased spacing between modal cards */
+    border-radius: 10px;
+    padding: 8px 6px;
+}
+.tier-header h3 {
+    font-size: 1em;
+}
+.tier-features li {
+    font-size: 0.95em;
+}
+        }
+        @media (max-width: 600px) {
+            .main-nav {
+                display: none;
+            }
+            .main-nav-mobile {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .main-nav-list {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+            .main-nav-link {
+                text-align: center;
+                font-size: 1.1em;
+                padding: 8px 16px;
+                display: inline-block;
+                color: #fff;
+                background: #222;
+                border-radius: 8px;
+                text-decoration: none;
+            }
+            .main-nav-link.active {
+                background: #FFD700;
+                color: #222;
+                font-weight: bold;
+            }
+        }
+        @media (min-width: 601px) {
+            .main-nav {
+                display: block;
+            }
+            .main-nav-mobile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>MEET THE STARS</h1>
+        </div>
+        <!-- Desktop nav -->
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" class="active">Celebrities</a></li>
+            </ul>
+        </nav>
+        <!-- Mobile nav -->
+        <div class="main-nav-mobile">
+            <ul class="main-nav-list">
+                <li><a href="index.html" class="main-nav-link">Home</a></li>
+                <li><a href="#" class="main-nav-link active">Celebrities</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="controls-container">
+        <div class="search-box">
+            <input type="text" id="celebrity-search" placeholder="Search celebrities...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="musicians">Musicians</button>
+            <button class="filter-btn" data-filter="actors">Actors</button>
+            <button class="filter-btn" data-filter="speakers">Speakers</button>
+        </div>
+
+        <div class="sort-options">
+            <select id="sort-select">
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="age-asc">Age (Youngest First)</option>
+                <option value="age-desc">Age (Oldest First)</option>
+            </select>
+        </div>
+    </div>
+    
+    <main class="celebrity-grid">
+        <!-- Row 1 -->
+        <div class="celebrity-card">
+            <img src="images/adele.jpg" alt="Adele">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Adele Adkins</h2>
+                <p class="celebrity-field"><i class="fas fa-microphone-alt celeb-icon"></i> Multi-Grammy Award-Winning Singer-Songwriter</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: May 5, 1988</p>
+                <p><i class="fas fa-globe-europe celeb-icon"></i> Nationality: British</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/beyonce.jpg" alt="Beyoncé">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Beyoncé Knowles-Carter</h2>
+                <p class="celebrity-field"><i class="fas fa-crown celeb-icon"></i> Global Pop Icon & Entertainment Mogul</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: September 4, 1981</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/billie.jpg" alt="Billie Eilish">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Billie Eilish</h2>
+                <p class="celebrity-field"><i class="fas fa-headphones-alt celeb-icon"></i> Alternative Pop Sensation & Grammy Winner</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: December 18, 2001</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/justin.jpg" alt="Justin Bieber">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Justin Bieber</h2>
+                <p class="celebrity-field"><i class="fas fa-user-astronaut celeb-icon"></i> Pop Music Superstar & Cultural Icon</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: March 1, 1994</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: Canadian</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/taylor.jpg" alt="Taylor Swift">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Taylor Swift</h2>
+                <p class="celebrity-field"><i class="fas fa-pen-fancy celeb-icon"></i> Record-Breaking Pop Star & Songwriter</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: December 13, 1989</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="celebrity-card">
+            <img src="images/lady gaga.jpg" alt="Lady Gaga">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Lady Gaga</h2>
+                <p class="celebrity-field"><i class="fas fa-film celeb-icon"></i> Pop Icon & Award-Winning Actress</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: March 28, 1986</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/katy.jpg" alt="Katy Perry">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Katy Perry</h2>
+                <p class="celebrity-field"><i class="fas fa-star celeb-icon"></i> Pop Star & American Idol Judge</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: October 25, 1984</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/keanu.jpg" alt="Keanu Reeves">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-film celeb-icon"></i> Keanu Reeves</h2>
+                <p class="celebrity-field"><i class="fas fa-star celeb-icon"></i> Legendary Actor & Action Movie Star</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: September 2, 1964</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: Canadian</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/will.jpg" alt="Will Smith">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-film celeb-icon"></i> Will Smith</h2>
+                <p class="celebrity-field"><i class="fas fa-star celeb-icon"></i> Actor, Producer & Hip-Hop Legend</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: September 25, 1968</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+        <div class="celebrity-card">
+            <img src="images/elon.jpg" alt="Elon Musk">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-rocket celeb-icon"></i> Elon Musk</h2>
+                <p class="celebrity-field"><i class="fas fa-lightbulb celeb-icon"></i> Visionary Entrepreneur & Tech Innovator</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: June 28, 1971</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: South African-American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+        <div class="celebrity-card">
+            <img src="images/kanye.jpg" alt="Kanye West">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Kanye West</h2>
+                <p class="celebrity-field"><i class="fas fa-compact-disc celeb-icon"></i> Rapper, Producer & Designer</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: June 8, 1977</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        
+
+        <!-- Added Missing Celebrities -->
+        <div class="celebrity-card">
+            <img src="images/madonna.jpg" alt="Madonna">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Madonna</h2>
+                <p class="celebrity-field"><i class="fas fa-crown celeb-icon"></i> Queen of Pop & Cultural Icon</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: August 16, 1958</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/mariahcarey.jpg" alt="Mariah Carey">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Mariah Carey</h2>
+                <p class="celebrity-field"><i class="fas fa-microphone-alt celeb-icon"></i> Legendary Vocalist & Songwriting Icon</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: March 27, 1969</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/miley.jpg" alt="Miley Cyrus">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Miley Cyrus</h2>
+                <p class="celebrity-field"><i class="fas fa-microphone-alt celeb-icon"></i> Pop Star & Actress</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: November 23, 1992</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+        <div class="celebrity-card">
+            <img src="images/michael b.jpg" alt="Michael B. Jordan">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-film celeb-icon"></i> Michael B. Jordan</h2>
+                <p class="celebrity-field"><i class="fas fa-trophy celeb-icon"></i> Award-Winning Actor & Producer</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: February 9, 1987</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        
+
+        <div class="celebrity-card">
+            <img src="images/snopp.jpg" alt="Snoop Dogg">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Snoop Dogg</h2>
+                <p class="celebrity-field"><i class="fas fa-compact-disc celeb-icon"></i> Rapper & Pop Culture Icon</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: October 20, 1971</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/justintimber.jpg" alt="Justin Timberlake">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Justin Timberlake</h2>
+                <p class="celebrity-field"><i class="fas fa-microphone-alt celeb-icon"></i> Singer, Songwriter & Actor</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: January 31, 1981</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/jennifer.jpg" alt="Jennifer Lopez">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-film celeb-icon"></i> Jennifer Lopez</h2>
+                <p class="celebrity-field"><i class="fas fa-star celeb-icon"></i> Actress, Singer & Dancer</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: July 24, 1969</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/jason.jpg" alt="Jason Momoa">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-film celeb-icon"></i> Jason Momoa</h2>
+                <p class="celebrity-field"><i class="fas fa-star celeb-icon"></i> Actor & Action Star</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: August 1, 1979</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/caguilera.jpg" alt="Christina Aguilera">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Christina Aguilera</h2>
+                <p class="celebrity-field"><i class="fas fa-microphone-alt celeb-icon"></i> Pop Diva & Vocal Powerhouse</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: December 18, 1980</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/beattle.jpg" alt="The Beatles">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> The Beatles</h2>
+                <p class="celebrity-field"><i class="fas fa-guitar celeb-icon"></i> Legendary Rock Band & Music Pioneers</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: Formed in 1960</p>
+                <p><i class="fas fa-globe-europe celeb-icon"></i> Nationality: British</p>
+                <p><i class="fas fa-band-aid celeb-icon"></i> Type: Band</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/jichang.jpg" alt="Ji Chang-wook">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-film celeb-icon"></i> Ji Chang-wook</h2>
+                <p class="celebrity-field"><i class="fas fa-drama-masks celeb-icon"></i> Korean Drama Star & Theatre Actor</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: July 5, 1987</p>
+                <p><i class="fas fa-globe-asia celeb-icon"></i> Nationality: South Korean</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/wizk.jpg" alt="Wiz Khalifa">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-music celeb-icon"></i> Wiz Khalifa</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: September 8, 1987</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <!-- Motivational Speakers and Thought Leaders -->
+        <div class="celebrity-card">
+            <img src="images/dylan wang.jpg" alt="Dylan Wang">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Dylan Wang</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: December 20, 1998</p>
+                <p><i class="fas fa-globe-asia celeb-icon"></i> Nationality: Chinese</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/tony robbins.jpg" alt="Tony Robbins">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Tony Robbins</h2>
+                <p class="celebrity-field"><i class="fas fa-bullhorn celeb-icon"></i> World-Renowned Life Coach & Business Strategist</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: February 29, 1960</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/les brown.jpg" alt="Les Brown">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Les Brown</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: February 17, 1945</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/nick vujicic.jpg" alt="Nick Vujicic">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Nick Vujicic</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: December 4, 1982</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: Australian-American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/eckhart tolle.jpg" alt="Eckhart Tolle">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Eckhart Tolle</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: February 16, 1948</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: German</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/oprah winfrey.jpg" alt="Oprah Winfrey">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-star celeb-icon"></i> Oprah Winfrey</h2>
+                <p class="celebrity-field"><i class="fas fa-tv celeb-icon"></i> Media Mogul & Philanthropist</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: January 29, 1954</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/mel robbins.jpg" alt="Mel Robbins">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Mel Robbins</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: October 6, 1968</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/robin sharma.jpg" alt="Robin Sharma">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Robin Sharma</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: June 16, 1964</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: Canadian</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+        
+
+        <div class="celebrity-card">
+            <img src="images/simon sinek.jpg" alt="Simon Sinek">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Simon Sinek</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: October 9, 1973</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: British-American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/erict.jpg" alt="Eric Thomas">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Eric Thomas</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: September 3, 1970</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+
+        <div class="celebrity-card">
+            <img src="images/gary vaynerchuk.jpg" alt="Gary Vaynerchuk">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Gary Vaynerchuk</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: November 14, 1975</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: Belarusian-American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/david higgins.jpg" alt="David Goggins">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> David Goggins</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: February 17, 1975</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/jordan peterson.jpg" alt="Jordan Peterson">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Jordan Peterson</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: June 12, 1962</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: Canadian</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/lisa nicholas.jpg" alt="Lisa Nichols">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Lisa Nichols</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: May 18, 1966</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/deepak chopra.jpg" alt="Deepak Chopra">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Deepak Chopra</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: October 22, 1946</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: Indian-American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/brene brown.jpg" alt="Brene Brown">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Brené Brown</h2>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: November 18, 1965</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-venus celeb-icon"></i> Sex: Female</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <img src="images/steve  hav.jpg" alt="Steve Harvey">
+            <div class="celebrity-info">
+                <h2><i class="fas fa-user-tie celeb-icon"></i> Steve Harvey</h2>
+                <p class="celebrity-field"><i class="fas fa-tv celeb-icon"></i> TV Host, Comedian & Business Mogul</p>
+                <p><i class="fas fa-birthday-cake celeb-icon"></i> DOB: January 17, 1957</p>
+                <p><i class="fas fa-globe-americas celeb-icon"></i> Nationality: American</p>
+                <p><i class="fas fa-mars celeb-icon"></i> Sex: Male</p>
+                <button class="buy-access"><i class="fas fa-lock"></i> Buy Access</button>
+            </div>
+        </div>
+
+        
+    </main>
+
+    <button id="back-to-top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <section class="newsletter-section">
+        <div class="newsletter-container">
+            <h2>Stay Updated!</h2>
+            <p>Get the latest celebrity news and updates delivered to your inbox.</p>
+            <form id="newsletter-form">
+                <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Dynamic Celebrity Access Modal -->
+    <div id="celebrity-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-celebrity-name">Celebrity Name</h2>
+                <p>Choose your access level</p>
+            </div>
+            <!-- Individual access-tier cards, no wrapper -->
+            <div class="access-tier" data-tier="basic">
+                <div class="tier-header">
+                    <h3>Basic Access</h3>
+                    <div class="tier-price">
+                        <span class="price-amount" id="basic-price">1000</span>
+                        <span class="currency">USDT</span>
+                    </div>
+                </div>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check"></i> Direct Messages</li>
+                    <li><i class="fas fa-check"></i> Basic Profile Access</li>
+                    <li><i class="fas fa-check"></i> 30 Days Duration</li>
+                </ul>
+                <a href="#" class="purchase-btn" data-tier="basic">
+                    <i class="fas fa-shopping-cart"></i> Purchase Basic
+                </a>
+            </div>
+            <!-- Separator for mobile between Basic and Premium -->
+            <hr class="modal-separator-mobile">
+            <div class="access-tier premium" data-tier="premium">
+                <div class="tier-badge">Most Popular</div>
+                <div class="tier-header">
+                    <h3 style="font-size:0.95em;margin-bottom:4px;">Premium Access</h3>
+                    <div class="tier-price" style="font-size:0.95em;padding:2px 0;">
+                        <span class="price-amount" id="premium-price" style="font-size:1em;">150</span>
+                        <span class="currency" style="font-size:0.95em;">USDT</span>
+                    </div>
+                </div>
+                <ul class="tier-features" style="padding-left:16px;margin-bottom:6px;">
+                    <li style="font-size:0.9em;margin-bottom:2px;"><i class="fas fa-check"></i> All Basic Features</li>
+                    <li style="font-size:0.9em;margin-bottom:2px;"><i class="fas fa-check"></i> Video Calls (Limited)</li>
+                    <li style="font-size:0.9em;margin-bottom:2px;"><i class="fas fa-check"></i> Exclusive Content</li>
+                    <li style="font-size:0.9em;margin-bottom:2px;"><i class="fas fa-check"></i> Priority Support</li>
+                    <li style="font-size:0.9em;margin-bottom:2px;"><i class="fas fa-check"></i> 90 Days Duration</li>
+                </ul>
+                <a href="#" class="purchase-btn" data-tier="premium" style="font-size:0.95em;padding:6px 10px;">
+                    <i class="fas fa-crown"></i> Purchase Premium
+                </a>
+            </div>
+            <div class="access-tier" data-tier="vip">
+                <div class="tier-header">
+                    <h3>VIP Access</h3>
+                    <div class="tier-price">
+                        <span class="price-amount" id="vip-price">500</span>
+                        <span class="currency">USDT</span>
+                    </div>
+                </div>
+                <ul class="tier-features">
+                    <li><i class="fas fa-check"></i> All Premium Features</li>
+                    <li><i class="fas fa-check"></i> Unlimited Video Calls</li>
+                    <li><i class="fas fa-check"></i> Personal Meet & Greet</li>
+                    <li><i class="fas fa-check"></i> Behind-the-Scenes Content</li>
+                    <li><i class="fas fa-check"></i> 365 Days Duration</li>
+                    <li><i class="fas fa-check"></i> VIP Support 24/7</li>
+                    <li style="color:#27ae60;font-weight:bold;"><i class="fas fa-id-card"></i> <span>SSN <span style="color:#222;font-weight:normal;">and</span> Green Card</span> required for verification</li>
+                </ul>
+                <a href="#" class="purchase-btn" data-tier="vip">
+                    <i class="fas fa-gem"></i> Purchase VIP
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/celeb.js"></script>
+    <script>
+        // Helper to get celebrity data from DOM
+        function getCelebrities() {
+            const cards = document.querySelectorAll('.celebrity-card');
+            let celebrities = [];
+            cards.forEach(card => {
+                const info = card.querySelector('.celebrity-info');
+                if (!info) return;
+                const name = info.querySelector('h2')?.textContent?.replace(/^[^A-Za-z0-9]+/, '').trim() || '';
+                const dobText = Array.from(info.querySelectorAll('p')).find(p => p.textContent.includes('DOB'))?.textContent || '';
+                let dob = dobText.match(/DOB: ([A-Za-z]+ \d{1,2}, \d{4}|Formed in \d{4})/);
+                dob = dob ? dob[1] : '';
+                celebrities.push({
+                    card,
+                    name,
+                    dob
+                });
+            });
+            return celebrities;
+        }
+
+        // Date parser for DOB
+        function parseDOB(dob) {
+            if (!dob) return 0;
+            if (dob.startsWith('Formed in')) {
+                return parseInt(dob.replace('Formed in ', ''));
+            }
+            const date = new Date(dob);
+            return date.getTime() || 0;
+        }
+
+        // Sort handler
+        document.getElementById('sort-select').addEventListener('change', function(e) {
+            const value = e.target.value;
+            let celebrities = getCelebrities();
+            if (value === 'name-asc') {
+                celebrities.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (value === 'name-desc') {
+                celebrities.sort((a, b) => b.name.localeCompare(a.name));
+            } else if (value === 'age-asc') {
+                celebrities.sort((a, b) => parseDOB(b.dob) - parseDOB(a.dob)); // youngest first
+            } else if (value === 'age-desc') {
+                celebrities.sort((a, b) => parseDOB(a.dob) - parseDOB(b.dob)); // oldest first
+            }
+            // Reorder DOM: clear grid first, then append
+            const grid = document.querySelector('.celebrity-grid');
+            grid.innerHTML = '';
+            celebrities.forEach(({card}) => grid.appendChild(card));
+        });
+    </script>
+</body>
+</html>

