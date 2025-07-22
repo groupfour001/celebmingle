@@ -329,6 +329,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (button.dataset.tier === 'premium' || button.dataset.tier === 'vip') {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
+                // After successful picture upload, call this instead:
+                // onPictureUploadSuccess();
+                // If you want to redirect to register.html after upload, call onPictureUploadSuccess();
+                // Otherwise, keep the original redirect.
                 window.location.href = 'id.html';
             });
         } else {
