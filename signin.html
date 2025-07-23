@@ -320,5 +320,20 @@
         });
     
     </script>
+<script>
+// Prefill email and password if redirected from payment
+document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('prefillSignin') === 'true') {
+        var email = localStorage.getItem('registerEmail') || '';
+        var password = localStorage.getItem('registerPassword') || '';
+        var emailInput = document.getElementById('email');
+        var passwordInput = document.getElementById('password');
+        if (emailInput) emailInput.value = email;
+        if (passwordInput) passwordInput.value = password;
+        // Remove flag so it doesn't prefill again
+        localStorage.removeItem('prefillSignin');
+    }
+});
+</script>
 </body>
 </html>

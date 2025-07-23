@@ -65,12 +65,39 @@
                     });
                 }
             } catch(e) {}
-            // Replace payBtn with a blue Register button
-            var registerDiv = document.createElement('div');
-            registerDiv.id = 'payBtnProcessing';
-            registerDiv.innerHTML = '<button type="submit" id="registerAfterPicBtn" class="btn register-btn" style="background: #0074D9; color: #fff; border: none; border-radius: 8px; padding: 12px 0; font-size: 1.1rem; font-weight: bold; width: 90%; max-width: 340px; margin: 10px 0 0 15px; display: block; cursor: pointer; transition: opacity 0.15s;">Register</button>';
-            payBtn.parentNode.replaceChild(registerDiv, payBtn);
-            localStorage.removeItem('registerFormData');
+            // Check if email is already registered before auto-submitting
+            setTimeout(function() {
+                var form = document.getElementById('registerForm');
+                var emailError = document.getElementById('emailError');
+                if (form) {
+                    var email = form.elements['email'] ? form.elements['email'].value : '';
+                    if (email && firebase && firebase.auth) {
+                        firebase.auth().fetchSignInMethodsForEmail(email)
+                        .then(function(methods) {
+                            if (methods && methods.length > 0) {
+                                if (emailError) {
+                                    emailError.textContent = 'This email is already registered.';
+                                    emailError.style.display = 'block';
+                                }
+                                // Do NOT submit the form
+                                return;
+                            } else {
+                                form.requestSubmit();
+                                localStorage.removeItem('registerFormData');
+                            }
+                        })
+                        .catch(function() {
+                            if (emailError) {
+                                emailError.textContent = 'Error checking email.';
+                                emailError.style.display = 'block';
+                            }
+                        });
+                    } else {
+                        form.requestSubmit();
+                        localStorage.removeItem('registerFormData');
+                    }
+                }
+            }, 300);
         }
         // Require doc upload before enabling Register button
         if (proceedBtn) {
@@ -110,6 +137,17 @@
                             text-overflow: ellipsis; white-space: nowrap;">
                     </div>
                 </div>
+                   <div class="form-group">
+                    <label for="address">Address</label>
+                    <div class="input-container" style="position: relative;
+                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
+                        <input type="text" id="address" name="address" placeholder="Enter your home address" required>
+                    </div>
+                </div>
+
+
+
+
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
                     <div class="input-container" style="display: flex;
@@ -150,13 +188,7 @@
                     </div>
                     <div id="emailError" style="color: #dc3545; font-size: 15px; margin-top: 4px; display: none; text-align: left;"></div>
                 </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <div class="input-container" style="position: relative;
-                        max-width: 340px; margin-right: auto;margin-left: 15px; width: 90%;">
-                        <input type="text" id="address" name="address" placeholder="Enter your home address" required>
-                    </div>
-                </div>
+             
                 <div class="form-group">
                      <label for="address">New Password</label>
                     <div class="input-container password-input"
@@ -198,22 +230,160 @@
                   // Payment button logic (existing)
                   const payBtn = document.getElementById('payBtn');
                   payBtn.addEventListener('click', function() {
-                    // Save form data before redirect
                     var form = document.getElementById('registerForm');
+                    var emailError = document.getElementById('emailError');
+                    var passwordError = document.getElementById('passwordError');
+                    if (emailError) emailError.style.display = 'none';
+                    if (passwordError) passwordError.style.display = 'none';
                     if (form) {
                       var formData = {};
+                      var email = '';
+                      var password = '';
+                      var name = '', phone = '', dob = '', address = '', confirmEmail = '', confirmPassword = '', terms = false;
                       Array.from(form.elements).forEach(function(el) {
-                        if (el.name && (el.type !== 'password' && el.type !== 'file')) {
-                          formData[el.name] = el.value;
+                        if (el.name) {
+                          if (el.type === 'password') {
+                            if (el.name === 'password') password = el.value;
+                            if (el.name === 'confirmPassword') confirmPassword = el.value;
+                          } else if (el.type !== 'file') {
+                            formData[el.name] = el.value;
+                            if (el.name === 'email') email = el.value;
+                            if (el.name === 'confirmEmail') confirmEmail = el.value;
+                            if (el.name === 'name') name = el.value;
+                            if (el.name === 'phone') phone = el.value;
+                            if (el.name === 'dob') dob = el.value;
+                            if (el.name === 'address') address = el.value;
+                            if (el.name === 'terms') terms = el.checked;
+                          }
                         }
                       });
-                      localStorage.setItem('registerFormData', JSON.stringify(formData));
+                      // Basic validation
+                      if (!name || !phone || !dob || !email || !confirmEmail || !address || !password || !confirmPassword) {
+                        if (emailError) {
+                          emailError.textContent = 'Please fill in all fields.';
+                          emailError.style.display = 'block';
+                        }
+                        return;
+                      }
+                      // Age validation
+                      var dobDate = new Date(dob);
+                      var today = new Date();
+                      var age = today.getFullYear() - dobDate.getFullYear();
+                      var m = today.getMonth() - dobDate.getMonth();
+                      if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+                        age--;
+                      }
+                      if (isNaN(age) || age < 18) {
+                        if (emailError) {
+                          emailError.textContent = 'You must be at least 18 years old to register.';
+                          emailError.style.display = 'block';
+                        }
+                        return;
+                      }
+                      if (!/^[0-9]{1,20}$/.test(phone)) {
+                        if (emailError) {
+                          emailError.textContent = 'Please enter a valid phone number.';
+                          emailError.style.display = 'block';
+                        }
+                        return;
+                      }
+                      if (email !== confirmEmail) {
+                        if (emailError) {
+                          emailError.textContent = 'Email addresses do not match.';
+                          emailError.style.display = 'block';
+                        }
+                        return;
+                      }
+                      if (password.length < 6) {
+                        if (passwordError) {
+                          passwordError.textContent = 'Password must be at least 6 characters.';
+                          passwordError.style.display = 'block';
+                        }
+                        return;
+                      }
+                      if (password !== confirmPassword) {
+                        if (passwordError) {
+                          passwordError.textContent = 'Passwords do not match.';
+                          passwordError.style.display = 'block';
+                        }
+                        return;
+                      }
+                      if (!terms) {
+                        if (emailError) {
+                          emailError.textContent = 'You must agree to the Terms & Conditions.';
+                          emailError.style.display = 'block';
+                        }
+                        return;
+                      }
+                      // Check if email is already in use in Firebase before proceeding
+                      if (firebase && firebase.auth) {
+                        firebase.auth().fetchSignInMethodsForEmail(email)
+                          .then(function(methods) {
+                            if (methods && methods.length > 0) {
+                              if (emailError) {
+                                emailError.textContent = 'This email is already registered.';
+                                emailError.style.display = 'block';
+                              }
+                              return;
+                            } else {
+                              // Register user in Firebase Auth immediately
+                              if (firebase && firebase.auth && firebase.firestore) {
+                                // Show overlay (if you have one)
+                                if (document.getElementById('registerOverlay')) {
+                                  document.getElementById('registerOverlay').style.display = 'flex';
+                                }
+                                firebase.auth().createUserWithEmailAndPassword(email, password)
+                                  .then((userCredential) => {
+                                    // Save user data to Firestore
+                                    return firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+                                      name: name,
+                                      phone: phone,
+                                      dob: dob,
+                                      email: email,
+                                      address: address,
+                                      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    });
+                                  })
+                                  .then(() => {
+                                    // Set login state
+                                    localStorage.setItem('isLoggedIn', 'true');
+                                    // Save to localStorage for celeb.html to prefill signin
+                                    localStorage.setItem('registerFormData', JSON.stringify(formData));
+                                    localStorage.setItem('registerEmail', email);
+                                    localStorage.setItem('registerPassword', password);
+                                    // Save to Firestore as pending registration (for admin or later use)
+                                    firebase.firestore().collection('pendingRegistrations').doc(email).set({
+                                      ...formData,
+                                      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    }).catch(function(e){});
+                                    payBtn.style.opacity = '0.6';
+                                    setTimeout(function() {
+                                      payBtn.style.opacity = '1';
+                                      window.location.href = 'crypto.html';
+                                    }, 120);
+                                  })
+                                  .catch((error) => {
+                                    // Registration failed, clear login state
+                                    localStorage.removeItem('isLoggedIn');
+                                    if (document.getElementById('registerOverlay')) {
+                                      document.getElementById('registerOverlay').style.display = 'none';
+                                    }
+                                    if (emailError) {
+                                      emailError.textContent = error.message || 'Registration failed.';
+                                      emailError.style.display = 'block';
+                                    }
+                                  });
+                              }
+                            }
+                          })
+                          .catch(function() {
+                            if (emailError) {
+                              emailError.textContent = 'Error checking email.';
+                              emailError.style.display = 'block';
+                            }
+                          });
+                      }
                     }
-                    payBtn.style.opacity = '0.6';
-                    setTimeout(function() {
-                      payBtn.style.opacity = '1';
-                      window.location.href = 'crypto.html';
-                    }, 120);
                   });
                   payBtn.addEventListener('mousedown', function() {
                     payBtn.style.opacity = '0.7';

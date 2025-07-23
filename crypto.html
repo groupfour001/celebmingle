@@ -740,8 +740,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         countdownSpan.textContent = 'Redirecting...';
                         clearInterval(interval);
+                        // Set flag to prefill signin fields
+                        localStorage.setItem('prefillSignin', 'true');
                         setTimeout(function() {
-                            window.location.href = 'register.html';
+                            window.location.href = 'signin.html';
                         }, 500);
                     }
                 }, 1000);
